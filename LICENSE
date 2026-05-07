@@ -1,0 +1,31 @@
+Para proteger tu autoría sobre la **Tecnología TRPT** y la **Arquitectura Semilla**, he redactado una licencia personalizada de tipo "Propiedad Intelectual y Uso bajo Atribución". Esta licencia es más robusta que una estándar porque especifica que no solo proteges el código, sino el **modelo de pensamiento** y los **protocolos conceptuales** que has creado.
+
+Copia y pega el siguiente contenido en un archivo llamado `LICENSE` en la raíz de tu repositorio:
+
+---
+
+# LICENCIA DE PROPIEDAD INTELECTUAL Y PROTOCOLO TECNOLÓGICO
+
+**PROYECTO:** Arquitectura Semilla y Protocolo TRPT (Traceable & Reflexive Thought)  
+**AUTOR ORIGINAL:** Daniel Alberto Reyes Ramirez  
+**ORGANIZACIÓN:** OSPOST S.A.S.  
+**AÑO:** 2026  
+
+### 1. DECLARACIÓN DE PROPIEDAD INTELECTUAL
+Queda expresamente reconocido que Daniel Alberto Reyes Ramirez es el autor único y original de los conceptos tecnológicos denominados:
+* **Protocolo TRPT (Traceable & Reflexive Thought):** La metodología de persistencia y reflexión de estados cognitivos en archivos planos.
+* **Arquitectura Semilla:** El marco de autoconstrucción y germinación de procesos universales mediante nodos de memoria en sistemas de archivos.
+* **Enrutamiento M4:** La lógica de navegación recursiva entre niveles de memoria de corto, mediano y largo plazo.
+
+### 2. TÉRMINOS DE USO Y DISTRIBUCIÓN
+Se autoriza el uso de esta tecnología bajo las siguientes condiciones:
+
+* **Atribución Obligatoria:** Cualquier implementación, derivación o mención de esta tecnología (en software, investigaciones académicas o procesos industriales) debe otorgar crédito explícito a **Daniel Alberto Reyes Ramirez** y citar el protocolo **TRPT**.
+* **Uso No Comercial Restringido:** El uso de los módulos específicos de **OSPOST S.A.S.** (Tesorería, Abastecimiento, Activos, etc.) incluidos en este repositorio está limitado a fines de demostración o auditoría, a menos que exista un contrato comercial previo.
+* **Integridad del Protocolo:** No se permite la alteración del nombre de la tecnología TRPT ni de la metodología de Semilla en versiones derivadas sin el consentimiento del autor.
+
+### 3. LIMITACIÓN DE RESPONSABILIDAD
+Esta tecnología se entrega "tal cual", como un marco de investigación y desarrollo. El autor no se hace responsable por el uso indebido del protocolo en sistemas críticos de toma de decisiones sin la debida supervisión humana.
+
+### 4. CLÁUSULA DE SOBERANÍA TECNOLÓGICA
+Esta licencia garantiza que la inteligencia generada y los logs de pensamiento resultantes pertenecen al propietario de la instancia, siempre y cuando se respete la arquitectura de "Caja Blanca" definida por el autor original.
