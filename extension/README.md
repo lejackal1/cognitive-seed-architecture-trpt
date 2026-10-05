@@ -1,33 +1,31 @@
-# SGC OSPOST — extensión
+# SGC OSPOST
 
-Semilla cognitiva para otro workspace. La raíz de escritura es la carpeta abierta. La biblioteca de este paquete es solo lectura.
+Semilla cognitiva para investigar, documentar y construir con trazabilidad. Escribe en la carpeta de trabajo abierta. La biblioteca que trae la extensión es solo lectura.
 
-Identificador previsto del Marketplace: `sgc-ospost.semilla`. El publisher `sgc-ospost` es un marcador hasta la fase D6.
+**Autor:** Daniel Alberto Reyes Ramirez — OSPOST S.A.S.  
+**Identificador:** `sgc-ospost.semilla`
+
+## Uso
+
+Al instalarla queda en modo full. Desde la paleta de comandos: **SGC: Activate (Full)**.
+
+Ajustes:
+
+- `sgc.defaultMode`: `full` u `off`
+- `sgc.autoActivate`: aplicar el modo full al abrir el editor
+
+Para dejar de aplicar las instrucciones, deshabilita la extensión.
 
 ## Cursor
 
-Desde esta carpeta:
+En el proyecto donde quieras usarla:
 
 ```text
 powershell -File scripts/cursor-install.ps1 -Workspace C:\ruta\del\proyecto
 ```
 
-Copia `reglas/*.mdc` a `.cursor/rules` de ese proyecto. No acepta la carpeta de desarrollo de la semilla.
+Abre un chat nuevo de Agent en ese proyecto.
 
-El agente de Cursor no usa el VSIX. Hace falta un chat nuevo de Agent en ese otro proyecto.
+## Repositorio
 
-## VS Code
-
-`package.json` aporta `contributes.chatInstructions` (`instrucciones/sgc-ospost.instructions.md`, `applyTo: **`) y el comando **SGC: Activate (Full)**. Ajustes: `sgc.defaultMode`, `sgc.autoActivate`.
-
-Empaquetar (hace falta Node, que en la máquina de desarrollo no estaba en el PATH el 2026-10-05):
-
-```text
-npx @vscode/vsce package
-```
-
-`off` en `sgc.defaultMode` no retira el archivo de instrucciones. Para dejar de aplicarlo, se deshabilita la extensión.
-
-## Qué no entra
-
-Expedientes apartados, `.env`, credenciales y SQL de un tenant. Lista cerrada: `manifiesto.json`.
+https://github.com/lejackal1/cognitive-seed-architecture-trpt
