@@ -2,7 +2,7 @@
   "name": "semilla",
   "displayName": "SGC OSPOST",
   "description": "Semilla cognitiva OSPOST. Escribe en la carpeta de trabajo abierta.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "sgc-ospost",
   "license": "SEE LICENSE IN LICENSE",
   "homepage": "https://github.com/lejackal1/cognitive-seed-architecture-trpt",
