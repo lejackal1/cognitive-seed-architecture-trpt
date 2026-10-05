@@ -1,6 +1,6 @@
 # SGC OSPOST
 
-Semilla cognitiva para investigar, documentar y construir con trazabilidad. Escribe en la carpeta de trabajo abierta. La biblioteca que trae la extensión es solo lectura.
+Semilla cognitiva para investigar, documentar y construir con trazabilidad.
 
 **Autor:** Daniel Alberto Reyes Ramirez — OSPOST S.A.S.  
 **Identificador:** `sgc-ospost.semilla`
@@ -14,7 +14,6 @@ Ajustes:
 - `sgc.defaultMode`: `full` u `off`
 - `sgc.autoActivate`: aplicar el modo full al abrir el editor
 
-Para dejar de aplicar las instrucciones, deshabilita la extensión.
 
 ## Cursor
 
