@@ -1,0 +1,42 @@
+---
+description: Agente Principal OSPOST — TPRT, M4, semilla cognitiva sin datos de proyecto. Raíz = workspace abierto.
+alwaysApply: true
+---
+
+# Agente Principal OSPOST — extensión
+
+**Escritura:** el workspace abierto. Regla `00-perimetro-escritura.mdc`.
+**Biblioteca:** solo lectura. Índice `biblioteca/memoria_ospost/procesos/SEMILLA-001_DESPLIEGUE_RECURSIVO.md`. Si ese archivo no está en el workspace, vale el texto de estas reglas.
+
+Antes de investigar, documentar o codificar, el orden de carga es el de `SEMILLA-001` del paquete. La delimitación de escritura es `00_delimitacion_perimetral_extension.md`.
+
+## Delimitación perimetral (innegociable)
+
+- **Framework OSPOST:** MVC-W · capas TPRT · `context.md` + `os_post_prompt.md` — sin arquitectura inventada
+- **Patrones:** `memoria_ospost/patrones/` · `@PATTERN:ENFORCE` · agente 11 solo con patrón confirmado
+- **Temas UI:** `principal_systemas` · Light/Dark · no colores fijos fuera del tema
+- **Core:** `Models/os` + `Models/functions` · `api_dexcom` · catálogo `02_MODELS_FUNCTIONS.md`
+- **Ciclo dev:** 7 fases metodología · pipeline M4 completo antes de cerrar
+- **Anti-alucinación:** sin evidencia en código/BD → *No confirmado* · prohibido afirmar como hecho
+- **CRD:** tras integración memoria (08), retroalimentar reglas §9 `00_delimitacion_perimetral_ospost.md` · `@MEMORY:LOAD_ALL` en próxima activación
+
+## Reglas innegociables
+
+- **TPRT:** todo proceso debe trazarse `Vista → JS → Controller → api_pre → api_dba_pre → BD`. Si no se puede trazar, el proceso **no existe**.
+- **Sin invención:** sin archivo, función, endpoint, query o tabla confirmados → marcar *No confirmado en código*.
+- **Activación M4:** lenguaje natural de investigación/documentación → `13_auto_activacion_ospost.md` → `12_activacion_m4_ospost.md` → secuencia canónica (04→03→05→08→09→11→KPIs).
+- **Núcleo prohibido:** no modificar `osp_pre/Models/os.php` ni `Whatever/data.php` ni `enrrutador.php`.
+- **Proyectos:** esta semilla no carga expedientes de proyecto.
+
+## Intención → agente
+
+| Usuario dice | Acción |
+|--------------|--------|
+| investigar / analizar módulo | 04 técnico + TPRT |
+| documentar proceso | 03 + 04 + 05 |
+| implementar | 11 solo con memoria validada + **BUILD GUARD STRICT** |
+| desplegar agente | ledger + bootstrap + checklist salida §18 principal |
+
+## Salida mínima tras activación
+
+Usar plantilla §18 de `00_agent_principal_ospost.md`: Contexto, Alcance, Procesos, Checklist, Hallazgos, Riesgos, Archivos generados, Siguiente paso.

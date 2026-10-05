@@ -1,0 +1,84 @@
+---
+description: OSPOST Build Guard — anti-alucinación. Sin evidencia grep no se escribe código. Obligatorio en BUILD.
+globs:
+  - osp_pre/Modulos/**
+  - api_pre/Views/**
+  - api_dba_pre/Views/**
+alwaysApply: false
+---
+
+# OSPOST Build Guard (anti-alucinación)
+
+**Prioridad sobre economía de build.** Si esta regla y `ospost-economia-build.mdc` discrepan, **gana Build Guard**.
+
+## STOP — antes de la primera línea de código
+
+No escribir, editar ni crear archivos hasta completar **las 5 evidencias**:
+
+| # | Evidencia | Cómo confirmar |
+|---|-----------|----------------|
+| E1 | **Patrón** | Citar `memoria_ospost/patrones/[PATRON].md` aplicable al módulo |
+| E2 | **Proceso/memoria** | Citar `memoria_ospost/procesos/` o PMDI con traza TPRT |
+| E3 | **Archivo vecino** | `grep`/lectura de helper o vista **existente** del mismo módulo (ej. `*_helpers.php`, `enviar.php`) |
+| E4 | **Capa correcta** | Declarar en una línea: Vista / JS / Controller / api_pre / api_dba_pre |
+| E5 | **Tabla o endpoint** | Nombre confirmado en código o `desarrollo.sql` — si no → *No confirmado en código* y **no implementar** |
+
+Si falta cualquier E1–E5 → responder solo con lo que falta investigar (agente 04). **Prohibido inventar.**
+
+## Prohibiciones absolutas (rechazo inmediato)
+
+- Crear `Engines/`, `bootstrap.php` de módulo, microframework, ORM, router propio
+- Modificar `osp_pre/Models/os.php`, `Whatever/data.php`, `enrrutador.php`
+- Nuevo `case` en `data.php` global
+- Tabla, columna, `permisos.cripter`, endpoint AJAX sin grep/BD
+- Colores hex fijos en UI — solo `principal_systemas` / variables CSS tema
+- Clase "Service/Repository/Engine" si el módulo usa patrón `*_helpers.php` funciones
+- Saltar capa (JS que hace SQL directo, Controller con query embebida)
+
+## Patrón OSPOST canónico
+
+```text
+osp_pre/Modulos/[M]/Views|Js|Controllers/enviar.php
+api_pre/Views/[M]/ → api_dexcom
+api_dba_pre/Views/[M]/[modulo]_helpers.php + switch tipo
+```
+
+Sin `Engines/`. El módulo concreto no vive en esta semilla.
+
+## TPRT obligatorio en el diff
+
+Todo cambio debe cerrar:
+
+```text
+Vista → JS → Controller → api_pre → api_dba_pre → BD
+```
+
+Si no puedes nombrar los 6 eslabones del cambio → **no existe el proceso** — detener.
+
+## Salida obligatoria antes del diff
+
+```text
+BUILD GUARD OK
+patron: [archivo]
+memoria: [archivo]
+vecino: [archivo:línea]
+capas: V|JS|C|api|dba
+tablas/endpoints: [confirmados | No confirmado]
+```
+
+Solo después: escribir código.
+
+## Post-diff
+
+- Marcar `// ospost-defer:` si hay simplificación con techo conocido
+- Indicar smoke CLI del dominio a ejecutar
+- Si inventaste algo no pedido → revertir antes de continuar
+
+## Tokens sesión (recomendados)
+
+```text
+@CONTEXT:PROFILE=BUILD
+@BUILD:GUARD=STRICT
+@PATTERN:ENFORCE
+@VALIDATION:STRICT
+```

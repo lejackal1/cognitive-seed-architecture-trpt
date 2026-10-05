@@ -1,0 +1,6 @@
+scripts/**
+_staging_cursor_rules/**
+node_modules/**
+*.vsix
+**/*.map
+**/.git/**

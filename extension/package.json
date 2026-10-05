@@ -1,0 +1,51 @@
+{
+  "name": "semilla",
+  "displayName": "SGC OSPOST",
+  "description": "Semilla cognitiva OSPOST. Escribe en el workspace abierto. La biblioteca de la extensión es solo lectura.",
+  "version": "0.1.0",
+  "publisher": "sgc-ospost",
+  "license": "SEE LICENSE IN LICENSE",
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./src/extension.js",
+  "icon": "media/icon.png",
+  "contributes": {
+    "chatInstructions": [
+      {
+        "path": "./instrucciones/sgc-ospost.instructions.md"
+      }
+    ],
+    "commands": [
+      {
+        "command": "sgc.activateFull",
+        "title": "SGC: Activate (Full)"
+      }
+    ],
+    "configuration": {
+      "title": "SGC OSPOST",
+      "properties": {
+        "sgc.defaultMode": {
+          "type": "string",
+          "enum": [
+            "full",
+            "off"
+          ],
+          "default": "full",
+          "description": "Modo de la semilla. full deja activas las instrucciones mientras la extensión está habilitada."
+        },
+        "sgc.autoActivate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Al arrancar VS Code, marcar el contexto de modo full si defaultMode es full."
+        }
+      }
+    }
+  }
+}

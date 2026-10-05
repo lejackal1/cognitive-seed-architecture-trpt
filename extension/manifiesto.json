@@ -1,0 +1,57 @@
+{
+  "id": "PMDI-SEMILLA-002",
+  "fecha": "2026-10-05",
+  "incluir": [
+    "00_INICIO_DESPLIEGUE_OSPOST.md",
+    "00_delimitacion_perimetral_ospost.md",
+    "10_marco_tptr.md",
+    "00_biblioteca_control_ospost.md",
+    "00_metodologia_ospost_ai.md",
+    "00_sistema_kpis_ospost.md",
+    "13_auto_activacion_ospost.md",
+    "12_activacion_m4_ospost.md",
+    "10_agent_proactivo_ospost.md",
+    "01_bootstrap_context.md",
+    "04_agent_documentacion_tecnica.md",
+    "03_agent_documentacion_procedimientos.md",
+    "05_agent_usuario_final.md",
+    "08_agent_memoria_ospost.md",
+    "09_agent_evaluador_calidad_ospost.md",
+    "11_agent_generador_codigo_ospost.md",
+    "memoria_ospost/patrones/_index.md",
+    "memoria_ospost/patrones/PATRON_OSPOST_ECONOMIA_CONTEXTO_BUILD.md",
+    "memoria_ospost/patrones/PATRON_CATALOGO_POR_CODIGO_NO_ID.md",
+    "memoria_ospost/patrones/PATRON_BD_COLUMNAS_NUEVAS.md",
+    "memoria_ospost/patrones/PATRON_RETROALIMENTACION_DINAMICA_REGLAS.md",
+    "memoria_ospost/patrones/PATRON_DELIMITACION_PERIMETRAL_FRAMEWORK_OSPOST.md",
+    "memoria_ospost/patrones/PATRON_MODULO_NUEVO_SGC_20260518.md",
+    "memoria_ospost/procesos/_index.md",
+    "ai6/00_INDEX_AI6.md",
+    "OSPOST_AGENT_RUNTIME_CARGA.md",
+    "OSPOST-ECONOMIA_AGENTES_CARGA.md",
+    "OSPOST-BUILD-GUARD_AGENTES_CARGA.md"
+  ],
+  "sustituidos": [
+    {
+      "origen": "00_delimitacion_perimetral_carpeta_sgc_ai.md",
+      "paquete": "biblioteca/00_delimitacion_perimetral_extension.md",
+      "motivo": "El origen fija la escritura a la copia de desarrollo. El paquete usa el workspace abierto."
+    },
+    {
+      "origen": "memoria_ospost/patrones/PATRON_PERIMETRO_ESCRITURA_CARPETA_SGC_AI.md",
+      "paquete": "reglas/00-perimetro-escritura.mdc",
+      "motivo": "El patrón de la semilla describe el cerrojo de desarrollo. No se copia."
+    },
+    {
+      "origen": "memoria_ospost/procesos/SEMILLA-001_DESPLIEGUE_RECURSIVO.md",
+      "paquete": "biblioteca/memoria_ospost/procesos/SEMILLA-001_DESPLIEGUE_RECURSIVO.md",
+      "motivo": "La fila SEMILLA-01B del paquete apunta a la delimitación dinámica."
+    }
+  ],
+  "no_entran": [
+    "_PARA_ELIMINAR/",
+    ".env",
+    "credenciales",
+    "sql de un tenant"
+  ]
+}

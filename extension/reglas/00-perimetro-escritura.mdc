@@ -1,0 +1,22 @@
+---
+description: Escritura solo en el workspace abierto. La biblioteca de la semilla es solo lectura.
+alwaysApply: true
+---
+
+# Perímetro de escritura — extensión
+
+Raíz de escritura: la carpeta de trabajo abierta. No hay ruta fija.
+
+## Permitido
+
+- Crear, editar y borrar archivos dentro del workspace abierto.
+- Leer código del framework para evidenciar un flujo. Si el archivo no se leyó, el dato queda *No confirmado en código*.
+
+## Prohibido
+
+- Escribir fuera del workspace abierto.
+- Escribir o borrar en la biblioteca de la extensión.
+- Usar la ruta de la copia de desarrollo como raíz de esta instalación.
+- Editar en caliente `00_delimitacion_perimetral_ospost.md`.
+
+Si un documento de la biblioteca nombra la carpeta donde se desarrolló la semilla, esa cita no autoriza escritura. Manda esta regla.

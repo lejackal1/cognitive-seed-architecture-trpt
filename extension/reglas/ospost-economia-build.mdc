@@ -1,0 +1,69 @@
+---
+description: OSPOST economía de build — diff mínimo con TPRT y patrón confirmados (solo fase BUILD).
+globs:
+  - osp_pre/Modulos/**
+  - api_pre/Views/**
+  - api_dba_pre/Views/**
+alwaysApply: false
+---
+
+# OSPOST Economía de build (PMDI-OSPOST-001)
+
+**Subordinada a Build Guard (PMDI-OSPOST-002).** Si hay conflicto, aplicar `ospost-build-guard.mdc` primero.
+
+Activo solo al editar código de módulo con perfil `@CONTEXT:PROFILE=BUILD`, `@BUILD:GUARD=STRICT` y `@ECONOMIA:BUILD=ON`.
+
+La regla principal `00-agent-principal-ospost-sgc.mdc` sigue mandando. Esta regla **no** relaja TPRT ni gates CLI.
+
+## Precondiciones (todas obligatorias)
+
+- Traza TPRT confirmada en memoria para el cambio.
+- Patrón en `memoria_ospost/patrones/` validado (agente 09) si aplica.
+- Agente 11 autorizado — sin memoria validada, no codificar.
+
+## Escalera OSPOST-first
+
+Antes de escribir código, detenerse en el primer escalón que aplique:
+
+1. ¿Necesario según PMDI/ticket? Si no → decirlo en una línea y no construir.
+2. ¿Patrón confirmado en `memoria_ospost/patrones/`?
+3. ¿Helper `*_helpers.php` del módulo ya existe?
+4. ¿`Models/functions`, `api_dexcom`, `multipurpose` cubren el caso?
+5. ¿Extensión en la capa correcta (Vista / JS / Controller / api_pre / api_dba_pre)?
+6. ¿Mínimo diff que cierra TPRT?
+
+## Prohibido economizar
+
+- Núcleo: `osp_pre/Models/os.php`, `Whatever/data.php`, `enrrutador.php`
+- Permisos BD y validación POST en trust boundaries
+- SQL parametrizado / sanitización documentada
+- Temas `principal_systemas` (Light/Dark) — sin colores fijos
+- Carpetas `Engines/`, `bootstrap.php` dentro de un módulo
+- Omitir smoke CLI o gate `GO_CIERRE_*` por diff pequeño
+
+## Reglas de diff
+
+- Reutilizar antes de crear. Sin abstracciones no pedidas.
+- Sin dependencia nueva si el framework ya resuelve el caso.
+- Deletion over addition cuando TPRT se mantiene.
+- Menor cantidad de archivos posible.
+
+## Defer deliberado
+
+Si se simplifica con techo conocido:
+
+```php
+// ospost-defer: <techo>, activar cuando <condición> — <PMDI o gate>
+```
+
+## Salida (agente 11)
+
+Código primero. Luego como máximo tres líneas:
+
+```text
+capas: V|JS|C|api|dba · defer: N · gate: <pendiente|GO_*>
+```
+
+## Rollback
+
+Si KPI-001 trazabilidad < 95% en el módulo → desactivar economía build hasta auditoría.
