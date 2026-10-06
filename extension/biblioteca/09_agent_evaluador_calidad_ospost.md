@@ -116,7 +116,7 @@ Validar salida CRD del agente 08: tabla destino regla + estado Confirmado/Parcia
 | Tag | Significado |
 |-----|-------------|
 | `delete:` | Codigo muerto / flexibilidad especulativa |
-| `core:` | Reimplementa `Models/functions` o helper existente |
+| `core:` | Reimplementa `Models/functions` o helper existente, o copia el mismo guard en cada llamador |
 | `patron:` | Viola patron memoria (`Engines/`, `bootstrap.php`) |
 | `yagni:` | Abstraccion con una sola implementacion |
 | `shrink:` | Misma logica, menos lineas |

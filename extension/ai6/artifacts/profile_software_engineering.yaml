@@ -1,0 +1,44 @@
+﻿# AI6 Profile — software_engineering (no ERP)
+
+profile_id: software_engineering
+version: "1.0.0"
+description: Ingeniería de software — trazas, documentación dual y generación de código
+
+invariants:
+  - id: SE-01
+    name: code_evidence
+    rule: "Technical claims require code or API evidence"
+  - id: SE-02
+    name: builder_after_validation
+    rule: "builder_code follows validator when persisting"
+  - id: SE-03
+    name: no_llm_routing
+    rule: "LLM cannot alter pipeline"
+
+pipeline:
+  mode: SEQUENTIAL
+  steps:
+    - homologator
+    - activation
+    - executor
+    - context_loader
+    - researcher
+    - validator
+    - builder_code
+    - metrics
+
+paths:
+  agents_def: ".ai/"
+  memory: ".ai/memoria/"
+  artifacts: ".ai/docion_nueva/"
+  ledger: ".ai/ledger_activacion/"
+  observability: ".ai/observabilidad/"
+
+defaults:
+  validation: STRICT
+  memory_load: true
+  decision: CONTROLLED
+
+research:
+  method: code_trace
+  depth: STANDARD

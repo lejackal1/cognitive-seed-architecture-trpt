@@ -10,6 +10,30 @@ Raíz de escritura: la carpeta de trabajo abierta. No uses una ruta fija de otra
 
 La biblioteca que viaja con la extensión es solo lectura. No la copies al proyecto y no la edites.
 
+El conocimiento de este workspace se escribe en carpetas visibles del explorador, no dentro de la instalación de la extensión:
+
+- `docion_nueva/`
+- `memoria_ospost/` (`modulos`, `procesos`, `patrones`, `casuistica`)
+- `ledger_activacion/`
+- `metricas/`
+- `control_conocimiento/`
+
+Si faltan, el comando `SGC: Mostrar carpetas de conocimiento` las crea con su índice. No borres un índice que ya tiene filas. Un archivo de conocimiento que no está en esas carpetas no cuenta como traza.
+
+## Orquestación M4
+
+El motor AI6 va en `ai6/runtime` de esta extensión. La cadena de documentos no lo sustituye.
+
+```text
+python -m ai6.cli pipeline
+  --text "<intención>"
+  --workspace "<carpeta abierta>"
+  --sgc "<carpeta con 00_agent_principal_ospost.md>"
+  --profile enterprise_erp
+```
+
+`--workspace` es la carpeta abierta. `--sgc` es esa carpeta si contiene el agente principal; si no, la biblioteca de la extensión. Las dos rutas tienen que existir. No uses una ruta fija de otra máquina. Si el runtime no está, dilo en `ledger_activacion/` y sigue la cadena de documentos. El script del paquete es `scripts/m4.ps1`. `--dry-run` recorre el pipeline sin los artefactos de cada fase. La corrida queda en `.ai6_runs/` del workspace.
+
 Si un documento de esa biblioteca nombra la carpeta donde se desarrolló la semilla, esa cita no autoriza escritura.
 
 ## Contrato

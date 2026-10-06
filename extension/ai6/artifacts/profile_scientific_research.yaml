@@ -1,0 +1,41 @@
+﻿# AI6 Profile — scientific_research (no ERP)
+
+profile_id: scientific_research
+version: "1.0.0"
+description: Investigación académica, síntesis y validación sin capas TPRT ERP
+
+invariants:
+  - id: SCI-01
+    name: evidence_first
+    rule: "Claims require bibliographic or experimental evidence"
+  - id: SCI-02
+    name: no_llm_routing
+    rule: "LLM cannot alter pipeline"
+
+pipeline:
+  mode: SEQUENTIAL
+  steps:
+    - homologator
+    - activation
+    - context_loader
+    - researcher
+    - validator
+    - curator
+    - metrics
+
+paths:
+  agents_def: ".ai/"
+  memory: ".ai/memoria/"
+  artifacts: ".ai/docion_nueva/"
+  ledger: ".ai/ledger_activacion/"
+  observability: ".ai/observabilidad/"
+
+defaults:
+  validation: STRICT
+  memory_load: true
+  memory_integrate: true
+  decision: CONTROLLED
+
+research:
+  method: literature_review
+  depth: EXHAUSTIVE

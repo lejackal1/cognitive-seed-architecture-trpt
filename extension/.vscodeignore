@@ -1,6 +1,8 @@
-scripts/**
+scripts/empaquetar.ps1
+scripts/verificar-reglas.ps1
 _staging_cursor_rules/**
 node_modules/**
 *.vsix
 **/*.map
 **/.git/**
+**/__pycache__/**

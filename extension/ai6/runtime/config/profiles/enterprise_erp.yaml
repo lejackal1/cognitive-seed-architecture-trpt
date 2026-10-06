@@ -1,0 +1,45 @@
+# Copia operativa — fuente canónica: ../../artifacts/profile_enterprise_erp.yaml
+profile_id: enterprise_erp
+version: "1.0.0"
+seed_ref: ospost-m4-1.0.0
+
+pipeline:
+  steps:
+    - auto_activacion
+    - activacion
+    - proactivo
+    - bootstrap
+    - tecnico
+    - procedimientos
+    - usuario
+    - ova_aprendizaje
+    - ova_html
+    - evaluador
+    - memoria
+    - generador
+    - kpis
+
+invariants:
+  - id: ERP-PIPE-01
+    rule: evaluador must precede memoria
+  - id: ERP-01
+    rule: tprt_6_layer optional per task
+
+defaults:
+  validation: STRICT
+  decision: CONTROLLED
+
+dag:
+  tasks:
+    - homologator
+    - activation
+    - executor
+    - context_loader
+    - researcher
+    - parallel: [documenter_ops, documenter_user]
+    - ova_aprendizaje
+    - ova_html
+    - validator
+    - curator
+    - builder_code
+    - metrics

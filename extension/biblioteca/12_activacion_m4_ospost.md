@@ -133,10 +133,11 @@ Ejecutar:
 Ejecutar:
 
 0. registrar evento en ledger
-1. investigacion completa del modulo
-2. reconstruccion TPRT
-3. documentacion
-4. persistencia en memoria
+1. invocar `python -m ai6.cli pipeline` con `--workspace` = carpeta de trabajo y `--sgc` = carpeta existente que contiene `00_agent_principal_ospost.md`
+2. investigacion completa del modulo
+3. reconstruccion TPRT
+4. documentacion
+5. persistencia en memoria
 
 ---
 

@@ -1,0 +1,122 @@
+# AI6 DSL Registry v1 — unificación legacy OSPOST + AI6 universal
+version: "1.0.0"
+namespace: ai6.dsl.v1
+
+# Mapeo legacy → canónico (deprecación gradual)
+legacy_aliases:
+  "@MODE:AUTONOMOUS_ORCHESTRATION": { canonical: "@MODE:AUTONOMOUS", deprecated: true }
+  "@MODE:ANALYZE": { canonical: "@MODE:RESEARCH", expand: ["@RESEARCH:METHOD", "code_trace"] }
+  "@MODE:DOCUMENT": { canonical: "@MODE:DOCUMENT" }
+  "@MODE:ERP_FULL_BUILD": { canonical: "@MODE:BUILD", expand: ["@BUILD:SYSTEM", "erp"] }
+  "@MODE:MEMORY_UPDATE": { canonical: "@MODE:LEARN", expand: ["@MEMORY:INTEGRATE"] }
+  "@MEMORY:LOAD_ALL": { canonical: "@MEMORY:LOAD" }
+  "@MEMORY:ENABLE": { canonical: "@MEMORY:LOAD", expand: ["@MEMORY:INTEGRATE"] }
+  "@MODE:AUTO": { canonical: "@DECISION:AUTO", deprecated: true, reason: "ambiguous mode token" }
+
+families:
+  FLOW:
+    ops: [START, END]
+    effect: CONTROL
+    required_pair: [START, END]
+  PROFILE:
+    ops: [IDENT]
+    effect: META
+  SEED:
+    ops: [VERSION]
+    effect: META
+  GOAL:
+    ops: [EXPR]
+    effect: META
+    params_allowed: true
+  CONTEXT:
+    ops: [BIND]
+    effect: META
+    keys: [DOMAIN, PROJECT, SCOPE, ENV, PROFILE, LOCALE, MODULE, WORKSPACE]
+  MODE:
+    ops: [RESEARCH, ANALYZE, BUILD, DOCUMENT, LEARN, ORCHESTRATE, EVOLVE, AUTONOMOUS]
+    effect: ORCHESTRATE
+    cardinality: 1
+  MEMORY:
+    ops: [LOAD, INTEGRATE, SNAPSHOT, SKIP, QUERY]
+    effect: MEMORY
+  VALIDATION:
+    ops: [STRICT, NORMAL, EXPLORATORY]
+    effect: VALIDATION
+  RESEARCH:
+    ops: [SCOPE, DEPTH, METHOD]
+    effect: RESEARCH
+  BUILD:
+    ops: [ARTIFACT, SYSTEM, CODE, MODEL]
+    effect: BUILD
+  VERIFY:
+    ops: [EVIDENCE, CONSISTENCY, QUALITY, INVARIANTS, PEER, TPRT_COMPLETE]
+    effect: VERIFY
+  LEARN:
+    ops: [CONSOLIDATE, INDEX, WEIGHT, FORGET]
+    effect: LEARN
+  DECISION:
+    ops: [AUTO, CONTROLLED, CONSENSUS, MANUAL]
+    effect: DECISION
+  ORCHESTRATE:
+    ops: [SEQUENTIAL, PARALLEL, DAG, HIERARCHICAL, SWARM]
+    effect: ORCHESTRATE
+  PATTERN:
+    ops: [DETECT, ENFORCE, ABSTRACT]
+    effect: PATTERN
+  CASE:
+    ops: [DETECT, FORCE, AUDIT, SKIP, APPLY]
+    effect: CASE
+  AGENT:
+    ops: [INVOKE]
+    effect: AGENT
+    params_allowed: true
+  LEDGER:
+    ops: [RECORD, CORRELATE, REPLAY, AUDIT]
+    effect: LEDGER
+  EVOLVE:
+    ops: [PROPOSE, VALIDATE, INTEGRATE, ROLLBACK]
+    effect: EVOLVE
+    requires: ["@VERIFY:INVARIANTS"]
+  PERSIST:
+    ops: [MEMORY, LEDGER, ARTIFACT_STORE, CONTROL, INDEX, KPI]
+    effect: PERSIST
+
+semantic_rules:
+  - id: U-01
+    if: { mode: AUTONOMOUS }
+    then: { validation: STRICT }
+  - id: U-02
+    if: { evolve_op: INTEGRATE }
+    then: { require_verify: INVARIANTS }
+  - id: U-03
+    forbid: { memory: SKIP, persist: MEMORY, same_flow: true }
+  - id: U-04
+    if: { build_any: true }
+    then: { require: GOAL }
+  - id: U-05
+    if: { validation: STRICT }
+    then: { evidence_required: true }
+  - id: ERP-PIPE-01
+    profile: enterprise_erp
+    pipeline_order: [bootstrap, researcher, documenter_ops, documenter_user, validator, curator, builder_code, metrics]
+
+directive_priority:
+  - "@LEDGER:RECORD:pre"
+  - "@PROFILE"
+  - "@SEED"
+  - "@GOAL"
+  - "@CONTEXT"
+  - "@MODE"
+  - "@VALIDATION"
+  - "@MEMORY"
+  - "@DECISION"
+  - "@RESEARCH"
+  - "@CASE"
+  - "@PATTERN"
+  - body
+  - "@BUILD"
+  - "@VERIFY"
+  - "@LEARN"
+  - "@PERSIST"
+  - "@EVOLVE"
+  - "@LEDGER:RECORD:post"

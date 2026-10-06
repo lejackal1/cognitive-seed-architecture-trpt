@@ -1,0 +1,134 @@
+# Rutas por perfil e intent — planner determinístico (sin LLM)
+version: "1.0.0"
+
+profiles:
+  generic:
+    default:
+      route_id: generic_default
+      pipeline:
+        - homologator
+        - activation
+        - executor
+        - context_loader
+        - researcher
+        - validator
+        - curator
+        - metrics
+    RESEARCH:
+      route_id: generic_research
+      pipeline:
+        - homologator
+        - activation
+        - executor
+        - context_loader
+        - researcher
+        - validator
+        - curator
+        - metrics
+    QUERY:
+      route_id: generic_query_light
+      pipeline:
+        - homologator
+        - executor
+        - metrics
+    DOCUMENT:
+      route_id: generic_document
+      pipeline:
+        - homologator
+        - activation
+        - context_loader
+        - researcher
+        - validator
+        - curator
+        - metrics
+
+  scientific_research:
+    default:
+      route_id: sci_default
+      pipeline:
+        - homologator
+        - activation
+        - context_loader
+        - researcher
+        - validator
+        - curator
+        - metrics
+    RESEARCH:
+      route_id: sci_research_exhaustive
+      pipeline:
+        - homologator
+        - activation
+        - context_loader
+        - researcher
+        - validator
+        - curator
+        - metrics
+    LEARN:
+      route_id: sci_learn_synthesize
+      pipeline:
+        - homologator
+        - context_loader
+        - researcher
+        - curator
+        - metrics
+    ANALYZE:
+      route_id: sci_analyze_compare
+      pipeline:
+        - homologator
+        - researcher
+        - validator
+        - metrics
+
+  software_engineering:
+    default:
+      route_id: se_default
+      pipeline:
+        - homologator
+        - activation
+        - executor
+        - context_loader
+        - researcher
+        - validator
+        - builder_code
+        - metrics
+    RESEARCH:
+      route_id: se_research_trace
+      pipeline:
+        - homologator
+        - context_loader
+        - researcher
+        - validator
+        - builder_code
+        - metrics
+    BUILD:
+      route_id: se_build_full
+      pipeline:
+        - homologator
+        - activation
+        - executor
+        - context_loader
+        - researcher
+        - validator
+        - builder_code
+        - metrics
+    DOCUMENT:
+      route_id: se_document_dual
+      pipeline:
+        - homologator
+        - researcher
+        - documenter_ops
+        - documenter_user
+        - validator
+        - metrics
+      dag:
+        tasks:
+          - homologator
+          - researcher
+          - parallel: [documenter_ops, documenter_user]
+          - validator
+          - metrics
+
+  enterprise_erp:
+    default:
+      route_id: erp_canonical
+      use_profile_pipeline: true

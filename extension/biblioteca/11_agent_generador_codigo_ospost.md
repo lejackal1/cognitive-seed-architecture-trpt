@@ -43,13 +43,14 @@ Activa solo con `@CONTEXT:PROFILE=BUILD` y `@ECONOMIA:BUILD=ON`. Regla Cursor: `
 ### Escalera OSPOST-first (post-TPRT confirmado)
 
 1. ¿Necesario segun PMDI/ticket?
-2. ¿Patron en `memoria_ospost/patrones/`?
-3. ¿Helper `*_helpers.php` del modulo?
-4. ¿`Models/functions` · `api_dexcom` · `multipurpose`?
-5. ¿Extension en capa correcta (sin `Engines/`, sin `bootstrap.php`)?
-6. ¿Minimo diff que cierra TPRT?
+2. ¿Ya esta en este codigo (patron, helper, funcion compartida)? En un bug, un solo arreglo en la funcion compartida.
+3. ¿Biblioteca del lenguaje (PHP o JS), sin dependencia nueva?
+4. ¿Nucleo ya cargado (`Models/functions`, `api_dexcom`, `multipurpose`, tema)?
+5. ¿Dependencia que el proyecto ya tiene? No agregar otra.
+6. ¿Cabe en una linea, en la capa correcta (sin `Engines/`, sin `bootstrap.php`)?
+7. ¿Minimo diff que cierra TPRT?
 
-**Nunca economizar:** permisos, validacion POST, SQL parametrizado, temas `principal_systemas`, nucleo prohibido, smoke CLI.
+**Nunca economizar:** permisos, validacion POST, SQL parametrizado, error de escritura que pierde datos, temas `principal_systemas`, lo pedido de forma explicita, nucleo prohibido, smoke CLI, un framework de tests nuevo.
 
 ### Salida compacta BUILD
 

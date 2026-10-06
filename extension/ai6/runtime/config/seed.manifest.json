@@ -1,0 +1,88 @@
+{
+  "version": "1.0.0",
+  "certified_at": "2026-05-18T18:45:04.625135+00:00",
+  "seed_aggregate_hash": "a0ee7174337b24b2fd7c265f2a541ea7cf4753c84a57a656676cce6a735713af",
+  "artifacts": [
+    {
+      "path": "ai6/runtime/config/seed.yaml",
+      "sha256": "f3c17a1a8848541613149456e1654319182d4a5562155a0da432152d968c19ac"
+    },
+    {
+      "path": "ai6/artifacts/homologation_matrix.yaml",
+      "sha256": "02f609ec74876bde3470b3daef092529f393f1f39a3ac199c626d4c214a71d84"
+    },
+    {
+      "path": "ai6/artifacts/homologation_matrix_generic.yaml",
+      "sha256": "d971125bd830116dd023702bf87eab85c70e62bfa723aff2037e92f3cd7f6f6c"
+    },
+    {
+      "path": "ai6/artifacts/homologation_matrix_scientific_research.yaml",
+      "sha256": "7a127844b73dc9ece903d69bbd1a86734a9818f9eabe115b25260cea3ad846f1"
+    },
+    {
+      "path": "ai6/artifacts/homologation_matrix_software_engineering.yaml",
+      "sha256": "6e2702af027633212a20bb2891228d46af7b5e02b5f55cf98fda68ccd199b60b"
+    },
+    {
+      "path": "ai6/runtime/config/dsl_registry_v1.yaml",
+      "sha256": "783ba8c9c70172770c969aeb4dc3d6b17269ef1487b3cf9ba8740e19978d22ca"
+    }
+  ],
+  "invariants": [
+    {
+      "id": "ERP-PIPE-01",
+      "ok": true,
+      "detail": "curator requiere validation.passed en ArtifactStore"
+    },
+    {
+      "id": "U-01",
+      "ok": true,
+      "detail": "regla U-01 en dsl_registry.semantic_rules"
+    },
+    {
+      "id": "U-03",
+      "ok": true,
+      "detail": "regla U-03 en dsl_registry.semantic_rules"
+    },
+    {
+      "id": "SEED-DECL-ERP-PIPE-01",
+      "ok": true,
+      "detail": "ERP-PIPE-01 declarado en seed.yaml"
+    },
+    {
+      "id": "SEED-DECL-U-01",
+      "ok": true,
+      "detail": "U-01 declarado en seed.yaml"
+    },
+    {
+      "id": "SEED-DECL-U-03",
+      "ok": true,
+      "detail": "U-03 declarado en seed.yaml"
+    }
+  ],
+  "invariants_ok": true,
+  "golden_ok": true,
+  "golden": {
+    "enterprise_erp": {
+      "pass_rate": 1.0,
+      "passed": 50,
+      "total": 50
+    }
+  },
+  "evolution_policy": {
+    "min_pass_rate": 1.0,
+    "allowed_types": [
+      "threshold",
+      "lemma",
+      "exclusion"
+    ],
+    "max_mutations_per_day": 5,
+    "require_validate_before_integrate": true,
+    "sandbox_dir": ".ai6_evolution"
+  },
+  "signature": {
+    "algorithm": "HMAC-SHA256",
+    "value": "ccefc8adf53cc555c95688f2a45868c9d697760563984f743699c7c9d809f60a",
+    "key_id": "default"
+  }
+}

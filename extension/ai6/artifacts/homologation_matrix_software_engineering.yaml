@@ -1,0 +1,122 @@
+# Homologation — software_engineering
+
+version: "1.0.0"
+profile: software_engineering
+confidence_threshold_m4: 0.75
+
+exclusions:
+  - "modo simple"
+  - "respuesta corta"
+  - "sin analisis"
+
+intents:
+  RESEARCH:
+    lemmas:
+      - investigar codigo
+      - investiga codigo
+      - trazar modulo
+      - mapear api
+      - auditar codigo
+    mode: RESEARCH
+    tokens:
+      - "@FLOW:START"
+      - "@PROFILE:software_engineering"
+      - "@MODE:RESEARCH"
+      - "@VALIDATION:STRICT"
+      - "@MEMORY:LOAD"
+      - "@LEDGER:RECORD"
+    body_template: "Investigar {module}"
+
+  BUILD:
+    lemmas:
+      - implementar
+      - implementa
+      - refactorizar
+      - refactoriza
+      - crear api
+      - crea api
+      - desarrollar modulo
+    mode: BUILD
+    tokens:
+      - "@FLOW:START"
+      - "@PROFILE:software_engineering"
+      - "@MODE:BUILD"
+      - "@VALIDATION:STRICT"
+      - "@LEDGER:RECORD"
+    body_template: "Construir {module}"
+
+  DOCUMENT:
+    lemmas:
+      - documentar api
+      - documenta api
+      - redactar manual tecnico
+      - escribir readme
+    mode: DOCUMENT
+    extends: RESEARCH
+    body_template: "Documentar {module}"
+
+  VERIFY:
+    lemmas:
+      - ejecutar tests
+      - ejecuta tests
+      - validar build
+      - correr pruebas unitarias
+    mode: ORCHESTRATE
+    tokens:
+      - "@FLOW:START"
+      - "@PROFILE:software_engineering"
+      - "@MODE:ORCHESTRATE"
+      - "@VALIDATION:STRICT"
+      - "@LEDGER:RECORD"
+    body_template: "Verificar {module}"
+
+  ANALYZE:
+    lemmas:
+      - analizar arquitectura
+      - analiza arquitectura
+      - revisar deuda tecnica
+      - evaluar dependencias
+    mode: ANALYZE
+    tokens:
+      - "@FLOW:START"
+      - "@PROFILE:software_engineering"
+      - "@MODE:ANALYZE"
+      - "@VALIDATION:STRICT"
+      - "@LEDGER:RECORD"
+    body_template: "Analizar {module}"
+
+  QUERY:
+    lemmas:
+      - que hace
+      - como funciona
+      - explicar endpoint
+    mode: ORCHESTRATE
+    tokens:
+      - "@FLOW:START"
+      - "@PROFILE:software_engineering"
+      - "@MODE:ORCHESTRATE"
+      - "@LEDGER:RECORD"
+    body_template: "Consultar {module}"
+
+embedding:
+  enabled: false
+  weight: 0.4
+  exemplars:
+    RESEARCH:
+      - inspeccionar repositorio
+      - rastrear flujo codigo
+    BUILD:
+      - generar scaffold servicio
+      - implementar endpoint rest
+
+entity_extraction:
+  module:
+    patterns:
+      - "modulo {name}"
+      - "módulo {name}"
+      - "servicio {name}"
+      - "api {name}"
+
+defaults:
+  validation: STRICT
+  decision: CONTROLLED

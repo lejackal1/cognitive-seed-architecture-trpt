@@ -1,0 +1,23 @@
+profile_id: generic
+version: "1.0.0"
+description: Perfil dominio-agnóstico AI6
+
+pipeline:
+  - homologator
+  - activation
+  - executor
+  - context_loader
+  - researcher
+  - analyzer
+  - validator
+  - curator
+  - metrics
+
+invariants:
+  - id: GEN-01
+    rule: validator must precede curator
+
+defaults:
+  validation: STRICT
+  decision: CONTROLLED
+  orchestrate: SEQUENTIAL

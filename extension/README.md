@@ -1,100 +1,53 @@
 # SGC OSPOST
 
-Semilla cognitiva para investigar, documentar y construir con trazabilidad.
+Semilla cognitiva. Investiga, documenta y construye con trazabilidad. Escribe en la carpeta de trabajo abierta. La biblioteca que trae la extensión es solo lectura.
 
 **Autor:** Daniel Alberto Reyes Ramirez — OSPOST S.A.S.  
-**Identificador:** `sgc-ospost.semilla`
+**Identificador:** `sgc-ospost.semilla`  
+**Versión:** 0.1.5
 
-## Uso
+## Arquitectura
 
-Al instalarla queda en modo full. Desde la paleta de comandos: **SGC: Activate (Full)**.
+| Rol | Dónde | Qué |
+|-----|--------|-----|
+| Biblioteca | Dentro de la extensión, `biblioteca/` | Agentes y patrones. Solo lectura. No se copia al proyecto. |
+| Escritura | Carpeta de trabajo abierta | Código y conocimiento de esa carpeta. |
+| Salida visible | Raíz de esa carpeta | `docion_nueva/`, `memoria_ospost/` (`modulos`, `procesos`, `patrones`, `casuistica`), `ledger_activacion/`, `metricas/`, `control_conocimiento/`. |
 
-Ajustes:
+Al activar en modo full, la extensión crea esas carpetas si faltan y abre el ledger en el explorador. No pisa un índice que ya existe.
 
-- `sgc.defaultMode`: `full` u `off`
-- `sgc.autoActivate`: aplicar el modo full al abrir el editor
+No viajan expedientes de un ERP, dumps SQL ni guías de un módulo.
 
+## Orquestación
 
-## Cursor
-
-En el proyecto donde quieras usarla:
+M4 no es solo la cadena de Markdown. Con el runtime AI6 disponible:
 
 ```text
-powershell -File scripts/cursor-install.ps1 -Workspace C:\ruta\del\proyecto
+python -m ai6.cli pipeline
+  --text "<intención>"
+  --workspace "<carpeta abierta>"
+  --sgc "<carpeta con 00_agent_principal_ospost.md>"
+  --profile enterprise_erp
 ```
 
+`--sgc` es la carpeta abierta si ahí está el agente principal. Si no, es `biblioteca/`. Las dos tienen que existir.
 
-# Cognitive Seed Architecture & TRPT Protocol
-**Paradigma de Autoconstrucción de Software basado en Arquitecturas Cognitivas Híbridas**
+```text
+powershell -File scripts/m4.ps1 -Workspace <carpeta> -Text "<intención>" -DryRun
+```
 
-##  Autoría
-*   **Autor:** Daniel Alberto Reyes Ramirez
-*   **Entidad:** OSPOST S.A.S.
-*   **Año:** 2026
-*   **Ubicación:** Bogotá, Colombia
+El motor Python va dentro de la extensión, en `ai6/runtime`, con el perfil `enterprise_erp`. `scripts/m4.ps1` y el comando **SGC: Orquestar M4** lo usan. No hace falta una ruta de otra máquina. `--dry-run` recorre el pipeline sin los artefactos de cada fase. La corrida queda en `.ai6_runs/` del workspace. Sin `-DryRun`, el script deja que los agentes escriban.
 
----
+## Entrega
 
-##  Resumen del Concepto
+| Canal | Qué instala |
+|-------|-------------|
+| VS Code | El VSIX. Instrucciones de Copilot y comandos `SGC: Activate (Full)` y `SGC: Mostrar carpetas de conocimiento`. |
+| Cursor | `scripts/cursor-install.ps1 -Workspace <carpeta>` copia las reglas y crea la salida visible. |
 
-# cognitive-seed-architecture-trpt
-Arquitectura cognitiva de autoconstrucción de software basada en el Protocolo TRPT y Semilla Metodológica. Un sistema donde el IDE germina código a través de una red neuronal de archivos autogestionados.
+Ajustes: `sgc.defaultMode` (`full` u `off`) y `sgc.autoActivate`. Para dejar de aplicar las instrucciones, deshabilita la extensión.
 
-La **Arquitectura Semilla Reyes-Ramirez** propone un cambio de paradigma en la Ingeniería de Software asistida por IA. A diferencia de los modelos agénticos tradicionales, este sistema utiliza el **Sistema de Archivos (OS)** como el soporte físico de una red neuronal funcional, donde las carpetas actúan como nodos de memoria autogestionados y los archivos `.md` como el sustrato del pensamiento reflexivo.
-
-El sistema no se programa; se **germina** a partir de una "Semilla" que contiene la metodología de investigación y los KPIs de control cognitivo, permitiendo que el IDE se autoconstruya de forma recursiva.
-
----
-
-##  Componentes Nucleares
-
-### 1. La Semilla Metodológica (The Seed)
-Es el núcleo de ADN del sistema. Contiene las reglas de gobernanza, la metodología de investigación científica y la lógica de arranque. Al ejecutarse, la semilla:
-*   Inicializa la jerarquía de directorios (neuronas).
-*   Establece los protocolos de comunicación entre memorias.
-*   Define los umbrales de éxito para los KPIs de pensamiento.
-
-### 2. Protocolo TRPT (Traceable & Reflexive Thought)
-Protocolo de pensamiento trazable y autocognocible. Cada decisión tomada por la IA se documenta en archivos Markdown (`.md`) que sirven para:
-*   **Trazabilidad:** Auditar el camino lógico de una solución de código.
-*   **Reflexión:** Permitir que la IA lea su pasado (memoria a mediano y largo plazo) para optimizar su comportamiento futuro.
-
-### 3. File-System Neural Network (FSNN)
-Mapeo de la arquitectura cognitiva directamente en la estructura de carpetas:
-*   `/memoria/corto_plazo`: Contextos inmediatos y variables volátiles.
-*   `/memoria/mediano_plazo`: Logs de proyectos y bitácoras de depuración.
-*   `/memoria/largo_plazo`: Teoremas, reglas de negocio y conocimiento consolidado.
-*   `/enrutamiento_m4`: Lógica de despacho dinámico entre nodos de memoria.
-
----
-
-##  Control de Pensamiento y KPIs
-El sistema autogestiona su crecimiento mediante una capa de control que audita la ejecución basándose en:
-*   **Recall de Contexto:** Relevancia de la información recuperada de las carpetas de memoria.
-*   **Índice de Recursividad:** Ratio de éxito en la generación de código nuevo basado en procedimientos previos.
-*   **Divergencia Lógica:** Detección de inconsistencias en el TRPT antes de la escritura de código.
-
----
-
-##  Implementación
-El flujo de trabajo sigue el ciclo de germinación digital:
-1.  **Ejecución de Semilla:** El orquestador lee la metodología.
-2.  **Investigación del Estado del Arte:** La IA analiza el entorno y los requerimientos.
-3.  **Procesamiento Recursivo:** Generación de código y documentación TRPT.
-4.  **Consolidación:** Los KPIs validan el resultado y lo mueven a la memoria de largo plazo.
-
----
-
-##  Licencia y Propiedad Intelectual
-Copyright (c) 2026 Daniel Alberto Reyes Ramirez - OSPOST S.A.S.
-
-Este modelo, incluyendo los conceptos de **Semilla Metodológica**, **Protocolo TRPT** y **Arquitectura de Carpetas Cognitivas**, son propiedad intelectual del autor. Cualquier referencia o implementación derivada debe citar formalmente este repositorio y al autor original.
-
----
-*Documento generado como base para la investigación de Estado del Arte en Gestión de la Innovación.*
-
-
-Abre un chat nuevo de Agent en ese proyecto.
+El VSIX no incluye `empaquetar.ps1` ni `verificar-reglas.ps1`. Esos scripts regeneran la biblioteca desde la semilla de desarrollo.
 
 ## Repositorio
 

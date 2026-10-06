@@ -1,0 +1,23 @@
+profile_id: research
+version: "1.0.0"
+description: Investigación científica y estado del arte
+
+pipeline:
+  - homologator
+  - activation
+  - executor
+  - context_loader
+  - researcher
+  - synthesizer
+  - validator
+  - curator
+  - metrics
+
+invariants:
+  - id: RES-01
+    rule: evidence_required in STRICT mode
+
+defaults:
+  validation: STRICT
+  research_method: literature_review
+  research_depth: DEEP

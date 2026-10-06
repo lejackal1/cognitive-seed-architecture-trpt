@@ -9,3 +9,5 @@ Proceso de uso indexado: despliegue recursivo de la propia semilla.
 No hay procesos de negocio en esta carpeta. `_PARA_ELIMINAR/` no entra en este índice.
 
 Mapa de carpetas: `docion_nueva/CONFIG_PROCESOS/INVESTIGACION/SEMILLA_MAPA_CONTENIDO.md`.
+
+Investigación de la salida (2026-10-05), mismo proceso: `docion_nueva/CONFIG_PROCESOS/INVESTIGACION/AI_COGNITIVO_SALIDA/`.

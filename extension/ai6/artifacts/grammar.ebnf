@@ -1,0 +1,87 @@
+(* AI6-DSL Grammar v1.0.0-universal *)
+(* Perfil SGC: enterprise_erp compatible *)
+
+WS           ::= { " " | "\t" | "\r" | "\n" } ;
+COMMENT      ::= "#" { ? any except newline ? } "\n" ;
+IDENT        ::= LETTER { LETTER | DIGIT | "_" | "-" | "." } ;
+STRING       ::= '"' { ? any except " ? } '"' ;
+NUMBER       ::= ["-"] DIGIT { DIGIT } [ "." DIGIT+ ] ;
+PARAM        ::= IDENT "=" ( IDENT | STRING | NUMBER | BOOL ) ;
+BOOL         ::= "true" | "false" ;
+
+program          ::= { program_unit } ;
+program_unit     ::= flow_block | seed_decl | profile_decl ;
+
+profile_decl     ::= "@PROFILE:" profile_id { PARAM } ;
+profile_id       ::= IDENT ;
+
+seed_decl        ::= "@SEED:" version STRING ;
+
+flow_block       ::= "@FLOW:START" flow_meta { directive } body "@FLOW:END" ;
+
+flow_meta        ::= { meta_directive } ;
+meta_directive   ::= "@GOAL:" goal_expr
+                   | "@CONTEXT:" context_binding ;
+
+goal_expr        ::= goal_verb { PARAM } ;
+goal_verb        ::= IDENT ;
+
+context_binding  ::= context_key "=" ( IDENT | STRING ) ;
+context_key      ::= "DOMAIN" | "PROJECT" | "SCOPE" | "ENV" | "PROFILE" | "LOCALE" | "MODULE" ;
+
+directive        ::= mode_dir | memory_dir | validation_dir
+                   | research_dir | build_dir | verify_dir | learn_dir
+                   | decision_dir | orchestrate_dir | pattern_dir | case_dir
+                   | agent_dir | ledger_dir | evolve_dir | persist_dir ;
+
+body             ::= { body_item } ;
+body_item        ::= natural_text | flow_block | artifact_ref ;
+natural_text     ::= { ? non-empty, not starting with @ ? } ;
+artifact_ref     ::= "@REF:" uri STRING ;
+
+mode_dir         ::= "@MODE:" mode_type ;
+mode_type        ::= "RESEARCH" | "ANALYZE" | "BUILD" | "DOCUMENT" | "LEARN"
+                   | "ORCHESTRATE" | "EVOLVE" | "AUTONOMOUS"
+                   | "AUTONOMOUS_ORCHESTRATION" | "ERP_FULL_BUILD" | "MEMORY_UPDATE" ;
+
+memory_dir       ::= "@MEMORY:" mem_op ;
+mem_op           ::= "LOAD" | "LOAD_ALL" | "INTEGRATE" | "SNAPSHOT" | "SKIP" | "QUERY" | "ENABLE" ;
+
+validation_dir   ::= "@VALIDATION:" val_level ;
+val_level        ::= "STRICT" | "NORMAL" | "EXPLORATORY" ;
+
+research_dir     ::= "@RESEARCH:" research_spec ;
+research_spec    ::= "SCOPE" scope_expr | "DEPTH" depth_level | "METHOD" method_id ;
+depth_level      ::= "SHALLOW" | "STANDARD" | "DEEP" | "EXHAUSTIVE" ;
+
+build_dir        ::= "@BUILD:" build_spec ;
+build_spec       ::= "ARTIFACT" artifact_type | "SYSTEM" system_kind | "CODE" { PARAM } | "MODEL" model_kind ;
+
+verify_dir       ::= "@VERIFY:" verify_op { PARAM } ;
+verify_op        ::= "EVIDENCE" | "CONSISTENCY" | "QUALITY" | "INVARIANTS" | "PEER" | "TPRT_COMPLETE" ;
+
+learn_dir        ::= "@LEARN:" learn_op ;
+learn_op         ::= "CONSOLIDATE" | "INDEX" | "WEIGHT" | "FORGET" ;
+
+decision_dir     ::= "@DECISION:" dec_mode ;
+dec_mode         ::= "AUTO" | "CONTROLLED" | "CONSENSUS" | "MANUAL" ;
+
+orchestrate_dir  ::= "@ORCHESTRATE:" orch_mode { PARAM } ;
+orch_mode        ::= "SEQUENTIAL" | "PARALLEL" | "DAG" | "HIERARCHICAL" | "SWARM" ;
+
+pattern_dir      ::= "@PATTERN:" pat_op ;
+pat_op           ::= "DETECT" | "ENFORCE" | "ABSTRACT" ;
+
+case_dir         ::= "@CASE:" case_op { PARAM } ;
+case_op          ::= "DETECT" | "FORCE" | "AUDIT" | "SKIP" | "APPLY" ;
+
+agent_dir        ::= "@AGENT:" agent_role { PARAM } ;
+
+ledger_dir       ::= "@LEDGER:" led_op { PARAM } ;
+led_op           ::= "RECORD" | "CORRELATE" | "REPLAY" | "AUDIT" ;
+
+evolve_dir       ::= "@EVOLVE:" evo_op { PARAM } ;
+evo_op           ::= "PROPOSE" | "VALIDATE" | "INTEGRATE" | "ROLLBACK" ;
+
+persist_dir      ::= "@PERSIST:" target { PARAM } ;
+target           ::= "MEMORY" | "LEDGER" | "ARTIFACT_STORE" | "CONTROL" | "INDEX" | "KPI" ;

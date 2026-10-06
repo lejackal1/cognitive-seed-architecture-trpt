@@ -24,7 +24,8 @@ Antes de investigar, documentar o codificar, el orden de carga es el de `SEMILLA
 
 - **TPRT:** todo proceso debe trazarse `Vista → JS → Controller → api_pre → api_dba_pre → BD`. Si no se puede trazar, el proceso **no existe**.
 - **Sin invención:** sin archivo, función, endpoint, query o tabla confirmados → marcar *No confirmado en código*.
-- **Activación M4:** lenguaje natural de investigación/documentación → `13_auto_activacion_ospost.md` → `12_activacion_m4_ospost.md` → secuencia canónica (04→03→05→08→09→11→KPIs).
+- **Activación M4:** lenguaje natural → `13` → `12` → secuencia `04→03→05→08→09→11→KPIs`, y `python -m ai6.cli pipeline` con `--workspace` = carpeta abierta y `--sgc` = carpeta existente con `00_agent_principal_ospost.md`. Sin runtime, el ledger lo dice y sigue la cadena de documentos.
+- **Salida visible:** `docion_nueva/`, `memoria_ospost/` (incluye `casuistica/`), `ledger_activacion/`, `metricas/`, `control_conocimiento/`.
 - **Núcleo prohibido:** no modificar `osp_pre/Models/os.php` ni `Whatever/data.php` ni `enrrutador.php`.
 - **Proyectos:** esta semilla no carga expedientes de proyecto.
 

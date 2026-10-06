@@ -23,23 +23,27 @@ La regla principal `00-agent-principal-ospost-sgc.mdc` sigue mandando. Esta regl
 
 ## Escalera OSPOST-first
 
-Antes de escribir código, detenerse en el primer escalón que aplique:
+La traza TPRT va primero. Después, detenerse en el primer escalón que aplique:
 
 1. ¿Necesario según PMDI/ticket? Si no → decirlo en una línea y no construir.
-2. ¿Patrón confirmado en `memoria_ospost/patrones/`?
-3. ¿Helper `*_helpers.php` del módulo ya existe?
-4. ¿`Models/functions`, `api_dexcom`, `multipurpose` cubren el caso?
-5. ¿Extensión en la capa correcta (Vista / JS / Controller / api_pre / api_dba_pre)?
-6. ¿Mínimo diff que cierra TPRT?
+2. ¿Ya está en este código (patrón, helper, función compartida)? Reutilizar. En un bug, buscar los llamadores y corregir la función compartida una vez.
+3. ¿Lo resuelve la biblioteca del lenguaje (PHP o JS) sin dependencia nueva?
+4. ¿Lo cubre el núcleo ya cargado (`Models/functions`, `api_dexcom`, `multipurpose`, tema `principal_systemas`)?
+5. ¿Lo cubre una dependencia que el proyecto ya tiene? No agregar otra.
+6. ¿Cabe en una línea, en la capa correcta (Vista / JS / Controller / api_pre / api_dba_pre)?
+7. Solo entonces: el mínimo que cierra TPRT.
 
 ## Prohibido economizar
 
 - Núcleo: `osp_pre/Models/os.php`, `Whatever/data.php`, `enrrutador.php`
 - Permisos BD y validación POST en trust boundaries
 - SQL parametrizado / sanitización documentada
+- Error de escritura que se traga y pierde datos
 - Temas `principal_systemas` (Light/Dark) — sin colores fijos
+- Lo que el ticket pidió de forma explícita
 - Carpetas `Engines/`, `bootstrap.php` dentro de un módulo
 - Omitir smoke CLI o gate `GO_CIERRE_*` por diff pequeño
+- Un framework de tests nuevo. La lógica no trivial deja el chequeo que el gate ya pide
 
 ## Reglas de diff
 
@@ -47,6 +51,8 @@ Antes de escribir código, detenerse en el primer escalón que aplique:
 - Sin dependencia nueva si el framework ya resuelve el caso.
 - Deletion over addition cuando TPRT se mantiene.
 - Menor cantidad de archivos posible.
+- Dos opciones del mismo tamaño: la que cubre el caso borde.
+- Un diff corto en el lugar equivocado no cierra el ticket.
 
 ## Defer deliberado
 

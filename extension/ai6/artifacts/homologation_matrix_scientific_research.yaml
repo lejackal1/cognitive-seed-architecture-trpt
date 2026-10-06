@@ -1,0 +1,125 @@
+# Homologation — scientific_research
+
+version: "1.0.0"
+profile: scientific_research
+confidence_threshold_m4: 0.75
+
+exclusions:
+  - "modo simple"
+  - "respuesta corta"
+  - "sin analisis"
+  - "sin análisis"
+
+intents:
+  RESEARCH:
+    lemmas:
+      - investigar
+      - investiga
+      - estudiar
+      - estudia
+      - revisar literatura
+      - revision bibliografica
+    mode: RESEARCH
+    tokens:
+      - "@FLOW:START"
+      - "@PROFILE:scientific_research"
+      - "@MODE:RESEARCH"
+      - "@VALIDATION:STRICT"
+      - "@MEMORY:LOAD"
+      - "@LEDGER:RECORD"
+    body_template: "Investigar {module}"
+
+  LEARN:
+    lemmas:
+      - sintetizar
+      - sintetiza
+      - aprender sobre
+      - aprende sobre
+      - revisar bibliografia
+      - resumir literatura
+    mode: LEARN
+    tokens:
+      - "@FLOW:START"
+      - "@PROFILE:scientific_research"
+      - "@MODE:LEARN"
+      - "@MEMORY:INTEGRATE"
+      - "@LEDGER:RECORD"
+    body_template: "Sintetizar {module}"
+
+  ANALYZE:
+    lemmas:
+      - analizar datos
+      - analiza datos
+      - comparar metodologias
+      - comparar resultados
+      - evaluar experimento
+    mode: ANALYZE
+    tokens:
+      - "@FLOW:START"
+      - "@PROFILE:scientific_research"
+      - "@MODE:ANALYZE"
+      - "@VALIDATION:STRICT"
+      - "@LEDGER:RECORD"
+    body_template: "Analizar {module}"
+
+  VERIFY:
+    lemmas:
+      - verificar hipotesis
+      - verifica hipotesis
+      - replicar experimento
+      - validar resultados
+    mode: ORCHESTRATE
+    tokens:
+      - "@FLOW:START"
+      - "@PROFILE:scientific_research"
+      - "@MODE:ORCHESTRATE"
+      - "@VALIDATION:STRICT"
+      - "@LEDGER:RECORD"
+    body_template: "Verificar {module}"
+
+  DOCUMENT:
+    lemmas:
+      - redactar paper
+      - redacta paper
+      - documentar experimento
+      - escribir articulo
+    mode: DOCUMENT
+    extends: RESEARCH
+    body_template: "Documentar {module}"
+
+  QUERY:
+    lemmas:
+      - que es
+      - qué es
+      - explicar concepto
+      - define
+    mode: ORCHESTRATE
+    tokens:
+      - "@FLOW:START"
+      - "@PROFILE:scientific_research"
+      - "@MODE:ORCHESTRATE"
+      - "@LEDGER:RECORD"
+    body_template: "Consultar {module}"
+
+embedding:
+  enabled: false
+  weight: 0.4
+  exemplars:
+    RESEARCH:
+      - indagar hipotesis
+      - profundizar en tema cientifico
+    LEARN:
+      - absorber literatura
+      - metaanalisis tema
+
+entity_extraction:
+  module:
+    patterns:
+      - "tema {name}"
+      - "sobre {name}"
+      - "dominio {name}"
+      - "hipotesis {name}"
+
+defaults:
+  validation: STRICT
+  decision: CONTROLLED

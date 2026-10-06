@@ -90,7 +90,7 @@ Toda tarea debe acotarse con `00_delimitacion_perimetral_ospost.md`:
 
 - perímetro de capas y núcleo prohibido;
 - patrones de desarrollo (`memoria_ospost/patrones/`);
-- temas del sistema (`principal_systemas`, matrices en `docion_nueva/config/`);
+- temas del sistema (`principal_systemas`, sin colores fijos); las matrices de un ERP no están en esta semilla;
 - core `Models/os` y `Models/functions` (`02_MODELS_FUNCTIONS.md`);
 - ciclo de desarrollo 7 fases;
 - prohibición de invención / alucinación.
@@ -229,19 +229,11 @@ Analizar:
 Cuando existan, cargar:
 
 ```text
-.ai/config/os_post_prompt.md
-.ai/config/context.md
-.ai/config/desarrollo_db.md
-.ai/config/desarrollo.sql
-.ai/config/contable.sql
-.ai/config/git_clusters_template.md
-.ai/config/README.md
-.ai/config/
-.ai/doc_process_prompt.md
-.ai/api_pre_documentacion/
-.ai/api_dba_pre_documentacion/
-.ai/osp_pre_documentacion/
-.ai/docion_nueva/
+docion_nueva/config/os_post_prompt.md
+docion_nueva/config/context.md
+docion_nueva/config/rules.md
+docion_nueva/config/cascade.md
+docion_nueva/config/README.md
 ```
 
 También cargar todos los `.md` existentes en:

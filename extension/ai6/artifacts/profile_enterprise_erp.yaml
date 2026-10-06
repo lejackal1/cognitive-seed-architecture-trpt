@@ -1,0 +1,137 @@
+﻿# AI6 Profile — enterprise_erp (OSPOST/SGC deployment)
+
+profile_id: enterprise_erp
+version: "1.0.0"
+seed_ref: ospost-m4-1.0.0
+description: Investigación, documentación y construcción sobre sistemas ERP OSPOST
+
+invariants:
+  - id: ERP-01
+    name: tprt_6_layer
+    rule: "Vista → JS → Controller → API → DBA → BD"
+    source: "10_marco_tptr.md"
+  - id: ERP-02
+    name: no_invention
+    rule: "Sin evidencia en código no existe"
+  - id: ERP-03
+    name: casuistica_process_base
+    rule: "Toda casuística referencia proceso base"
+  - id: ERP-04
+    name: memory_after_validation
+    rule: "Persistencia solo post agente 09"
+  - id: ERP-05
+    name: canonical_sequence
+    rule: "Secuencia única M4 sin bifurcaciones"
+  - id: ERP-06
+    name: ledger_append_only
+    rule: "Activaciones registradas sin sobrescritura"
+
+agents:
+  - id: principal
+    file: "00_agent_principal_ospost.md"
+    role: Orchestrator
+  - id: bootstrap
+    file: "01_bootstrap_context.md"
+    role: ContextLoader
+  - id: doc_process
+    file: "02_doc_process_prompt.md"
+    role: InputNormalizer
+  - id: procedimientos
+    file: "03_agent_documentacion_procedimientos.md"
+    role: Documenter
+  - id: tecnico
+    file: "04_agent_documentacion_tecnica.md"
+    role: Researcher
+  - id: usuario
+    file: "05_agent_usuario_final.md"
+    role: Documenter
+  - id: ova
+    file: "06_agent_ova_aprendizaje.md"
+    role: Builder
+  - id: ova_html
+    file: "07_agent_ova_html.md"
+    role: Builder
+  - id: memoria
+    file: "08_agent_memoria_ospost.md"
+    role: Curator
+  - id: evaluador
+    file: "09_agent_evaluador_calidad_ospost.md"
+    role: Validator
+  - id: proactivo
+    file: "10_agent_proactivo_ospost.md"
+    role: Executor
+  - id: generador
+    file: "11_agent_generador_codigo_ospost.md"
+    role: Builder
+  - id: activacion
+    file: "12_activacion_m4_ospost.md"
+    role: ActivationCompiler
+  - id: auto_activacion
+    file: "13_auto_activacion_ospost.md"
+    role: Homologator
+
+pipeline:
+  mode: SEQUENTIAL
+  steps:
+    - auto_activacion
+    - activacion
+    - proactivo
+    - bootstrap
+    - tecnico
+    - procedimientos
+    - usuario
+    - ova_aprendizaje
+    - ova_html
+    - evaluador
+    - memoria
+    - generador
+    - kpis
+
+# E-012 — DAG paralelo controlado (roles runtime)
+dag:
+  tasks:
+    - homologator
+    - activation
+    - executor
+    - context_loader
+    - researcher
+    - parallel: [documenter_ops, documenter_user]
+    - ova_aprendizaje
+    - ova_html
+    - validator
+    - curator
+    - builder_code
+    - metrics
+
+paths:
+  agents_def: ".ai/"
+  memory: ".ai/memoria_ospost/"
+  artifacts: ".ai/docion_nueva/"
+  ledger: ".ai/ledger_activacion/"
+  control: ".ai/control_conocimiento/"
+  metrics: ".ai/metricas/"
+
+triggers:
+  - DOC_NEW
+  - MEMORY_UPDATE
+  - MODULE_REQUEST
+
+defaults:
+  validation: STRICT
+  memory_load: true
+  memory_integrate: true
+  case: DETECT
+  pattern: ENFORCE
+  decision: CONTROLLED
+  orchestrate: SEQUENTIAL
+  ledger_record: true
+
+research:
+  method: code_trace
+  depth: EXHAUSTIVE
+
+legacy_token_map:
+  "@MODE:AUTONOMOUS_ORCHESTRATION": "@MODE:AUTONOMOUS"
+  "@MEMORY:LOAD_ALL": "@MEMORY:LOAD"
+  "@MODE:ANALYZE": "@MODE:RESEARCH"
+  "@MODE:ERP_FULL_BUILD": "@MODE:BUILD"

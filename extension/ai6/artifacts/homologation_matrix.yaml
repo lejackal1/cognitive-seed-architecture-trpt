@@ -1,0 +1,131 @@
+# AI6 Homologation Matrix — profile: enterprise_erp
+# Agente: 13_auto_activacion_ospost.md
+
+version: "1.0.0"
+profile: enterprise_erp
+confidence_threshold_m4: 0.75
+
+exclusions:
+  - "modo simple"
+  - "respuesta corta"
+  - "sin analisis"
+  - "sin análisis"
+
+intents:
+  RESEARCH:
+    lemmas:
+      - investigar
+      - investiga
+      - analizar
+      - analiza
+      - explorar
+      - explora
+      - revisar
+      - revisa
+      - mapear
+    mode: AUTONOMOUS
+    tokens:
+      - "@FLOW:START"
+      - "@PROFILE:enterprise_erp"
+      - "@MODE:AUTONOMOUS"
+      - "@VALIDATION:STRICT"
+      - "@MEMORY:LOAD"
+      - "@MEMORY:INTEGRATE"
+      - "@RESEARCH:METHOD code_trace"
+      - "@RESEARCH:DEPTH EXHAUSTIVE"
+      - "@CASE:DETECT"
+      - "@PATTERN:ENFORCE"
+      - "@DECISION:CONTROLLED"
+      - "@ORCHESTRATE:SEQUENTIAL"
+      - "@LEDGER:RECORD"
+    body_template: "Investigar módulo {module}"
+
+  DOCUMENT:
+    lemmas:
+      - documentar
+      - documenta
+      - crear documentacion
+      - crea documentacion
+      - redactar
+    mode: AUTONOMOUS
+    extends: RESEARCH
+    body_template: "Investigar y documentar módulo {module}"
+
+  BUILD_ERP:
+    lemmas:
+      - crear erp
+      - crea erp
+      - construir erp
+      - construye erp
+      - construir sistema
+      - construye sistema
+      - generar erp
+    mode: BUILD
+    tokens:
+      - "@MODE:BUILD"
+      - "@BUILD:SYSTEM erp"
+      - "@MEMORY:LOAD"
+      - "@PATTERN:ENFORCE"
+      - "@DECISION:CONTROLLED"
+    body_template: "Generar ERP completo"
+
+  MEMORY_UPDATE:
+    lemmas:
+      - integrar memoria
+      - integrar conocimiento
+      - actualizar memoria
+      - procesar carpeta
+      - procesar documentos
+      - procesar carpeta docion
+    mode: LEARN
+    tokens:
+      - "@MODE:LEARN"
+      - "@MEMORY:INTEGRATE"
+      - "@CASE:DETECT"
+      - "@DECISION:AUTO"
+    body_template: "Procesar {path}"
+
+  CASE_FORCE:
+    lemmas:
+      - genera casuistica
+      - generar casuística
+      - variante de
+    mode: null
+    tokens:
+      - "@CASE:FORCE proceso={process}"
+    body_template: "Forzar casuística {process}"
+
+entity_extraction:
+  module:
+    patterns:
+      - "modulo {name}"
+      - "módulo {name}"
+      - "modulo {name}"
+  process:
+    patterns:
+      - "proceso {name}"
+
+embedding:
+  enabled: false
+  weight: 0.4
+  exemplars:
+    RESEARCH:
+      - indagar modulo
+      - profundizar en modulo
+      - examinar modulo
+      - buscar informacion modulo
+    DOCUMENT:
+      - elaborar documentacion modulo
+      - producir manual modulo
+    MEMORY_UPDATE:
+      - sincronizar memoria
+      - indexar carpeta docion
+    CASE_FORCE:
+      - crear casuistica proceso
+      - forzar variante proceso
+
+defaults:
+  validation: STRICT
+  case: DETECT
+  memory_integrate: true
+  decision: CONTROLLED

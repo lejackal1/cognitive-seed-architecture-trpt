@@ -1,13 +1,16 @@
 $ErrorActionPreference = "Stop"
 $extensionRoot = Split-Path $PSScriptRoot -Parent
-$needle = "c:\xampp\htdocs\SGC_Ai"
+$needles = @("c:\xampp\htdocs\SGC_Ai", "c:\xampp\htdocs\.ai")
 $hits = @()
-foreach ($dir in @("reglas", "instrucciones")) {
+foreach ($dir in @("reglas", "instrucciones", "biblioteca", "scripts")) {
     $root = Join-Path $extensionRoot $dir
-    Get-ChildItem -LiteralPath $root -File -Recurse | ForEach-Object {
+    if (-not (Test-Path -LiteralPath $root)) { continue }
+    Get-ChildItem -LiteralPath $root -File -Recurse | Where-Object { $_.Name -ne "verificar-reglas.ps1" } | ForEach-Object {
         $text = Get-Content -Raw -Encoding UTF8 -LiteralPath $_.FullName
-        if ($text -and $text.Contains($needle)) {
-            $hits += $_.FullName
+        foreach ($needle in $needles) {
+            if ($text -and $text.Contains($needle)) {
+                $hits += $_.FullName
+            }
         }
     }
 }

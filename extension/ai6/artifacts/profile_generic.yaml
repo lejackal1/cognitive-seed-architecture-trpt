@@ -1,0 +1,51 @@
+﻿# AI6 Profile — generic (universal, no ERP)
+
+profile_id: generic
+version: "1.0.0"
+description: Perfil dominio-agnóstico — investigación y persistencia sin TPRT ERP
+
+invariants:
+  - id: GEN-01
+    name: validator_before_curator
+    rule: "validator must precede curator"
+  - id: GEN-02
+    name: evidence_required
+    rule: "Claims require evidence metadata when STRICT"
+  - id: GEN-03
+    name: no_llm_routing
+    rule: "LLM cannot alter pipeline"
+
+pipeline:
+  mode: SEQUENTIAL
+  steps:
+    - homologator
+    - activation
+    - executor
+    - context_loader
+    - researcher
+    - validator
+    - curator
+    - metrics
+
+paths:
+  agents_def: ".ai/"
+  memory: ".ai/memoria/"
+  artifacts: ".ai/docion_nueva/"
+  ledger: ".ai/ledger_activacion/"
+  observability: ".ai/observabilidad/"
+
+triggers:
+  - DOC_NEW
+  - MANUAL
+
+defaults:
+  validation: STRICT
+  memory_load: true
+  memory_integrate: true
+  decision: CONTROLLED
+  orchestrate: SEQUENTIAL
+  ledger_record: true
+
+research:
+  method: literature_and_sources
+  depth: STANDARD

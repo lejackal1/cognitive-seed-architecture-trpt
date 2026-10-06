@@ -29,13 +29,14 @@ CLOSE             → gates CLI · review anti-bloat opcional (09)
 ## Escalera OSPOST-first (solo BUILD, post-TPRT)
 
 1. ¿Necesario según PMDI/ticket?
-2. ¿Patrón en `memoria_ospost/patrones/`?
-3. ¿Helper `*_helpers.php` del módulo?
-4. ¿`Models/functions` · `api_dexcom` · `multipurpose`?
-5. ¿Extensión en capa correcta (sin `Engines/`, sin `bootstrap.php`)?
-6. ¿Mínimo diff que cierra TPRT?
+2. ¿Ya está en este código (patrón, helper, función compartida)? En un bug, un solo arreglo en la función compartida.
+3. ¿Biblioteca del lenguaje (PHP o JS), sin dependencia nueva?
+4. ¿Núcleo ya cargado (`Models/functions`, `api_dexcom`, `multipurpose`, tema)?
+5. ¿Dependencia que el proyecto ya tiene? No agregar otra.
+6. ¿Cabe en una línea, en la capa correcta (sin `Engines/`, sin `bootstrap.php`)?
+7. ¿Mínimo diff que cierra TPRT?
 
-**Nunca economizar:** permisos, validación POST, SQL parametrizado, temas `principal_systemas`, núcleo prohibido, smoke CLI.
+**Nunca economizar:** permisos, validación POST, SQL parametrizado, error de escritura que pierde datos, temas `principal_systemas`, lo pedido de forma explícita, núcleo prohibido, smoke CLI, un framework de tests nuevo.
 
 ---
 

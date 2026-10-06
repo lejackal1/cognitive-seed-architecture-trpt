@@ -2,7 +2,7 @@
   "name": "semilla",
   "displayName": "SGC OSPOST",
   "description": "Semilla cognitiva OSPOST. Escribe en la carpeta de trabajo abierta.",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "publisher": "sgc-ospost",
   "license": "SEE LICENSE IN LICENSE",
   "homepage": "https://github.com/lejackal1/cognitive-seed-architecture-trpt",
@@ -31,6 +31,14 @@
       {
         "command": "sgc.activateFull",
         "title": "SGC: Activate (Full)"
+      },
+      {
+        "command": "sgc.mostrarSalida",
+        "title": "SGC: Mostrar carpetas de conocimiento"
+      },
+      {
+        "command": "sgc.orquestarM4",
+        "title": "SGC: Orquestar M4"
       }
     ],
     "configuration": {

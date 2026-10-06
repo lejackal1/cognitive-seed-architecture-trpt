@@ -2,7 +2,7 @@
 
 > **Versión:** 2026-06-26  
 > **Uso:** abrir o `@` este archivo **antes de cualquier tarea** en OSPOST.  
-> **Raíz citada en el texto histórico:** `c:\xampp\htdocs\.ai\` (ledger 2026-06-18).  
+> **Raíz histórica del ledger 2026-06-18:** carpeta `.ai`. Esta copia no usa esa ruta como escritura.  
 > **Esta copia es la semilla cognitiva** (cómo investigar, documentar y construir). Los datos de proyectos están en `_PARA_ELIMINAR/`.
 
 ---
@@ -93,7 +93,7 @@ Si docion_nueva ≠ código → prevalece código + registrar inconsistencia.
 |------------|-------------|--------|
 | **TPRT** | Reglas Cursor + agente 04 + `10_marco_tptr.md` | **Operativo** en Cursor |
 | **M4 (agentes 00–13)** | Tokens `@FLOW` + cadena 13→12→10→01→04… | **Operativo** — el agente debe seguir la secuencia |
-| **M4 (runtime Python)** | `ai6/runtime` perfil `enterprise_erp` | **Operativo** vía CLI (paralelo a Cursor) |
+| **M4 (runtime Python)** | `python -m ai6.cli pipeline` | **Se invoca.** `--workspace` = carpeta de trabajo. `--sgc` = la carpeta que tiene `00_agent_principal_ospost.md` |
 | **AI6 paquetes** | `docion_nueva/AI6_RESEARCH_*` + `AI6_OPS_*` por dominio | **Operativo** como docs de carga |
 | **Precarga docion_nueva** | Bootstrap §5.1 + rama dominio | **Operativo** si el agente ejecuta bootstrap |
 | **Watcher automático 24/7** | `ai6/runtime/scripts/watcher.py` | **Opcional** — no arranca solo con este MD |
@@ -105,12 +105,17 @@ Si docion_nueva ≠ código → prevalece código + registrar inconsistencia.
 → dominio *_AGENTES_CARGA → docion_nueva/[MOD] → 04 TPRT → pipeline → ERP
 ```
 
-### AI6 CLI (flujo alternativo / CI)
+### AI6 CLI (misma activación, no un flujo aparte)
 
-```bash
-cd .ai/ai6/runtime
-python -m ai6.cli pipeline --text "Investigar módulo MTO" --workspace ../.. --profile enterprise_erp --dry-run
+```text
+python -m ai6.cli pipeline
+  --text "<intención>"
+  --workspace "<carpeta de trabajo>"
+  --sgc "<carpeta con 00_agent_principal_ospost.md>"
+  --profile enterprise_erp
 ```
+
+`--sgc` tiene que existir. Si el workspace no trae el agente principal, `--sgc` es la biblioteca de la extensión. `--dry-run` recorre el pipeline sin los artefactos de cada fase. La corrida queda en `.ai6_runs/` del workspace. La copia de desarrollo lanza esto con `scripts/m4_ai6_cli.ps1`. El paquete usa `extension/scripts/m4.ps1`.
 
 Guía: `ai6/12_GUIA_AGENTES_AI6.md` · Perfil: `ai6/runtime/config/profiles/enterprise_erp.yaml`
 

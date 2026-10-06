@@ -1,0 +1,50 @@
+version: "1.0.0"
+grammar_ref: "ai6/runtime/config/dsl_registry_v1.yaml"
+homologation_ref: "ai6/artifacts/homologation_matrix.yaml"
+
+confidence_threshold_m4: 0.75
+require_manual_below_threshold: true
+
+canonical_pipeline_erp:
+  - homologator
+  - activation
+  - executor
+  - context_loader
+  - researcher
+  - documenter_ops
+  - documenter_user
+  - validator
+  - curator
+  - builder_code
+  - metrics
+
+invariants:
+  - ERP-PIPE-01
+  - U-01
+  - U-03
+
+mutations: []
+
+evolution_policy:
+  min_pass_rate: 1.0
+  allowed_types: [threshold, lemma, exclusion]
+  max_mutations_per_day: 5
+  require_validate_before_integrate: true
+  sandbox_dir: ".ai6_evolution"
+
+dynamic_agents:
+  max_dynamic: 5
+  default_ttl_seconds: 3600
+  min_utility_threshold: 0.25
+  min_executions_before_retire: 3
+
+meta_runtime:
+  sandbox_dir: ".ai6_meta_runtime"
+  require_human_approve: true
+  allow_production_deploy: false
+
+federation:
+  default_conflict_policy: newest_wins
+  sync_seed: true
+  sync_memory: true
+  staging_dir: ".ai6_federation"

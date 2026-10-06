@@ -104,11 +104,8 @@ Todo desarrollo de interfaz debe respetar el sistema de temas **Light/Dark** bas
 
 | Recurso | Ruta |
 |---------|------|
-| Matriz columnas → CSS | `docion_nueva/config/MATRIZ_TEMA_COLUMNAS_PRINCIPAL_SYSTEMAS_BOTONES_UI.md` |
-| Matriz editor temas | `docion_nueva/config/MATRIZ_EDITOR_TEMAS_PRINCIPAL_SYSTEMAS.md` |
-| Migración Light/Dark | `docion_nueva/config/GUIA_MIGRACION_TEMAS_LIGHT_DARK_BOTONES.md` |
-| Memoria UI | `memoria_ospost/modulos/PRINCIPAL.md` |
-| Casuística temas | `memoria_ospost/casuistica/PRINCIPAL_UI_TEMAS_SEARCHBOX_CARD_INFO.md` |
+| Matrices y migración de un ERP | No están en esta semilla |
+| Memoria y casuística de un módulo de UI | No están en esta semilla |
 
 ### 4.1 Reglas UI tematizada
 
