@@ -25,7 +25,7 @@ async function mostrarSalida() {
   await vscode.commands.executeCommand("revealInExplorer", ledger);
   if (creados.length === 0) {
     void vscode.window.showInformationMessage(
-      "SGC: la salida ya está en el explorador (docion_nueva, memoria_ospost, ledger_activacion, metricas, control_conocimiento)."
+      "SGC: la salida ya está en el explorador (contextos, docion_nueva, memoria_ospost, ledger_activacion, metricas, control_conocimiento)."
     );
     return;
   }

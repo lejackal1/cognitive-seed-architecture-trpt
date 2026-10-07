@@ -81,6 +81,8 @@ function materializarSalida(root) {
       creados.push(item.rel.replace(/\\/g, "/"));
     }
   }
+  const { materializarContextos } = require("./contextos");
+  creados.push(...materializarContextos(root));
   return creados;
 }
 

@@ -10,7 +10,7 @@ Raíz de escritura: la carpeta de trabajo abierta. No hay ruta fija.
 ## Permitido
 
 - Crear, editar y borrar archivos dentro del workspace abierto.
-- Escribir el conocimiento en las carpetas visibles: `docion_nueva/`, `memoria_ospost/` (incluye `casuistica/`), `ledger_activacion/`, `metricas/`, `control_conocimiento/`.
+- Escribir el conocimiento en las carpetas visibles: `contextos/`, `docion_nueva/`, `memoria_ospost/` (incluye `casuistica/`), `ledger_activacion/`, `metricas/`, `control_conocimiento/`.
 - Leer código del framework para evidenciar un flujo. Si el archivo no se leyó, el dato queda *No confirmado en código*.
 
 ## Prohibido

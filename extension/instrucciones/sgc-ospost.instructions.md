@@ -12,6 +12,7 @@ La biblioteca que viaja con la extensión es solo lectura. No la copies al proye
 
 El conocimiento de este workspace se escribe en carpetas visibles del explorador, no dentro de la instalación de la extensión:
 
+- `contextos/` (se genera desde la investigación en `docion_nueva/` que tenga informe; no se redacta a mano)
 - `docion_nueva/`
 - `memoria_ospost/` (`modulos`, `procesos`, `patrones`, `casuistica`)
 - `ledger_activacion/`
@@ -43,7 +44,7 @@ Si un documento de esa biblioteca nombra la carpeta donde se desarrolló la semi
 - No modificar `osp_pre/Models/os.php`, `Whatever/data.php` ni `enrrutador.php`.
 - No cargar expedientes de proyecto.
 - Temas UI: `principal_systemas`, Light/Dark. Sin colores fijos.
-- Implementar solo con patrón confirmado y Build Guard (cinco evidencias antes de escribir código).
+- Implementar solo con patrón confirmado y Build Guard (cinco evidencias antes de escribir código). Antes, `contextos/00_ROL.md`, incluido el protocolo de contexto incompleto. Si una pieza bloqueante falta, no escribir código que dependa de ella. Preguntar si quieren buscar la brecha en una fuente académica o industrial; el resultado queda como borrador para validar.
 - Economía de build solo después de Build Guard, en perfil BUILD.
 
 Ajustes de la extensión: `sgc.defaultMode` (`full` u `off`) y `sgc.autoActivate`. Con la extensión habilitada y `sgc.defaultMode` en `full`, este texto aplica. `off` no retira este archivo: para apagarlo se deshabilita la extensión.

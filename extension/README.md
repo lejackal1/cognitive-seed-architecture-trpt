@@ -4,7 +4,19 @@ Semilla cognitiva. Investiga, documenta y construye con trazabilidad. Escribe en
 
 **Autor:** Daniel Alberto Reyes Ramirez — OSPOST S.A.S.  
 **Identificador:** `sgc-ospost.semilla`  
-**Versión:** 0.1.5
+**Versión:** 0.1.6
+
+## Qué trae la 0.1.6
+
+Esta versión ordena el contexto del proyecto antes de escribir código.
+
+Al activarla, si ya hay una investigación en el proyecto, crea la carpeta `contextos/`. Ahí quedan cinco apartados: negocio, funcionamiento, técnica, documentos y código. Cada apartado tiene un índice y un archivo por tema. Si la investigación no dice nada de un tema, el archivo lo deja dicho y no lo inventa.
+
+El apartado de código se arma abriendo los archivos del proyecto, no de memoria.
+
+Quien vaya a programar tiene que leer esos apartados primero. Si falta un dato que cambia una regla, un permiso o un cálculo, no se escribe esa parte hasta tenerlo.
+
+Cuando el trabajo describe un proceso, la referencia es la norma de ciclo de vida del software ISO/IEC/IEEE 12207:2026. Cuando describe un requisito, la referencia es ISO/IEC/IEEE 29148:2018. El paquete no incluye el texto de esas normas.
 
 ## Arquitectura
 
@@ -12,7 +24,7 @@ Semilla cognitiva. Investiga, documenta y construye con trazabilidad. Escribe en
 |-----|--------|-----|
 | Biblioteca | Dentro de la extensión, `biblioteca/` | Agentes y patrones. Solo lectura. No se copia al proyecto. |
 | Escritura | Carpeta de trabajo abierta | Código y conocimiento de esa carpeta. |
-| Salida visible | Raíz de esa carpeta | `docion_nueva/`, `memoria_ospost/` (`modulos`, `procesos`, `patrones`, `casuistica`), `ledger_activacion/`, `metricas/`, `control_conocimiento/`. |
+| Salida visible | Raíz de esa carpeta | `contextos/`, `docion_nueva/`, `memoria_ospost/` (`modulos`, `procesos`, `patrones`, `casuistica`), `ledger_activacion/`, `metricas/`, `control_conocimiento/`. |
 
 Al activar en modo full, la extensión crea esas carpetas si faltan y abre el ledger en el explorador. No pisa un índice que ya existe.
 

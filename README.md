@@ -2,6 +2,8 @@
 # Cognitive Seed Architecture & TRPT Protocol
 
 La entrega operable está en [`extension/`](extension/README.md): biblioteca de solo lectura, carpetas de conocimiento visibles en el workspace, y orquestación M4 con `python -m ai6.cli pipeline` (`--workspace` = carpeta abierta, `--sgc` = carpeta que tiene el agente principal).
+
+**Versión de la extensión:** 0.1.6. Crea una carpeta de contextos a partir de la investigación del proyecto y pide leerla antes de programar. El detalle está en [`extension/README.md`](extension/README.md).
 **Paradigma de Autoconstrucción de Software basado en Arquitecturas Cognitivas Híbridas**
 
 ##  Autoría

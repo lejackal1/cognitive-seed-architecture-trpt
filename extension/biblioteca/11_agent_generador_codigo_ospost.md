@@ -170,7 +170,7 @@ Extraer:
 1. Identificar modulo objetivo
 2. Cargar modulo, procesos, patrones y casuisticas relacionados
 3. Verificar coherencia entre fuentes
-4. Si falta un archivo de memoria, casuistica o control requerido, generar primero la base mínima en la ruta esperada y registrar el faltante antes de continuar
+4. Si falta una pieza de `contextos/` o memoria requerida, aplicar el protocolo de contexto incompleto de `contextos/00_ROL.md`. Resoluble en código: leer el archivo. Bloqueante: detenerse y preguntar, y ofrecer búsqueda en fuente académica o industrial solo como borrador para validar. No bloqueante: avanzar solo con el supuesto marcado [NO CONFIRMADO]. No rellenar el vacío con lo típico.
 
 ---
 

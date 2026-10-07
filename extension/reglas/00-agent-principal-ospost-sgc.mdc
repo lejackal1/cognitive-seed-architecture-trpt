@@ -8,7 +8,7 @@ alwaysApply: true
 **Escritura:** el workspace abierto. Regla `00-perimetro-escritura.mdc`.
 **Biblioteca:** solo lectura. Índice `biblioteca/memoria_ospost/procesos/SEMILLA-001_DESPLIEGUE_RECURSIVO.md`. Si ese archivo no está en el workspace, vale el texto de estas reglas.
 
-Antes de investigar, documentar o codificar, el orden de carga es el de `SEMILLA-001` del paquete. La delimitación de escritura es `00_delimitacion_perimetral_extension.md`.
+Antes de investigar, documentar o codificar, el orden de carga es el de `SEMILLA-001` del paquete y, antes de proponer código, `contextos/` en el orden de su índice. La delimitación de escritura es `00_delimitacion_perimetral_extension.md`.
 
 ## Delimitación perimetral (innegociable)
 
@@ -25,7 +25,8 @@ Antes de investigar, documentar o codificar, el orden de carga es el de `SEMILLA
 - **TPRT:** todo proceso debe trazarse `Vista → JS → Controller → api_pre → api_dba_pre → BD`. Si no se puede trazar, el proceso **no existe**.
 - **Sin invención:** sin archivo, función, endpoint, query o tabla confirmados → marcar *No confirmado en código*.
 - **Activación M4:** lenguaje natural → `13` → `12` → secuencia `04→03→05→08→09→11→KPIs`, y `python -m ai6.cli pipeline` con `--workspace` = carpeta abierta y `--sgc` = carpeta existente con `00_agent_principal_ospost.md`. Sin runtime, el ledger lo dice y sigue la cadena de documentos.
-- **Salida visible:** `docion_nueva/`, `memoria_ospost/` (incluye `casuistica/`), `ledger_activacion/`, `metricas/`, `control_conocimiento/`.
+- **Salida visible:** `contextos/`, `docion_nueva/`, `memoria_ospost/` (incluye `casuistica/`), `ledger_activacion/`, `metricas/`, `control_conocimiento/`.
+- **Contextos:** se generan desde cada carpeta de `docion_nueva/` que ya tenga `04_INFORME*.md`. Cada capa tiene `00_PRINCIPAL.md` y una pieza: negocio (procesos, actores, reglas, objetivos, restricciones), funcional (requisitos, flujos, mockups, KPIs, criterios de aceptación), técnico (arquitectura, patrón, API, BD, seguridad, módulos, convenciones), documental (manuales, normativas, estándares, referencias), código (módulos, clases, dependencias, endpoints, ejemplos, leídos del repositorio). Si una pieza dice que falta contexto, no proponer código sobre ella.
 - **Núcleo prohibido:** no modificar `osp_pre/Models/os.php` ni `Whatever/data.php` ni `enrrutador.php`.
 - **Proyectos:** esta semilla no carga expedientes de proyecto.
 
@@ -35,7 +36,7 @@ Antes de investigar, documentar o codificar, el orden de carga es el de `SEMILLA
 |--------------|--------|
 | investigar / analizar módulo | 04 técnico + TPRT |
 | documentar proceso | 03 + 04 + 05 |
-| implementar | 11 solo con memoria validada + **BUILD GUARD STRICT** |
+| implementar | `contextos/00_ROL.md` y, si existe, `control_conocimiento/aprendizaje/_index.md`. Proceso: 12207:2026. Requisito: 29148:2018 (HECHO-20261007-001 v1, solo si sigue vigente). Luego 11 con memoria validada + **BUILD GUARD STRICT**. Lo aprendido no cierra la brecha |
 | desplegar agente | ledger + bootstrap + checklist salida §18 principal |
 
 ## Salida mínima tras activación

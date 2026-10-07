@@ -6,7 +6,7 @@ La raíz de escritura es la carpeta de trabajo abierta en Cursor o VS Code. Camb
 |-----|--------|
 | Escritura | Solo archivos dentro del workspace abierto. |
 | Biblioteca | La semilla instalada con la extensión es solo lectura. No se copia al proyecto y no se edita. |
-| Salida visible | En el workspace se crean, si faltan, `docion_nueva/`, `memoria_ospost/` (`modulos`, `procesos`, `patrones`, `casuistica`), `ledger_activacion/`, `metricas/` y `control_conocimiento/`. El conocimiento de la activación se escribe ahí. |
+| Salida visible | En el workspace se crean, si faltan, `contextos/`, `docion_nueva/`, `memoria_ospost/` (`modulos`, `procesos`, `patrones`, `casuistica`), `ledger_activacion/`, `metricas/` y `control_conocimiento/`. El conocimiento de la activación se escribe ahí. |
 | Lectura ERP | Leer capas del framework para evidenciar un flujo está permitido. Si el archivo no se leyó, el dato queda *No confirmado en código*. |
 
 ## Prohibido
