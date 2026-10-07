@@ -1,5 +1,6 @@
 extension/*.vsix
 extension/node_modules/
 *.vsix
+.sgc.rar
 __pycache__/
 *.pyc
