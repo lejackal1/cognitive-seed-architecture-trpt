@@ -14,7 +14,7 @@ La entrega operable está en [`extension/`](extension/README.md).
 *   Aporte
 La semilla se usa igual si no aportas. No hay plan de pago ni función bloqueada.
 
-Si te sirvió y quieres apoyar el trabajo de Daniel Alberto Reyes Ramirez, en Colombia puedes enviar un aporte por Bre-B a la llave @reyes4977. El mensaje puede ser simplemente «aporte a la semilla OSPOST».
+Si te sirvió y quieres apoyar el trabajo de Daniel Alberto Reyes Ramirez, en Colombia puedes enviar un aporte por Bre-B a la llave @reyes4977. paypal danisebas101@hotmail.com Gracias por tu aporte a la semilla OSPOST . 
 ---
 
 ##  Resumen del Concepto
