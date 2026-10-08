@@ -11,7 +11,10 @@ La entrega operable está en [`extension/`](extension/README.md).
 *   **Entidad:** OSPOST S.A.S.
 *   **Año:** 2026
 *   **Ubicación:** Bogotá, Colombia
-La ficha del paquete explica el uso y deja el aporte por Bre-B en la llave @reyes4977. El programa funciona igual si no aportas.
+*   Aporte
+La semilla se usa igual si no aportas. No hay plan de pago ni función bloqueada.
+
+Si te sirvió y quieres apoyar el trabajo de Daniel Alberto Reyes Ramirez, en Colombia puedes enviar un aporte por Bre-B a la llave @reyes4977. El mensaje puede ser simplemente «aporte a la semilla OSPOST».
 ---
 
 ##  Resumen del Concepto
