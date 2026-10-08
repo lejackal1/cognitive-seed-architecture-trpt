@@ -4,13 +4,21 @@ Una semilla de trabajo para investigar, documentar y construir con rastro. Escri
 
 **Autor:** Daniel Alberto Reyes Ramirez — OSPOST S.A.S.  
 **Identificador:** `sgc-ospost.semilla`  
-**Versión:** 0.1.7
+**Versión:** 0.1.8
 
 ## Qué es
 
 Sirve para que el agente del editor no invente el proyecto. Antes de programar tiene que leer lo que el propio proyecto ya investigó, y dejar escrito lo que falta.
 
 El instalador trae el método. El conocimiento de cada proyecto se crea en esa carpeta, no dentro de la extensión.
+
+## Qué trae la 0.1.8
+
+Al activar la extensión, el canal `sgc-marcas` se registra solo. En Cursor usa su API. En Visual Studio Code, y en otro editor que instale este mismo paquete y ofrezca el registro de servidores MCP, usa esa API. No hay un paso aparte para instalar el canal.
+
+El agente llama `nuclear`, `verificar_ancla` y `camino` cuando va a afirmar una relación. Si no las llama, la comprobación sigue en **SGC: Verificar citas**.
+
+Visual Studio clásico, JetBrains y los editores que no instalan un VSIX no ejecutan esta extensión, así que ahí el canal no arranca.
 
 ## Qué trae la 0.1.7
 
@@ -21,12 +29,11 @@ La 0.1.6 creaba contextos a partir de un informe de investigación y pedía leer
 - Orquestar ya no usa un perfil fijo. Lee `contextos/perfil.md`. Si ahí no hay una línea `perfil:`, pregunta y, si nadie responde, no arranca.
 - La semilla de la orquestación es la carpeta abierta.
 - Cuatro comandos nuevos revisan el grafo de marcas, las citas del texto, una propuesta de ontología y el perímetro de escritura.
-- En Cursor, si el editor lo permite, queda un canal `sgc-marcas` para consultar nodos, comprobar un ancla, registrar una hipótesis y pedir un camino. Si el modelo no lo usa, la comprobación sigue en el comando de citas.
 - El instalador no mete la biblioteca antigua de agentes. Lleva `biblioteca/SEMILLA.md`, que describe el mecanismo sin un dominio de negocio.
 
 ## Cómo se instala
 
-En VS Code o Cursor, instala el archivo `semilla-0.1.7.vsix`.
+En VS Code, Cursor u otro editor que acepte este VSIX, instala el archivo `semilla-0.1.8.vsix`.
 
 En Cursor, además, copia las reglas al proyecto:
 

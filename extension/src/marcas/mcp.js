@@ -225,7 +225,7 @@ function responder(mensaje, root) {
       result: {
         protocolVersion: typeof pedida === "string" && pedida ? pedida : PROTOCOLO_RESPALDO,
         capabilities: { tools: { listChanged: false } },
-        serverInfo: { name: NOMBRE, version: "0.1.7" },
+        serverInfo: { name: NOMBRE, version: "0.1.8" },
       },
     };
   }

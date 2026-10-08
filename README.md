@@ -3,7 +3,7 @@
 
 La entrega operable está en [`extension/`](extension/README.md).
 
-**Versión de la extensión:** 0.1.7. Un proyecto nuevo empieza vacío. El perfil del pipeline lo pone el proyecto. Hay comandos para comprobar citas, el grafo y el perímetro. El detalle de uso está en [`extension/README.md`](extension/README.md).
+**Versión de la extensión:** 0.1.8. Al activarse registra el canal de marcas en Cursor y en Visual Studio Code. El detalle de uso está en [`extension/README.md`](extension/README.md).
 **Paradigma de Autoconstrucción de Software basado en Arquitecturas Cognitivas Híbridas**
 
 ##  Autoría

@@ -6,6 +6,8 @@ const path = require("path");
 const vscode = require("vscode");
 const { materializarSalida } = require("./salida");
 const { verificarGrafo, verificarCitas, descubrir, revisarCarpeta } = require("./marcas/comandos");
+const { registrarMcp } = require("./registro-mcp");
+const versionExtension = require("../package.json").version;
 
 function raices() {
   return (vscode.workspace.workspaceFolders || []).map((folder) => folder.uri.fsPath);
@@ -143,43 +145,11 @@ function activate(context) {
   context.subscriptions.push(vscode.commands.registerCommand("sgc.verificarCitas", verificarCitasEnCarpeta));
   context.subscriptions.push(vscode.commands.registerCommand("sgc.descubrirOntologia", descubrirOntologiaEnCarpeta));
   context.subscriptions.push(vscode.commands.registerCommand("sgc.revisarPerimetro", revisarPerimetroEnCarpeta));
-  registrarMcp(context);
-}
-
-function registrarMcp(context) {
-  const api = vscode.cursor && vscode.cursor.mcp;
-  if (!api || typeof api.registerServer !== "function") {
-    return;
-  }
-  const script = path.join(context.extensionPath, "src", "marcas", "mcp.js");
-  const aplicar = () => {
-    if (typeof api.unregisterServer === "function") {
-      api.unregisterServer("sgc-marcas");
-    }
-    const root = raices()[0];
-    if (!root) {
-      return;
-    }
-    api.registerServer({
-      name: "sgc-marcas",
-      server: {
-        command: process.execPath,
-        args: [script],
-        env: {
-          ELECTRON_RUN_AS_NODE: "1",
-          SGC_WORKSPACE: root,
-        },
-      },
-    });
-  };
-  aplicar();
-  context.subscriptions.push(vscode.workspace.onDidChangeWorkspaceFolders(aplicar));
-  context.subscriptions.push({
-    dispose() {
-      if (typeof api.unregisterServer === "function") {
-        api.unregisterServer("sgc-marcas");
-      }
-    },
+  registrarMcp(vscode, context, {
+    script: path.join(context.extensionPath, "src", "marcas", "mcp.js"),
+    execPath: process.execPath,
+    raices,
+    version: versionExtension,
   });
 }
 

@@ -2,7 +2,7 @@
   "name": "semilla",
   "displayName": "SGC OSPOST",
   "description": "Semilla cognitiva OSPOST. Escribe en la carpeta de trabajo abierta.",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "publisher": "sgc-ospost",
   "license": "SEE LICENSE IN LICENSE",
   "homepage": "https://github.com/lejackal1/cognitive-seed-architecture-trpt",
@@ -21,13 +21,19 @@
   ],
   "main": "./src/extension.js",
   "scripts": {
-    "test": "node --test test/marcas.test.js test/comandos.test.js test/mcp.test.js test/revision.test.js test/agnostico.test.js"
+    "test": "node --test test/marcas.test.js test/comandos.test.js test/mcp.test.js test/revision.test.js test/agnostico.test.js test/registro-mcp.test.js"
   },
   "icon": "media/icon.png",
   "contributes": {
     "chatInstructions": [
       {
         "path": "./instrucciones/sgc-ospost.instructions.md"
+      }
+    ],
+    "mcpServerDefinitionProviders": [
+      {
+        "id": "sgc-marcas",
+        "label": "SGC marcas"
       }
     ],
     "commands": [
