@@ -184,7 +184,9 @@ class SeedCertifier:
 
         return checks
 
-    def run_golden_gate(self, profile: str = "enterprise_erp") -> tuple[bool, dict[str, Any]]:
+    def run_golden_gate(self, profile: str | None = None) -> tuple[bool, dict[str, Any]]:
+        if not profile:
+            return False, {"pass_rate": 0.0, "passed": 0, "total": 0, "error": "falta_perfil"}
         seed = yaml.safe_load(self._seed_yaml_path().read_text(encoding="utf-8")) or {}
         min_rate = float((seed.get("evolution_policy") or {}).get("min_pass_rate", 1.0))
         matrix_name = (
@@ -192,9 +194,7 @@ class SeedCertifier:
             if profile == "enterprise_erp"
             else f"homologation_matrix_{profile}.yaml"
         )
-        matrix = self._resolve_artifact(matrix_name) or self._resolve_artifact(
-            "homologation_matrix.yaml"
-        )
+        matrix = self._resolve_artifact(matrix_name)
         if matrix is None:
             return False, {"pass_rate": 0.0, "passed": 0, "total": 0, "error": "matrix missing"}
         tests_dir = self.runtime_root / "tests"
@@ -317,8 +317,10 @@ class SeedCertifier:
         report.ok = len(report.errors) == 0
         return report
 
-    def assert_ready_for_promote(self, profile: str = "enterprise_erp") -> None:
+    def assert_ready_for_promote(self, profile: str | None = None) -> None:
         """CI gate — llamar antes de evolve promote / integrate."""
+        if not profile:
+            raise RuntimeError("Falta el perfil. No hay valor por defecto.")
         ver = self.verify(run_golden=True)
         if not ver.ok:
             detail = "; ".join(ver.errors)

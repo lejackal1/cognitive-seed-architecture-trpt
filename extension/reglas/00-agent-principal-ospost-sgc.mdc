@@ -1,44 +1,54 @@
 ---
-description: Agente Principal OSPOST — TPRT, M4, semilla cognitiva sin datos de proyecto. Raíz = workspace abierto.
+description: Semilla cognitiva. El proyecto abierto define arquitectura, protegidos, perfil y evidencias.
 alwaysApply: true
 ---
 
-# Agente Principal OSPOST — extensión
+# Semilla cognitiva
 
 **Escritura:** el workspace abierto. Regla `00-perimetro-escritura.mdc`.
-**Biblioteca:** solo lectura. Índice `biblioteca/memoria_ospost/procesos/SEMILLA-001_DESPLIEGUE_RECURSIVO.md`. Si ese archivo no está en el workspace, vale el texto de estas reglas.
+**Biblioteca:** `biblioteca/SEMILLA.md`, solo lectura. No trae un dominio.
 
-Antes de investigar, documentar o codificar, el orden de carga es el de `SEMILLA-001` del paquete y, antes de proponer código, `contextos/` en el orden de su índice. La delimitación de escritura es `00_delimitacion_perimetral_extension.md`.
+Un workspace nuevo empieza con ontología vacía, protegidos vacíos, sin perfil y sin lista de evidencias. Esos archivos están en `contextos/`. La primera operación es descubrir.
 
-## Delimitación perimetral (innegociable)
+## Descubrir
 
-- **Framework OSPOST:** MVC-W · capas TPRT · `context.md` + `os_post_prompt.md` — sin arquitectura inventada
-- **Patrones:** `memoria_ospost/patrones/` · `@PATTERN:ENFORCE` · agente 11 solo con patrón confirmado
-- **Temas UI:** `principal_systemas` · Light/Dark · no colores fijos fuera del tema
-- **Core:** `Models/os` + `Models/functions` · `api_dexcom` · catálogo `02_MODELS_FUNCTIONS.md`
-- **Ciclo dev:** 7 fases metodología · pipeline M4 completo antes de cerrar
-- **Anti-alucinación:** sin evidencia en código/BD → *No confirmado* · prohibido afirmar como hecho
-- **CRD:** tras integración memoria (08), retroalimentar reglas §9 `00_delimitacion_perimetral_ospost.md` · `@MEMORY:LOAD_ALL` en próxima activación
+El agente propone capas, relaciones y archivos sensibles que observó. Cada propuesta es una hipótesis con ancla:
 
-## Reglas innegociables
+```text
+estado: hipotesis
+archivo: <ruta en el workspace>
+simbolo: <símbolo observado>
+hash: <sha256 del archivo>
+tipo: <etiqueta libre>
+relacion: <etiqueta libre>
+```
 
-- **TPRT:** todo proceso debe trazarse `Vista → JS → Controller → api_pre → api_dba_pre → BD`. Si no se puede trazar, el proceso **no existe**.
-- **Sin invención:** sin archivo, función, endpoint, query o tabla confirmados → marcar *No confirmado en código*.
-- **Activación M4:** lenguaje natural → `13` → `12` → secuencia `04→03→05→08→09→11→KPIs`, y `python -m ai6.cli pipeline` con `--workspace` = carpeta abierta y `--sgc` = carpeta existente con `00_agent_principal_ospost.md`. Sin runtime, el ledger lo dice y sigue la cadena de documentos.
-- **Salida visible:** `contextos/`, `docion_nueva/`, `memoria_ospost/` (incluye `casuistica/`), `ledger_activacion/`, `metricas/`, `control_conocimiento/`.
-- **Contextos:** se generan desde cada carpeta de `docion_nueva/` que ya tenga `04_INFORME*.md`. Cada capa tiene `00_PRINCIPAL.md` y una pieza: negocio (procesos, actores, reglas, objetivos, restricciones), funcional (requisitos, flujos, mockups, KPIs, criterios de aceptación), técnico (arquitectura, patrón, API, BD, seguridad, módulos, convenciones), documental (manuales, normativas, estándares, referencias), código (módulos, clases, dependencias, endpoints, ejemplos, leídos del repositorio). Si una pieza dice que falta contexto, no proponer código sobre ella.
-- **Núcleo prohibido:** no modificar `osp_pre/Models/os.php` ni `Whatever/data.php` ni `enrrutador.php`.
-- **Proyectos:** esta semilla no carga expedientes de proyecto.
+El código comprueba que el archivo exista y que el hash coincida. La confirmación es del usuario: pasa a `estado: confirmado`. Sin ancla verificable, el dato queda *No confirmado en código*.
 
-## Intención → agente
+## Reglas del mecanismo
 
-| Usuario dice | Acción |
-|--------------|--------|
-| investigar / analizar módulo | 04 técnico + TPRT |
-| documentar proceso | 03 + 04 + 05 |
-| implementar | `contextos/00_ROL.md` y, si existe, `control_conocimiento/aprendizaje/_index.md`. Proceso: 12207:2026. Requisito: 29148:2018 (HECHO-20261007-001 v1, solo si sigue vigente). Luego 11 con memoria validada + **BUILD GUARD STRICT**. Lo aprendido no cierra la brecha |
-| desplegar agente | ledger + bootstrap + checklist salida §18 principal |
+- La traza usa solo las capas confirmadas en `contextos/ontologia.md`. Si no hay ninguna confirmada, el proceso no existe. No rellenes la cadena.
+- El perfil del pipeline se lee de `contextos/perfil.md` (`perfil:`). Si está vacío, se pregunta. No hay valor por defecto.
+- Antes de implementar, lee `contextos/evidencias.md`. Si el proyecto no confirmó qué evidencia exige, no implementes. No hay una lista de cinco evidencias de fábrica.
+- Los protegidos son los de `contextos/protegidos.md` con `estado: confirmado`.
+- El decaimiento no corre hasta que `contextos/decaimiento.md` traiga `plazo_dias`. El mecanismo es fijo; el plazo lo pone el proyecto.
+- Una norma se cita solo si el proyecto la registró. La semilla no elige la norma.
 
-## Salida mínima tras activación
+## Marcas
 
-Usar plantilla §18 de `00_agent_principal_ospost.md`: Contexto, Alcance, Procesos, Checklist, Hallazgos, Riesgos, Archivos generados, Siguiente paso.
+Antes de afirmar una relación del proyecto, consulta el servidor MCP `sgc-marcas`: `nuclear`, `verificar_ancla` y `camino`. Cita `archivo:línea` o `archivo#símbolo`.
+
+Si no hay ancla verificable, o `camino` vuelve vacío, la respuesta es *No confirmado en código*. Si la propuesta contradice un nodo validado, refútala citando ese nodo. `registrar_nodo` solo deja una hipótesis: no la pases a validado.
+
+El modelo puede no llamar a `sgc-marcas`. Si no lo llama, la comprobación queda en `SGC: Verificar citas`: cada cita `archivo:línea` o `archivo#símbolo` se contrasta con el archivo. Si no se verifica, la respuesta sigue siendo *No confirmado en código*.
+
+`SGC: Revisar perímetro` avisa si el diff de git toca un archivo de `memoria_ospost/protegidos.json` con `estado: confirmado`, o si una ruta sale de la carpeta. Una hipótesis no protege.
+
+## Intención
+
+| El usuario pide | El agente hace |
+|-----------------|----------------|
+| Investigar | Descubre y deja hipótesis con ancla. No confirma solo. |
+| Documentar | Escribe en las carpetas de este workspace lo que el usuario confirmó. |
+| Implementar | Solo con evidencias confirmadas en `contextos/evidencias.md`. |
+| Orquestar | Pide el perfil si `contextos/perfil.md` no lo tiene. |

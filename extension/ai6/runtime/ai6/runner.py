@@ -31,7 +31,7 @@ class PipelineRunner:
         workspace: Path,
         sgc_root: Path,
         *,
-        profile: str = "enterprise_erp",
+        profile: str | None = None,
         use_llm: bool = False,
         use_llm_builder: bool | None = None,
         use_embeddings: bool = False,
@@ -56,6 +56,14 @@ class PipelineRunner:
         context_extra: dict[str, Any] | None = None,
         trigger: str = "MANUAL",
     ) -> PipelineRunResult:
+        if not self.profile:
+            return PipelineRunResult(
+                ok=False,
+                state="blocked",
+                program_id=None,
+                ast=None,
+                error="Falta el perfil. No hay valor por defecto.",
+            )
         engine = HomologationEngine(
             profile=self.profile,
             use_embeddings=self.use_embeddings or None,

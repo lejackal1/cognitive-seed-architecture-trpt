@@ -1,50 +1,29 @@
 ---
-name: 'SGC OSPOST'
-description: 'Semilla cognitiva OSPOST. Escribe solo en el workspace abierto. Modo full mientras la extensión está habilitada.'
+name: 'SGC'
+description: 'Semilla cognitiva. Arquitectura, protegidos, perfil y evidencias salen del proyecto abierto.'
 applyTo: '**'
 ---
 
-# SGC OSPOST — modo full
+# Semilla cognitiva
 
-Raíz de escritura: la carpeta de trabajo abierta. No uses una ruta fija de otra máquina.
+Escribe solo en la carpeta de trabajo abierta. La biblioteca de la extensión es solo lectura y no trae un dominio.
 
-La biblioteca que viaja con la extensión es solo lectura. No la copies al proyecto y no la edites.
+Un proyecto nuevo tiene vacíos `contextos/ontologia.md`, `contextos/protegidos.md`, `contextos/perfil.md`, `contextos/evidencias.md` y `contextos/decaimiento.md`.
 
-El conocimiento de este workspace se escribe en carpetas visibles del explorador, no dentro de la instalación de la extensión:
+La primera operación es descubrir. Cada propuesta lleva ancla (`archivo`, `simbolo`, `hash`) y `estado: hipotesis`. El código comprueba el archivo y el hash. Confirma el usuario.
 
-- `contextos/` (se genera desde la investigación en `docion_nueva/` que tenga informe; no se redacta a mano)
-- `docion_nueva/`
-- `memoria_ospost/` (`modulos`, `procesos`, `patrones`, `casuistica`)
-- `ledger_activacion/`
-- `metricas/`
-- `control_conocimiento/`
+- Sin ancla verificable → *No confirmado en código*.
+- La traza usa las capas confirmadas. No hay cadena de fábrica.
+- No hay archivos protegidos de fábrica.
+- No hay tema de interfaz de fábrica.
+- No hay perfil de pipeline de fábrica. Si `contextos/perfil.md` no tiene `perfil:`, pregunta.
+- No hay norma de fábrica. Cita una norma solo si el proyecto la registró.
+- No implementes hasta que `contextos/evidencias.md` tenga evidencias confirmadas. No hay una lista fija.
+- Sin `plazo_dias` en `contextos/decaimiento.md`, no archives nada.
+- Antes de afirmar una relación, consulta el MCP `sgc-marcas` (`nuclear`, `verificar_ancla`, `camino`) y cita `archivo:línea` o `archivo#símbolo`.
+- El modelo puede no llamar a ese MCP. Si no lo llama, la comprobación queda en `SGC: Verificar citas`. Si la cita no se verifica, di *No confirmado en código*.
+- Sin ancla verificable, o si `camino` vuelve vacío, di *No confirmado en código*. Si la propuesta contradice un nodo validado, refútala citando ese nodo.
+- `registrar_nodo` solo crea una hipótesis. Validarla es del usuario.
+- `SGC: Revisar perímetro` avisa si el diff de git toca un archivo de `memoria_ospost/protegidos.json` con `estado: confirmado`, o si una ruta sale de la carpeta. Una hipótesis no protege.
 
-Si faltan, el comando `SGC: Mostrar carpetas de conocimiento` las crea con su índice. No borres un índice que ya tiene filas. Un archivo de conocimiento que no está en esas carpetas no cuenta como traza.
-
-## Orquestación M4
-
-El motor AI6 va en `ai6/runtime` de esta extensión. La cadena de documentos no lo sustituye.
-
-```text
-python -m ai6.cli pipeline
-  --text "<intención>"
-  --workspace "<carpeta abierta>"
-  --sgc "<carpeta con 00_agent_principal_ospost.md>"
-  --profile enterprise_erp
-```
-
-`--workspace` es la carpeta abierta. `--sgc` es esa carpeta si contiene el agente principal; si no, la biblioteca de la extensión. Las dos rutas tienen que existir. No uses una ruta fija de otra máquina. Si el runtime no está, dilo en `ledger_activacion/` y sigue la cadena de documentos. El script del paquete es `scripts/m4.ps1`. `--dry-run` recorre el pipeline sin los artefactos de cada fase. La corrida queda en `.ai6_runs/` del workspace.
-
-Si un documento de esa biblioteca nombra la carpeta donde se desarrolló la semilla, esa cita no autoriza escritura.
-
-## Contrato
-
-- TPRT: `Vista → JS → Controller → api_pre → api_dba_pre → BD`. Si no se traza, el proceso no existe.
-- Sin archivo, función, endpoint, query o tabla leídos → *No confirmado en código*.
-- No modificar `osp_pre/Models/os.php`, `Whatever/data.php` ni `enrrutador.php`.
-- No cargar expedientes de proyecto.
-- Temas UI: `principal_systemas`, Light/Dark. Sin colores fijos.
-- Implementar solo con patrón confirmado y Build Guard (cinco evidencias antes de escribir código). Antes, `contextos/00_ROL.md`, incluido el protocolo de contexto incompleto. Si una pieza bloqueante falta, no escribir código que dependa de ella. Preguntar si quieren buscar la brecha en una fuente académica o industrial; el resultado queda como borrador para validar.
-- Economía de build solo después de Build Guard, en perfil BUILD.
-
-Ajustes de la extensión: `sgc.defaultMode` (`full` u `off`) y `sgc.autoActivate`. Con la extensión habilitada y `sgc.defaultMode` en `full`, este texto aplica. `off` no retira este archivo: para apagarlo se deshabilita la extensión.
+`sgc.defaultMode = off` no retira este archivo. Para dejar de aplicarlo, deshabilita la extensión.

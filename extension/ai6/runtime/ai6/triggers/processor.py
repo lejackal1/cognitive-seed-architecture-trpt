@@ -44,7 +44,7 @@ class TriggerProcessor:
         workspace: Path,
         sgc_root: Path,
         *,
-        profile: str = "enterprise_erp",
+        profile: str | None = None,
         use_llm: bool = False,
         llm_config: Any = None,
         dry_run: bool = False,

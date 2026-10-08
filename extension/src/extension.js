@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const vscode = require("vscode");
 const { materializarSalida } = require("./salida");
+const { verificarGrafo, verificarCitas, descubrir, revisarCarpeta } = require("./marcas/comandos");
 
 function raices() {
   return (vscode.workspace.workspaceFolders || []).map((folder) => folder.uri.fsPath);
@@ -34,12 +35,18 @@ async function mostrarSalida() {
   );
 }
 
-function sgcDe(workspace, extensionPath) {
-  const agente = "00_agent_principal_ospost.md";
-  if (fs.existsSync(path.join(workspace, agente))) {
-    return workspace;
+function leerPerfil(workspace) {
+  const archivo = path.join(workspace, "contextos", "perfil.md");
+  if (!fs.existsSync(archivo)) {
+    return "";
   }
-  return path.join(extensionPath, "biblioteca");
+  const texto = fs.readFileSync(archivo, "utf8");
+  const marca = /^perfil:\s*(\S+)/m.exec(texto);
+  return marca ? marca[1].trim() : "";
+}
+
+function sgcDe(workspace) {
+  return workspace;
 }
 
 function orquestarM4(extensionPath) {
@@ -51,22 +58,31 @@ function orquestarM4(extensionPath) {
     }
     const text = await vscode.window.showInputBox({
       title: "SGC M4",
-      prompt: "Intención. El motor AI6 de la extensión recorre el pipeline.",
-      value: "investigar el proceso cognitivo de la semilla",
+      prompt: "Intención. El motor recorre el pipeline.",
     });
     if (!text) {
       return;
     }
     await mostrarSalida();
-    const runtime = path.join(extensionPath, "ai6", "runtime");
     const workspace = folders[0];
-    const sgc = sgcDe(workspace, extensionPath);
+    let profile = leerPerfil(workspace);
+    if (!profile) {
+      profile = await vscode.window.showInputBox({
+        title: "SGC M4",
+        prompt: "Perfil del pipeline. Este proyecto no tiene uno. No hay valor por defecto.",
+      });
+    }
+    if (!profile) {
+      return;
+    }
+    const runtime = path.join(extensionPath, "ai6", "runtime");
+    const sgc = sgcDe(workspace);
     const args = [
       "-m", "ai6.cli", "pipeline",
       "--text", text,
       "--workspace", workspace,
       "--sgc", sgc,
-      "--profile", "enterprise_erp",
+      "--profile", profile,
       "--dry-run",
     ];
     const child = spawn("python", args, {
@@ -121,6 +137,150 @@ function activate(context) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand("sgc.orquestarM4", orquestarM4(context.extensionPath))
+  );
+
+  context.subscriptions.push(vscode.commands.registerCommand("sgc.verificarGrafo", verificarGrafoEnCarpeta));
+  context.subscriptions.push(vscode.commands.registerCommand("sgc.verificarCitas", verificarCitasEnCarpeta));
+  context.subscriptions.push(vscode.commands.registerCommand("sgc.descubrirOntologia", descubrirOntologiaEnCarpeta));
+  context.subscriptions.push(vscode.commands.registerCommand("sgc.revisarPerimetro", revisarPerimetroEnCarpeta));
+  registrarMcp(context);
+}
+
+function registrarMcp(context) {
+  const api = vscode.cursor && vscode.cursor.mcp;
+  if (!api || typeof api.registerServer !== "function") {
+    return;
+  }
+  const script = path.join(context.extensionPath, "src", "marcas", "mcp.js");
+  const aplicar = () => {
+    if (typeof api.unregisterServer === "function") {
+      api.unregisterServer("sgc-marcas");
+    }
+    const root = raices()[0];
+    if (!root) {
+      return;
+    }
+    api.registerServer({
+      name: "sgc-marcas",
+      server: {
+        command: process.execPath,
+        args: [script],
+        env: {
+          ELECTRON_RUN_AS_NODE: "1",
+          SGC_WORKSPACE: root,
+        },
+      },
+    });
+  };
+  aplicar();
+  context.subscriptions.push(vscode.workspace.onDidChangeWorkspaceFolders(aplicar));
+  context.subscriptions.push({
+    dispose() {
+      if (typeof api.unregisterServer === "function") {
+        api.unregisterServer("sgc-marcas");
+      }
+    },
+  });
+}
+
+function carpetaAbierta() {
+  const folders = raices();
+  if (folders.length === 0) {
+    void vscode.window.showWarningMessage("SGC: abre una carpeta de trabajo.");
+    return "";
+  }
+  return folders[0];
+}
+
+function revisarPerimetroEnCarpeta() {
+  const root = carpetaAbierta();
+  if (!root) {
+    return;
+  }
+  const { revision, mensaje } = revisarCarpeta(root);
+  if (revision.alertas && revision.alertas.length > 0) {
+    void vscode.window.showWarningMessage(mensaje);
+    return;
+  }
+  void vscode.window.showInformationMessage(mensaje);
+}
+
+function verificarGrafoEnCarpeta() {
+  const root = carpetaAbierta();
+  if (!root) {
+    return;
+  }
+  const { mensaje } = verificarGrafo(root);
+  void vscode.window.showInformationMessage(mensaje);
+}
+
+async function verificarCitasEnCarpeta() {
+  const root = carpetaAbierta();
+  if (!root) {
+    return;
+  }
+  const editor = vscode.window.activeTextEditor;
+  let texto = "";
+  if (editor) {
+    texto = editor.document.getText(editor.selection) || editor.document.getText();
+  }
+  if (!texto.trim()) {
+    texto = await vscode.window.showInputBox({
+      title: "SGC marcas",
+      prompt: "Texto con citas archivo:línea o archivo#símbolo.",
+    });
+  }
+  if (!texto) {
+    return;
+  }
+  const { mensaje } = verificarCitas(root, texto);
+  void vscode.window.showInformationMessage(mensaje);
+}
+
+async function descubrirOntologiaEnCarpeta() {
+  const root = carpetaAbierta();
+  if (!root) {
+    return;
+  }
+  const uris = await vscode.window.showOpenDialog({
+    canSelectFiles: true,
+    canSelectMany: false,
+    title: "Propuesta de ontología",
+    filters: { JSON: ["json"] },
+  });
+  if (!uris || !uris[0]) {
+    return;
+  }
+  let propuesta;
+  try {
+    propuesta = JSON.parse(fs.readFileSync(uris[0].fsPath, "utf8"));
+  } catch (error) {
+    void vscode.window.showErrorMessage("SGC marcas: la propuesta no es JSON.");
+    return;
+  }
+  const resultado = await descubrir(root, propuesta, async (evaluada) => {
+    const eleccion = await vscode.window.showWarningMessage(
+      "SGC marcas: " +
+        evaluada.aceptadas.length +
+        " propuestas con ancla. " +
+        evaluada.rechazadas.length +
+        " rechazadas. ¿Guardar las aceptadas como hipótesis?",
+      { modal: true },
+      "Guardar"
+    );
+    return eleccion === "Guardar";
+  });
+  if (resultado.guardado) {
+    void vscode.window.showInformationMessage(
+      "SGC marcas: se guardaron " + resultado.escritas + " hipótesis."
+    );
+    return;
+  }
+  if (resultado.cancelado) {
+    return;
+  }
+  void vscode.window.showWarningMessage(
+    "SGC marcas: ninguna propuesta tenía ancla verificable. No se escribió nada."
   );
 }
 

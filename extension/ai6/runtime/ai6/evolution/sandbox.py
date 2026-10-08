@@ -58,11 +58,9 @@ class EvolutionSandbox:
 
     def _matrix_path_production(self, profile: str) -> Path:
         artifacts = self.sgc_root / "ai6" / "artifacts"
-        if profile == "generic":
-            p = artifacts / "homologation_matrix_generic.yaml"
-            if p.exists():
-                return p
-        return artifacts / "homologation_matrix.yaml"
+        if profile == "enterprise_erp":
+            return artifacts / "homologation_matrix.yaml"
+        return artifacts / f"homologation_matrix_{profile}.yaml"
 
     def _tests_dir(self) -> Path:
         return Path(__file__).resolve().parents[2] / "tests"
@@ -79,7 +77,9 @@ class EvolutionSandbox:
         errors = validate_mutation_spec(spec)
         if errors:
             raise ValueError("; ".join(errors))
-        profile = spec.get("profile", "enterprise_erp")
+        profile = spec.get("profile")
+        if not isinstance(profile, str) or not profile.strip():
+            raise ValueError("Falta el perfil. No hay valor por defecto.")
         mid = f"mut-{uuid4().hex[:12]}"
         record = MutationRecord(
             id=mid,
@@ -159,10 +159,12 @@ class EvolutionSandbox:
     def integrate(self, mutation_id: str) -> bool:
         from ai6.evolution.certification import SeedCertifier
 
-        SeedCertifier(self.sgc_root, self.workspace).assert_ready_for_promote()
-
         rec_path = self.pending_dir / f"{mutation_id}.json"
         rec = json.loads(rec_path.read_text(encoding="utf-8"))
+        profile = rec.get("profile")
+        if not isinstance(profile, str) or not profile.strip():
+            raise RuntimeError("Falta el perfil. No hay valor por defecto.")
+        SeedCertifier(self.sgc_root, self.workspace).assert_ready_for_promote(profile)
         if rec.get("status") != "validated":
             raise RuntimeError("Mutacion no validada — ejecutar validate primero")
 

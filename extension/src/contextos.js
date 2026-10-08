@@ -49,9 +49,8 @@ const ASIGNACION = [
   { archivo: /^04_INFORME/i, titulo: /Arquitectura real/i, capa: "03_TECNICO", pieza: "arquitectura" },
   { archivo: /^03_RUTAS/i, titulo: /Rutas de persistencia|enrutamiento/i, capa: "03_TECNICO", pieza: "arquitectura" },
   { archivo: /^02_RELACIONES/i, titulo: /Relaciones expl[ií]citas/i, capa: "03_TECNICO", pieza: "patron" },
-  { archivo: /^00_MAPA/i, titulo: /API intermedia|Controllers/i, capa: "03_TECNICO", pieza: "api" },
-  { archivo: /^03_RUTAS/i, titulo: /enviar\.php|api_dexcom|Par[aá]metros POST/i, capa: "03_TECNICO", pieza: "api" },
-  { archivo: /^00_MAPA/i, titulo: /Capa DBA|Tablas candidatas/i, capa: "03_TECNICO", pieza: "bd" },
+  { archivo: /^03_RUTAS/i, titulo: /Par[aá]metros POST/i, capa: "03_TECNICO", pieza: "api" },
+  { archivo: /^00_MAPA/i, titulo: /Tablas candidatas/i, capa: "03_TECNICO", pieza: "bd" },
   { archivo: /^02_RELACIONES/i, titulo: /^[0-9]+\.\s+Tablas/i, capa: "03_TECNICO", pieza: "bd" },
   { archivo: /^04_INFORME/i, titulo: /seguridad/i, capa: "03_TECNICO", pieza: "seguridad" },
   { archivo: /^00_MAPA/i, titulo: /Identificaci[oó]n/i, capa: "03_TECNICO", pieza: "modulos" },
@@ -286,11 +285,7 @@ function armarCodigo(root, citados) {
   if (!hayEjemplo) {
     ejemplos.push("Falta contexto en código / ejemplos. Los archivos leídos no traen un bloque de ejemplo.", "No se rellena.", "");
   }
-  const endpoints = [
-    "Los archivos leídos no definen cases de `enviar.php` ni llamadas `api_dexcom`.",
-    "La investigación lo dice en `03_RUTAS`: no hay `enviar.php` en esta carpeta.",
-    "",
-  ];
+  const endpoints = ["Los archivos leídos no nombran un endpoint.", ""];
   return {
     modulos: modulos.join("\n"),
     clases: clases.join("\n"),
@@ -427,7 +422,7 @@ function rol() {
     "",
     "Contrato de creación de código. No es un hallazgo de la investigación.",
     "",
-    "El agente trabaja dentro de la realidad documentada de este workspace y del SGC OSPOST. La fuente de verdad es el conocimiento registrado y el código leído, no el conocimiento general.",
+    "El agente trabaja dentro de la realidad documentada de este workspace. La fuente de verdad es el conocimiento confirmado aquí y el código leído, no un dominio de fábrica.",
     "",
     "## Principio",
     "",
@@ -464,17 +459,11 @@ function rol() {
     "Señala riesgos e inconsistencias. Si la premisa es incorrecta, corrígela con el archivo.",
     "No digas que funciona sin haberlo probado. Di qué no pudiste probar.",
     "",
-    "## Capas",
+    "## Ontología",
     "",
-    "Léelas en este orden, primero `00_PRINCIPAL.md` y después las piezas. El índice es `contextos/_index.md`.",
-    "",
-    "1. NEGOCIO: `01_NEGOCIO/` — procesos, actores, reglas, objetivos, restricciones.",
-    "2. FUNCIONAL: `02_FUNCIONAL/` — requisitos, flujos, mockups, kpis, criterios de aceptación.",
-    "3. TÉCNICO: `03_TECNICO/` — arquitectura, patrón, api, bd, seguridad, módulos, convenciones.",
-    "4. DOCUMENTAL: `04_DOCUMENTAL/` — manuales, normativas, estándares, referencias.",
-    "5. CÓDIGO EXISTENTE: `05_CODIGO/` — módulos, clases, dependencias, endpoints, ejemplos. Se lee del repositorio, no de memoria.",
-    "",
-    "[DEL SGC] Esas carpetas las escribe el generador desde la investigación que ya tiene `04_INFORME*.md`.",
+    "No hay capas de fábrica. `contextos/ontologia.md` empieza vacío.",
+    "Lo que observes se anota como hipótesis con ancla: archivo, simbolo, hash, y tipo y relacion como etiquetas libres.",
+    "El código comprueba que el archivo exista y que el hash coincida. La confirmación es del usuario.",
     "",
     "## Uso del SGC",
     "",
@@ -563,19 +552,20 @@ function rol() {
     "",
     "## Conmutación de fichas",
     "",
-    "HECHO-20261007-001 versión 1, si ese registro existe y sigue vigente. Proceso de ciclo de vida: ISO/IEC/IEEE 12207:2026. Requisito y su trazabilidad: ISO/IEC/IEEE 29148:2018. Si no es ninguna de las dos cosas, no fuerces la ficha. No afirmes conformidad si el cuerpo de la norma no se leyó.",
+    "Una norma se cita solo si este proyecto la registró. La semilla no elige la norma.",
     "",
   ].join("\n");
 }
 
 function materializarContextos(root) {
-  const packs = buscarInvestigaciones(path.join(root, "docion_nueva")).map((dir) => materializarUna(root, dir));
   const creados = [];
-  for (const pack of packs) {
-    creados.push(...pack.creados);
-  }
   escribirSiFalta(path.join(root, "contextos", "00_ROL.md"), rol(), creados, "contextos/00_ROL.md");
-  escribirSiFalta(path.join(root, "contextos", "_index.md"), indice(packs), creados, "contextos/_index.md");
+  escribirSiFalta(
+    path.join(root, "contextos", "_index.md"),
+    "# Contextos\n\nOntología, protegidos, perfil, evidencias y decaimiento empiezan vacíos. No hay capas de fábrica.\n",
+    creados,
+    "contextos/_index.md"
+  );
   return creados;
 }
 

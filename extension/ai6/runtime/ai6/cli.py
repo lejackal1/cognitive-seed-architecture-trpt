@@ -68,7 +68,7 @@ def main(argv: list[str] | None = None) -> int:
     c_pipe.add_argument("--text", required=True)
     c_pipe.add_argument("--workspace", default=".")
     c_pipe.add_argument("--sgc", default=None)
-    c_pipe.add_argument("--profile", default="enterprise_erp")
+    c_pipe.add_argument("--profile", default=None)
     c_pipe.add_argument("--dry-run", action="store_true")
     c_pipe.add_argument("--llm", action="store_true", help="LLM solo en researcher (ContextPacket)")
     c_pipe.add_argument(
@@ -83,7 +83,7 @@ def main(argv: list[str] | None = None) -> int:
     c_worker = sub.add_parser("worker", help="Procesar cola DOC_NEW (trigger_queue)")
     c_worker.add_argument("--workspace", default=".")
     c_worker.add_argument("--sgc", default=None)
-    c_worker.add_argument("--profile", default="enterprise_erp")
+    c_worker.add_argument("--profile", default=None)
     c_worker.add_argument("--llm", action="store_true")
     c_worker.add_argument("--llm-provider", default=None, choices=["mock", "openai", "none"])
     c_worker.add_argument("--once", action="store_true", help="Un lote y salir")
@@ -95,7 +95,7 @@ def main(argv: list[str] | None = None) -> int:
     c_watch = sub.add_parser("watch", help="Watcher + worker integrados")
     c_watch.add_argument("--workspace", default=".")
     c_watch.add_argument("--sgc", default=None)
-    c_watch.add_argument("--profile", default="enterprise_erp")
+    c_watch.add_argument("--profile", default=None)
     c_watch.add_argument("--llm", action="store_true")
     c_watch.add_argument("--llm-provider", default=None, choices=["mock", "openai", "none"])
     c_watch.add_argument("--interval", type=float, default=2.0)
@@ -139,7 +139,7 @@ def main(argv: list[str] | None = None) -> int:
     ev_prop.add_argument("--workspace", default=".")
     ev_prop.add_argument("--sgc", default=None)
     ev_prop.add_argument("--type", required=True, choices=["threshold", "lemma", "exclusion"])
-    ev_prop.add_argument("--profile", default="enterprise_erp")
+    ev_prop.add_argument("--profile", default=None)
     ev_prop.add_argument("--intent", default=None, help="Para type=lemma")
     ev_prop.add_argument("--value", required=True)
 
@@ -296,6 +296,23 @@ def main(argv: list[str] | None = None) -> int:
 
     args = p.parse_args(argv)
 
+    if getattr(args, "cmd", None) in ("pipeline", "worker", "watch") and not getattr(args, "profile", None):
+        print(
+            "Falta --profile. El perfil sale del proyecto o se pregunta. No hay valor por defecto.",
+            file=sys.stderr,
+        )
+        return 2
+    if (
+        getattr(args, "cmd", None) == "evolve"
+        and getattr(args, "evolve_cmd", None) == "propose"
+        and not getattr(args, "profile", None)
+    ):
+        print(
+            "Falta --profile. El perfil sale del proyecto o se pregunta. No hay valor por defecto.",
+            file=sys.stderr,
+        )
+        return 2
+
     if args.cmd == "compile":
         source = Path(args.source).read_text(encoding="utf-8")
         policy = CognitiveSecurityPolicy()
@@ -381,8 +398,11 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if ast.execution_state.value == "completed" else 1
 
     if args.cmd == "pipeline":
+        if not args.profile:
+            print("Falta el perfil. No hay valor por defecto.", file=sys.stderr)
+            return 2
         ws = Path(args.workspace)
-        sgc = Path(args.sgc) if args.sgc else Path(__file__).resolve().parents[2].parent.parent
+        sgc = Path(args.sgc) if args.sgc else ws
         llm_cfg = _llm_config_from_args(args)
         runner = PipelineRunner(
             ws,
@@ -823,9 +843,9 @@ def main(argv: list[str] | None = None) -> int:
                 data = yaml.safe_load(golden_file.read_text(encoding="utf-8"))
                 if data.get("requires_embeddings") and not args.embeddings:
                     continue
-                prof = data.get("profile") or (
-                    "generic" if "generic" in golden_file.name else "enterprise_erp"
-                )
+                prof = data.get("profile")
+                if not isinstance(prof, str) or not prof.strip():
+                    continue
                 use_emb = args.embeddings or data.get("requires_embeddings")
                 engine = HomologationEngine(profile=prof, use_embeddings=use_emb)
                 for case in data.get("cases", []):

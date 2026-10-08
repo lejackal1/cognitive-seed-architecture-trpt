@@ -2,7 +2,7 @@
   "name": "semilla",
   "displayName": "SGC OSPOST",
   "description": "Semilla cognitiva OSPOST. Escribe en la carpeta de trabajo abierta.",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "publisher": "sgc-ospost",
   "license": "SEE LICENSE IN LICENSE",
   "homepage": "https://github.com/lejackal1/cognitive-seed-architecture-trpt",
@@ -20,6 +20,9 @@
     "onStartupFinished"
   ],
   "main": "./src/extension.js",
+  "scripts": {
+    "test": "node --test test/marcas.test.js test/comandos.test.js test/mcp.test.js test/revision.test.js test/agnostico.test.js"
+  },
   "icon": "media/icon.png",
   "contributes": {
     "chatInstructions": [
@@ -39,6 +42,22 @@
       {
         "command": "sgc.orquestarM4",
         "title": "SGC: Orquestar M4"
+      },
+      {
+        "command": "sgc.verificarGrafo",
+        "title": "SGC: Verificar grafo"
+      },
+      {
+        "command": "sgc.verificarCitas",
+        "title": "SGC: Verificar citas"
+      },
+      {
+        "command": "sgc.descubrirOntologia",
+        "title": "SGC: Descubrir ontología"
+      },
+      {
+        "command": "sgc.revisarPerimetro",
+        "title": "SGC: Revisar perímetro"
       }
     ],
     "configuration": {

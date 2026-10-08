@@ -1,3 +1,4 @@
+test/**
 scripts/empaquetar.ps1
 scripts/verificar-reglas.ps1
 _staging_cursor_rules/**
@@ -6,3 +7,5 @@ node_modules/**
 **/*.map
 **/.git/**
 **/__pycache__/**
+biblioteca/**
+!biblioteca/SEMILLA.md

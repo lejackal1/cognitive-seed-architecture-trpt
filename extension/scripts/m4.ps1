@@ -12,16 +12,15 @@ if (-not $Workspace) {
 }
 $Workspace = (Resolve-Path -LiteralPath $Workspace).Path
 
-function Tiene-Agente([string]$Root) {
-    Test-Path -LiteralPath (Join-Path $Root "00_agent_principal_ospost.md")
-}
-
 $sgc = $Workspace
-if (-not (Tiene-Agente $sgc)) {
-    $sgc = Join-Path $extensionRoot "biblioteca"
+$perfilArchivo = Join-Path $Workspace "contextos\perfil.md"
+$profile = ""
+if (Test-Path -LiteralPath $perfilArchivo) {
+    $linea = Select-String -LiteralPath $perfilArchivo -Pattern '^perfil:\s*(\S+)' | Select-Object -First 1
+    if ($linea) { $profile = $linea.Matches[0].Groups[1].Value }
 }
-if (-not (Tiene-Agente $sgc)) {
-    throw "No hay --sgc. Hace falta 00_agent_principal_ospost.md en el workspace o en la biblioteca de la extensión."
+if (-not $profile) {
+    throw "Falta el perfil. Escríbelo en contextos/perfil.md como 'perfil: <nombre>', o pásalo al orquestar. No hay valor por defecto."
 }
 
 $embebido = Join-Path $extensionRoot "ai6\runtime"
@@ -46,7 +45,7 @@ $cli = @(
     "--text", $Text,
     "--workspace", $Workspace,
     "--sgc", $sgc,
-    "--profile", "enterprise_erp"
+    "--profile", $profile
 )
 if ($DryRun) { $cli += "--dry-run" }
 

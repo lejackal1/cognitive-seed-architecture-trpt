@@ -3,11 +3,17 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-# Capas TPRT perfil enterprise_erp (orden canónico)
+# Capas del perfil enterprise_erp. No son la cadena de los demás perfiles.
 TPRT_LAYERS_ERP = ("view", "js", "controller", "api", "dba", "bd")
 
 VALID_LAYERS = set(TPRT_LAYERS_ERP) | {"document", "other"}
 VALID_STATUS = {"CONFIRMED", "PARTIAL", "UNCONFIRMED"}
+
+
+def capas_aceptadas(profile: str) -> set[str] | None:
+    if profile == "enterprise_erp":
+        return VALID_LAYERS
+    return None
 
 
 @dataclass
@@ -101,10 +107,11 @@ def evaluate_research_evidence(
         layer = str(item.get("layer", "")).lower()
         uri = str(item.get("uri", "")).strip()
         status = str(item.get("status", "UNCONFIRMED")).upper()
+        aceptadas = capas_aceptadas(profile)
 
         ok_item = True
         reasons: list[str] = []
-        if layer not in VALID_LAYERS:
+        if not layer or (aceptadas is not None and layer not in aceptadas):
             ok_item = False
             reasons.append(f"layer_invalid:{layer}")
         if not uri:
@@ -147,7 +154,11 @@ def evaluate_research_evidence(
         "partial": float(partial),
         "unconfirmed": float(unconfirmed),
         "process_count": float(len(processes)),
-        "layer_coverage": len(layers_seen) / max(len(TPRT_LAYERS_ERP), 1),
+        "layer_coverage": (
+            len(layers_seen) / max(len(TPRT_LAYERS_ERP), 1)
+            if profile == "enterprise_erp"
+            else (1.0 if layers_seen else 0.0)
+        ),
     }
 
     # --- Umbrales ---

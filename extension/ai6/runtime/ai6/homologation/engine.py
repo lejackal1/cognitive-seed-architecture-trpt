@@ -45,12 +45,17 @@ def _load_seed_threshold() -> float:
 def _resolve_matrix_path(profile: str | None, matrix_path: Path | None) -> Path:
     if matrix_path is not None:
         return matrix_path
+    if not profile:
+        raise ValueError("Falta el perfil. No hay matriz por defecto.")
     artifacts = Path(__file__).resolve().parents[3] / "artifacts"
-    if profile and profile not in ("enterprise_erp",):
-        specific = artifacts / f"homologation_matrix_{profile}.yaml"
-        if specific.exists():
-            return specific
-    return artifacts / "homologation_matrix.yaml"
+    specific = artifacts / f"homologation_matrix_{profile}.yaml"
+    if specific.exists():
+        return specific
+    if profile == "enterprise_erp":
+        named = artifacts / "homologation_matrix.yaml"
+        if named.exists():
+            return named
+    raise FileNotFoundError(f"No hay matriz para el perfil {profile}.")
 
 
 class HomologationEngine:

@@ -36,10 +36,6 @@ class Kernel:
     ):
         self.workspace = Path(workspace)
         self.sgc_root = Path(sgc_root) if sgc_root else self.workspace
-        if not (self.sgc_root / "00_agent_principal_ospost.md").exists():
-            alt = self.workspace.parent / ".SGC"
-            if (alt / "00_agent_principal_ospost.md").exists():
-                self.sgc_root = alt
 
         self.bus = EventBus()
         self.profile = ProfileLoader().load(profile_name)
