@@ -11,7 +11,7 @@ La entrega operable está en [`extension/`](extension/README.md).
 *   **Entidad:** OSPOST S.A.S.
 *   **Año:** 2026
 *   **Ubicación:** Bogotá, Colombia
-
+La ficha del paquete explica el uso y deja el aporte por Bre-B en la llave @reyes4977. El programa funciona igual si no aportas.
 ---
 
 ##  Resumen del Concepto
