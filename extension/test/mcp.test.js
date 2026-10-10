@@ -105,5 +105,16 @@ describe("mcp marcas", () => {
     assert.equal(mensajes.length, 1);
     assert.equal(mensajes[0].id, 7);
     assert.deepEqual(mensajes[0].result, {});
+    assert.equal(lector.marco(), "contenido");
+    const lectorLinea = crearLector();
+    const crudo = JSON.stringify({ jsonrpc: "2.0", id: 9, method: "ping" });
+    assert.deepEqual(lectorLinea(Buffer.from(crudo.slice(0, 8))), []);
+    const porLinea = lectorLinea(Buffer.from(crudo.slice(8) + "\n"));
+    assert.equal(porLinea.length, 1);
+    assert.equal(porLinea[0].id, 9);
+    assert.equal(lectorLinea.marco(), "linea");
+    const { codificarLinea } = require("../src/marcas/mcp");
+    assert.equal(codificarLinea(ida).toString("utf8").endsWith("\n"), true);
+    assert.equal(codificarLinea(ida).toString("utf8").includes("Content-Length"), false);
   });
 });

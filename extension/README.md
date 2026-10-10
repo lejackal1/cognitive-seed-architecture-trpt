@@ -4,13 +4,19 @@ Una semilla de trabajo para investigar, documentar y construir con rastro. Escri
 
 **Autor:** Daniel Alberto Reyes Ramirez — OSPOST S.A.S.  
 **Identificador:** `sgc-ospost.semilla`  
-**Versión:** 0.1.8
+**Versión:** 0.1.9
 
 ## Qué es
 
 Sirve para que el agente del editor no invente el proyecto. Antes de programar tiene que leer lo que el propio proyecto ya investigó, y dejar escrito lo que falta.
 
 El instalador trae el método. El conocimiento de cada proyecto se crea en esa carpeta, no dentro de la extensión.
+
+## Qué trae la 0.1.9
+
+En Visual Studio Code el canal contesta en el formato que ese editor lee, una línea JSON. Antes la respuesta no llegaba y la semilla se quedaba esperando. En Cursor se mantiene el formato que ya funcionaba.
+
+En Visual Studio Code el proceso del canal es Node, si está en el PATH. Así no se abre otra ventana del editor.
 
 ## Qué trae la 0.1.8
 
@@ -33,7 +39,7 @@ La 0.1.6 creaba contextos a partir de un informe de investigación y pedía leer
 
 ## Cómo se instala
 
-En VS Code, Cursor u otro editor que acepte este VSIX, instala el archivo `semilla-0.1.8.vsix`.
+En VS Code, Cursor u otro editor que acepte este VSIX, instala el archivo `semilla-0.1.9.vsix`.
 
 En Cursor, además, copia las reglas al proyecto:
 

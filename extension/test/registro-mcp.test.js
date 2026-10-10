@@ -58,8 +58,9 @@ describe("registro del canal de marcas", () => {
     const total = registrarMcp(vscode, context, {
       script: "mcp.js",
       execPath: "electron",
+      comandoVisual: () => "node",
       raices: () => ["C:/proyecto"],
-      version: "0.1.8",
+      version: "0.1.9",
     });
     assert.ok(total > 0);
     const cursor = vscode.llamadas.find((fila) => fila[0] === "cursor");
@@ -70,7 +71,7 @@ describe("registro del canal de marcas", () => {
     const servidores = await visual[2].provideMcpServerDefinitions();
     assert.equal(servidores.length, 1);
     assert.equal(servidores[0].opciones.label, "sgc-marcas");
-    assert.equal(servidores[0].opciones.command, "electron");
+    assert.equal(servidores[0].opciones.command, "node");
     const resuelto = await visual[2].resolveMcpServerDefinition(servidores[0]);
     assert.equal(resuelto, servidores[0]);
   });
@@ -88,7 +89,7 @@ describe("registro del canal de marcas", () => {
       command: "node",
       args: ["mcp.js"],
       env: { SGC_WORKSPACE: "raiz" },
-      version: "0.1.8",
+      version: "0.1.9",
     });
     assert.equal(hecho.command, "node");
     assert.equal(hecho.env.SGC_WORKSPACE, "raiz");

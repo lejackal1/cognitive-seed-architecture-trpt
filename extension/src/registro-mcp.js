@@ -1,5 +1,7 @@
 "use strict";
 
+const { spawnSync } = require("child_process");
+
 const NOMBRE = "sgc-marcas";
 const PROVEEDOR = "sgc-marcas";
 
@@ -8,6 +10,38 @@ function entornoMarcas(root) {
     ELECTRON_RUN_AS_NODE: "1",
     SGC_WORKSPACE: root,
   };
+}
+
+function buscarNode() {
+  if (buscarNode.cache !== undefined) {
+    return buscarNode.cache;
+  }
+  const where = process.platform === "win32" ? "where.exe" : "which";
+  let hallado = "";
+  try {
+    const resultado = spawnSync(where, ["node"], {
+      encoding: "utf8",
+      timeout: 2000,
+      windowsHide: true,
+    });
+    if (resultado.status === 0) {
+      hallado = String(resultado.stdout || "")
+        .split(/\r?\n/)
+        .map((linea) => linea.trim())
+        .find(Boolean) || "";
+    }
+  } catch (error) {
+    hallado = "";
+  }
+  buscarNode.cache = hallado;
+  return hallado;
+}
+
+function comandoVisual(opciones) {
+  if (typeof opciones.comandoVisual === "function") {
+    return opciones.comandoVisual() || "";
+  }
+  return buscarNode() || opciones.execPath;
 }
 
 function definicionStdio(Clase, opciones) {
@@ -69,9 +103,13 @@ function registrarMcp(vscode, context, opciones) {
           if (!root) {
             return [];
           }
+          const comando = comandoVisual(opciones);
+          if (!comando) {
+            return [];
+          }
           const definicion = definicionStdio(vscode.McpStdioServerDefinition, {
             label: NOMBRE,
-            command: execPath,
+            command: comando,
             args: [script],
             env: entornoMarcas(root),
             version: opciones.version,
@@ -89,4 +127,4 @@ function registrarMcp(vscode, context, opciones) {
   return suscripciones.length;
 }
 
-module.exports = { registrarMcp, definicionStdio, entornoMarcas, NOMBRE, PROVEEDOR };
+module.exports = { registrarMcp, definicionStdio, entornoMarcas, buscarNode, comandoVisual, NOMBRE, PROVEEDOR };

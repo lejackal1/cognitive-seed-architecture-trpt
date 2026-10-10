@@ -3,7 +3,7 @@
 
 La entrega operable está en [`extension/`](extension/README.md).
 
-**Versión de la extensión:** 0.1.8. Al activarse registra el canal de marcas en Cursor y en Visual Studio Code. El detalle de uso está en [`extension/README.md`](extension/README.md).
+**Versión de la extensión:** 0.1.9. En Visual Studio Code el canal de marcas responde en el formato de ese editor y arranca con Node. El detalle de uso está en [`extension/README.md`](extension/README.md).
 **Paradigma de Autoconstrucción de Software basado en Arquitecturas Cognitivas Híbridas**
 
 ##  Autoría

@@ -225,7 +225,7 @@ function responder(mensaje, root) {
       result: {
         protocolVersion: typeof pedida === "string" && pedida ? pedida : PROTOCOLO_RESPALDO,
         capabilities: { tools: { listChanged: false } },
-        serverInfo: { name: NOMBRE, version: "0.1.8" },
+        serverInfo: { name: NOMBRE, version: "0.1.9" },
       },
     };
   }
@@ -259,43 +259,71 @@ function codificar(mensaje) {
   return Buffer.concat([cabecera, cuerpo]);
 }
 
+function codificarLinea(mensaje) {
+  return Buffer.from(JSON.stringify(mensaje) + "\n", "utf8");
+}
+
+function empiezaPorCabecera(buffer) {
+  const muestra = buffer.slice(0, Math.min(buffer.length, 20)).toString("ascii");
+  return /^Content-Length:/i.test(muestra);
+}
+
 function crearLector() {
   let buffer = Buffer.alloc(0);
-  return function recibir(chunk) {
+  let marco = "contenido";
+  function recibir(chunk) {
     buffer = Buffer.concat([buffer, Buffer.from(chunk)]);
     const mensajes = [];
     while (buffer.length > 0) {
-      const sep = buffer.indexOf("\r\n\r\n");
-      if (sep === -1) {
-        break;
-      }
-      const cabecera = buffer.slice(0, sep).toString("ascii");
-      const marca = /Content-Length:\s*(\d+)/i.exec(cabecera);
-      if (!marca) {
-        buffer = buffer.slice(sep + 4);
+      if (empiezaPorCabecera(buffer)) {
+        const sep = buffer.indexOf("\r\n\r\n");
+        if (sep === -1) {
+          break;
+        }
+        const cabecera = buffer.slice(0, sep).toString("ascii");
+        const marca = /Content-Length:\s*(\d+)/i.exec(cabecera);
+        if (!marca) {
+          buffer = buffer.slice(sep + 4);
+          continue;
+        }
+        const longitud = Number(marca[1]);
+        const inicio = sep + 4;
+        if (buffer.length < inicio + longitud) {
+          break;
+        }
+        const cuerpo = buffer.slice(inicio, inicio + longitud).toString("utf8");
+        buffer = buffer.slice(inicio + longitud);
+        marco = "contenido";
+        mensajes.push(JSON.parse(cuerpo));
         continue;
       }
-      const longitud = Number(marca[1]);
-      const inicio = sep + 4;
-      if (buffer.length < inicio + longitud) {
+      const corte = buffer.indexOf("\n");
+      if (corte === -1) {
         break;
       }
-      const cuerpo = buffer.slice(inicio, inicio + longitud).toString("utf8");
-      buffer = buffer.slice(inicio + longitud);
-      mensajes.push(JSON.parse(cuerpo));
+      const linea = buffer.slice(0, corte).toString("utf8").replace(/\r$/, "").trim();
+      buffer = buffer.slice(corte + 1);
+      if (!linea) {
+        continue;
+      }
+      marco = "linea";
+      mensajes.push(JSON.parse(linea));
     }
     return mensajes;
-  };
+  }
+  recibir.marco = () => marco;
+  return recibir;
 }
 
 function escuchar(entrada, salida, root) {
   const leer = crearLector();
   entrada.on("data", (chunk) => {
     const mensajes = leer(chunk);
+    const escribir = leer.marco() === "linea" ? codificarLinea : codificar;
     for (const mensaje of mensajes) {
       const respuesta = responder(mensaje, root);
       if (respuesta) {
-        salida.write(codificar(respuesta));
+        salida.write(escribir(respuesta));
       }
     }
   });
@@ -305,4 +333,4 @@ if (require.main === module) {
   escuchar(process.stdin, process.stdout, process.env.SGC_WORKSPACE || "");
 }
 
-module.exports = { responder, codificar, crearLector, llamar, HERRAMIENTAS, NOMBRE };
+module.exports = { responder, codificar, codificarLinea, crearLector, llamar, HERRAMIENTAS, NOMBRE };
