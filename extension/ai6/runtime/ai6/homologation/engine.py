@@ -13,6 +13,12 @@ from ai6.ast.nodes import IntentSource
 from ai6.dsl.parser import Parser
 from ai6.homologation.embeddings import IntentEmbeddingIndex, embeddings_enabled
 
+# Va en el registro junto a `confidence`. No es una medición de acierto.
+LEGENDA_CONFIANZA = (
+    "Puntaje de lemas. Si un lema coincide como palabra completa, el motor fija 0.82. "
+    "Hipótesis sin medición."
+)
+
 
 @dataclass
 class HomologationResult:
@@ -129,7 +135,7 @@ class HomologationEngine:
         best = 0.0
         for lemma in lemmas:
             if re.search(r"\b" + re.escape(lemma) + r"\b", text):
-                # Coincidencia por palabra completa → confianza alta
+                # Coincidencia por palabra completa. 0.82 es un valor fijo, no una medición.
                 best = max(best, 0.82)
             elif lemma in text:
                 best = max(best, 0.55)

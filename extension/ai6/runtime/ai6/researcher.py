@@ -4,12 +4,13 @@ import json
 from pathlib import Path
 from typing import Any
 
-from ai6.agents.handlers import CHECKLIST, SGC_AGENT_MAP
+from ai6.agents.handlers import CHECKLIST
 from ai6.agents.registry import AgentHandler
 from ai6.kernel.artifacts import ArtifactStore
 from ai6.llm.adapter import LLMConfig, create_adapter, extract_evidence_json
 from ai6.llm.context_packet import build_context_packet
 from ai6.llm.prompts import RESEARCHER_SYSTEM, build_researcher_user_prompt
+from ai6.proyecto import documentos_de_proyecto, materializar_contextos, texto_de_proyecto
 
 
 class ResearcherAgentHandler(AgentHandler):
@@ -37,24 +38,29 @@ class ResearcherAgentHandler(AgentHandler):
             return {"ok": False, "error": reason, "role": self.role}
 
         packet = build_context_packet(ctx, self.role)
-        spec_path = self.sgc_root / SGC_AGENT_MAP["researcher"]
-        spec_content = ""
-        if spec_path.exists():
-            spec_content = spec_path.read_text(encoding="utf-8")[:16000]
-
         workspace = Path(ctx.get("workspace", "."))
         run_dir = artifacts.run_dir
         correlation = ctx.get("program", {}).get("correlation_id", "run")
-        module_slug = (packet.module or "modulo").replace(" ", "_")[:40]
+        module_slug = (packet.module or "proyecto").replace(" ", "_")[:40]
         out_md = workspace / "docion_nueva" / f"AI6_RESEARCH_{module_slug}_{correlation[:8]}.md"
         out_md.parent.mkdir(parents=True, exist_ok=True)
 
+        piezas = documentos_de_proyecto(workspace)
+        corpus = texto_de_proyecto(workspace)
         evidence_data: dict[str, Any] | None = None
         llm_used = False
 
-        if self.use_llm:
+        if not piezas:
+            out_md.write_text(
+                "# Investigación\n\n"
+                "No hay documentación del proyecto fuera del método.\n\n"
+                "El SGC no es el tema. No se investigó la semilla ni la extensión.\n",
+                encoding="utf-8",
+            )
+            evidence_data = {"evidence": [], "processes": [], "tema": "proyecto", "corpus": "vacio"}
+        elif self.use_llm:
             adapter = create_adapter(self.llm_config)
-            user_prompt = build_researcher_user_prompt(packet, spec_content)
+            user_prompt = build_researcher_user_prompt(packet, corpus)
             try:
                 output = adapter.complete(RESEARCHER_SYSTEM, user_prompt, packet)
                 llm_used = True
@@ -69,9 +75,25 @@ class ResearcherAgentHandler(AgentHandler):
             out_md.write_text(output, encoding="utf-8")
         else:
             out_md.write_text(
-                f"# Investigacion pendiente LLM\n\nModulo: {packet.module}\n\n{packet.goal_fragment}\n",
+                "# Investigación del proyecto\n\n"
+                "El SGC no es el tema. Fuente: documentación del proyecto.\n\n"
+                + corpus
+                + "\n",
                 encoding="utf-8",
             )
+            evidence_data = {
+                "evidence": [
+                    {
+                        "layer": "document",
+                        "uri": pieza["ruta"],
+                        "symbol": "documento",
+                        "status": "UNCONFIRMED",
+                    }
+                    for pieza in piezas
+                ],
+                "processes": ["documentacion_de_proyecto"],
+                "tema": "proyecto",
+            }
 
         artifacts.add_file(out_md, self.role)
         artifacts.mark(
@@ -88,12 +110,13 @@ class ResearcherAgentHandler(AgentHandler):
             json.dumps(evidence_data or {"evidence": [], "processes": []}, indent=2),
             encoding="utf-8",
         )
+        materializar_contextos(workspace)
 
         return {
             "ok": True,
             "role": self.role,
             "checklist": CHECKLIST["researcher"],
-            "spec": str(spec_path) if spec_path.exists() else None,
+            "tema": "proyecto",
             "llm_used": llm_used,
             "llm_provider": self.llm_config.provider if llm_used else None,
             "artifact_path": str(out_md),

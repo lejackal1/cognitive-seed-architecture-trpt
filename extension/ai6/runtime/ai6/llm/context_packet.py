@@ -46,9 +46,9 @@ def build_context_packet(ctx: dict[str, Any], role: str) -> ContextPacket:
         or program.get("intent_slots", {}).get("module")
     )
 
-    invariants = ["no_invention", "tprt_6_layer", "evidence_required"]
+    invariants = ["no_invention", "evidence_required", "tema_es_el_proyecto"]
     if program.get("profile") == "enterprise_erp":
-        invariants.extend(["ERP-01", "cross_module_trace"])
+        invariants.extend(["tprt_6_layer", "ERP-01", "cross_module_trace"])
 
     return ContextPacket(
         task_id=ctx.get("task_inputs", {}).get("task_id", f"{role}.task"),

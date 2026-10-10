@@ -60,6 +60,59 @@ const ASIGNACION = [
   { archivo: /^04_INFORME/i, titulo: /Evidencia revisada|Brechas documentales/i, capa: "04_DOCUMENTAL", pieza: "referencias" },
 ];
 
+const CARPETAS_METODO = new Set([
+  "extension",
+  "ai6",
+  "reglas",
+  "instrucciones",
+  "biblioteca",
+  "_repo_publico",
+  "_PARA_ELIMINAR",
+  ".cursor",
+  "node_modules",
+  ".git",
+  "contextos",
+  "ledger_activacion",
+  "metricas",
+  "control_conocimiento",
+  ".ai6_runs",
+  ".ai6_evolution",
+  ".ai6_governance",
+]);
+
+function esMetodo(root, archivo) {
+  const rel = path.relative(root, archivo);
+  if (!rel || rel.startsWith("..") || path.isAbsolute(rel)) {
+    return true;
+  }
+  const partes = rel.split(path.sep);
+  if (CARPETAS_METODO.has(partes[0])) {
+    return true;
+  }
+    if (partes.length === 1 && /^(00_|01_|03_|04_|05_|06_|07_|08_|09_|10_|11_|12_|13_)/.test(partes[0])) {
+      return true;
+    }
+    if (partes.length === 1 && /^(AGENTS\.md|OSPOST[_-].+\.md)$/i.test(partes[0])) {
+      return true;
+    }
+  return false;
+}
+
+function escribirContexto(destino, body, creados, rel) {
+  fs.mkdirSync(path.dirname(destino), { recursive: true });
+  const nuevo = body.endsWith("\n") ? body : body + "\n";
+  if (!fs.existsSync(destino)) {
+    fs.writeFileSync(destino, nuevo, "utf8");
+    creados.push(rel.replace(/\\/g, "/"));
+    return;
+  }
+  const actual = fs.readFileSync(destino, "utf8");
+  if (actual.includes("No se rellena.") && !nuevo.includes("No se rellena.")) {
+    fs.writeFileSync(destino, nuevo, "utf8");
+    creados.push(rel.replace(/\\/g, "/"));
+  }
+}
+
 function escribirSiFalta(destino, body, creados, rel) {
   fs.mkdirSync(path.dirname(destino), { recursive: true });
   if (!fs.existsSync(destino)) {
@@ -84,6 +137,9 @@ function buscarInvestigaciones(base) {
   const pila = [base];
   while (pila.length > 0) {
     const dir = pila.pop();
+    if (dir !== base && esMetodo(base, dir)) {
+      continue;
+    }
     let entradas;
     try {
       entradas = fs.readdirSync(dir, { withFileTypes: true });
@@ -94,8 +150,12 @@ function buscarInvestigaciones(base) {
       halladas.push(dir);
     }
     for (const entrada of entradas) {
-      if (entrada.isDirectory()) {
-        pila.push(path.join(dir, entrada.name));
+      if (!entrada.isDirectory()) {
+        continue;
+      }
+      const hijo = path.join(dir, entrada.name);
+      if (!esMetodo(base, hijo)) {
+        pila.push(hijo);
       }
     }
   }
@@ -250,7 +310,7 @@ function leerCodigo(root, rel) {
 
 function armarCodigo(root, citados) {
   const leidos = citados.map((rel) => leerCodigo(root, rel));
-  const modulos = ["Archivos que la investigación nombra bajo `config/` o `scripts/`. Cada uno se abrió en el disco de este workspace.", ""];
+  const modulos = ["Archivos que el documento nombra y que están en el disco de este workspace.", ""];
   const clases = [];
   const dependencias = [];
   const ejemplos = [];
@@ -372,7 +432,7 @@ function materializarUna(root, dir) {
       const partes = piezas[clave];
       const cuerpo = partes.length > 0 ? ["# " + pieza, "", partes.join("\n")].join("\n") : piezaVacia(capa.titulo.toLowerCase(), pieza);
       const rel = "contextos/" + slug + "/" + capa.carpeta + "/" + pieza + ".md";
-      escribirSiFalta(path.join(base, capa.carpeta, pieza + ".md"), cuerpo, creados, rel);
+      escribirContexto(path.join(base, capa.carpeta, pieza + ".md"), cuerpo, creados, rel);
       let fuentes = partes.length > 0 ? fuentesDe(cuerpo) : [];
       let estado = partes.length > 0 ? "con fuente" : "falta";
       if (capa.carpeta === "05_CODIGO") {
@@ -386,7 +446,7 @@ function materializarUna(root, dir) {
       estados.push({ pieza, estado, fuentes });
     }
     const relPrincipal = "contextos/" + slug + "/" + capa.carpeta + "/00_PRINCIPAL.md";
-    escribirSiFalta(path.join(base, capa.carpeta, "00_PRINCIPAL.md"), principal(capa, estados), creados, relPrincipal);
+    escribirContexto(path.join(base, capa.carpeta, "00_PRINCIPAL.md"), principal(capa, estados), creados, relPrincipal);
     resumen.push(capa.carpeta);
   }
   return { relDir, slug, resumen, creados };
@@ -396,14 +456,15 @@ function indice(packs) {
   const lineas = [
     "# Contextos",
     "",
-    "Cada investigación con `04_INFORME*.md` genera cinco capas. En cada capa se lee primero `00_PRINCIPAL.md` y después sus piezas.",
-    "El texto sale de esa investigación. La capa de código abre los archivos que la investigación nombra. Si una pieza no está, no se rellena.",
+    "Cada documentación del usuario genera cinco capas: negocio, funcional, técnico, documental y código. En cada capa se lee primero `00_PRINCIPAL.md` y después sus piezas.",
+    "El texto se copia del documento del usuario. Si una pieza no tiene un título que la nombre, no se rellena. No se inventa.",
+    "El código solo se abre si el documento lo nombra y el archivo está en el disco.",
     "",
     "Orden: negocio → funcional → técnico → documental → código.",
     "",
   ];
   if (packs.length === 0) {
-    lineas.push("No hay investigación con informe. No se generaron capas.", "");
+    lineas.push("No hay documentación del usuario fuera del método. No se generaron capas.", "");
     return lineas.join("\n");
   }
   for (const pack of packs) {
@@ -557,15 +618,154 @@ function rol() {
   ].join("\n");
 }
 
+function normalizar(texto) {
+  return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
+function piezaDeTitulo(titulo) {
+  const n = normalizar(titulo);
+  for (const capa of CAPAS) {
+    for (const pieza of capa.piezas) {
+      const nombre = pieza.replace(/_/g, " ");
+      const marca = new RegExp("(^|[^a-z0-9])" + nombre.replace(/ /g, "\\s+") + "([^a-z0-9]|$)");
+      if (marca.test(n)) {
+        return capa.carpeta + "/" + pieza;
+      }
+    }
+  }
+  return "";
+}
+
+function documentosUsuario(root) {
+  const archivos = [];
+  const pila = [root];
+  while (pila.length > 0) {
+    const dir = pila.pop();
+    if (dir !== root && esMetodo(root, dir)) {
+      continue;
+    }
+    let entradas;
+    try {
+      entradas = fs.readdirSync(dir, { withFileTypes: true });
+    } catch (error) {
+      continue;
+    }
+    if (esInvestigacion(dir)) {
+      continue;
+    }
+    for (const entrada of entradas) {
+      const abs = path.join(dir, entrada.name);
+      if (entrada.isDirectory()) {
+        if (!esMetodo(root, abs)) {
+          pila.push(abs);
+        }
+        continue;
+      }
+      if (entrada.isFile() && entrada.name.toLowerCase().endsWith(".md") && !esMetodo(root, abs)) {
+        archivos.push(abs);
+      }
+    }
+  }
+  archivos.sort();
+  return archivos;
+}
+
+function rutasCitadas(root, archivos) {
+  const rutas = new Set();
+  const raiz = path.resolve(root);
+  for (const abs of archivos) {
+    const texto = fs.readFileSync(abs, "utf8");
+    const cita = /`([^`]+)`/g;
+    let hallada;
+    while ((hallada = cita.exec(texto))) {
+      const ruta = hallada[1].replace(/\\/g, "/");
+      if (ruta.includes("..") || !/\.(js|php|py)$/i.test(ruta)) {
+        continue;
+      }
+      const absoluto = path.resolve(root, ruta);
+      if (!absoluto.startsWith(raiz) || esMetodo(root, absoluto) || !fs.existsSync(absoluto)) {
+        continue;
+      }
+      rutas.add(ruta);
+    }
+  }
+  return [...rutas].sort();
+}
+
+function materializarDesdeDocumentos(root, archivos) {
+  const creados = [];
+  const slug = "documentacion_usuario";
+  const base = path.join(root, "contextos", slug);
+  const piezas = {};
+  for (const capa of CAPAS) {
+    for (const pieza of capa.piezas) {
+      piezas[capa.carpeta + "/" + pieza] = [];
+    }
+  }
+  for (const abs of archivos) {
+    const rel = path.relative(root, abs).replace(/\\/g, "/");
+    const texto = fs.readFileSync(abs, "utf8").replace(/^\uFEFF/, "");
+    piezas["04_DOCUMENTAL/manuales"].push(bloqueFuente(rel, "", texto.trimEnd()));
+    const baseNombre = path.basename(abs, path.extname(abs));
+    const porNombre = piezaDeTitulo(baseNombre);
+    if (porNombre && porNombre !== "04_DOCUMENTAL/manuales") {
+      piezas[porNombre].push(bloqueFuente(rel, baseNombre, texto.trimEnd()));
+    }
+    for (const bloque of secciones(texto)) {
+      const clave = piezaDeTitulo(bloque.titulo);
+      if (clave) {
+        piezas[clave].push(bloqueFuente(rel, bloque.titulo, bloque.texto));
+      }
+    }
+  }
+  const citados = rutasCitadas(root, archivos);
+  const codigo = armarCodigo(root, citados);
+  piezas["05_CODIGO/modulos"] = [codigo.modulos];
+  piezas["05_CODIGO/clases"] = [codigo.clases];
+  piezas["05_CODIGO/dependencias"] = [codigo.dependencias];
+  piezas["05_CODIGO/endpoints"] = [codigo.endpoints];
+  piezas["05_CODIGO/ejemplos"] = [codigo.ejemplos];
+
+  const resumen = [];
+  for (const capa of CAPAS) {
+    const estados = [];
+    for (const pieza of capa.piezas) {
+      const clave = capa.carpeta + "/" + pieza;
+      const partes = piezas[clave];
+      const cuerpo = partes.length > 0 ? ["# " + pieza, "", partes.join("\n")].join("\n") : piezaVacia(capa.titulo.toLowerCase(), pieza);
+      const rel = "contextos/" + slug + "/" + capa.carpeta + "/" + pieza + ".md";
+      escribirContexto(path.join(base, capa.carpeta, pieza + ".md"), cuerpo, creados, rel);
+      let fuentes = partes.length > 0 ? fuentesDe(cuerpo) : [];
+      let estado = partes.length > 0 ? "con fuente" : "falta";
+      if (capa.carpeta === "05_CODIGO") {
+        fuentes = citados;
+        estado = citados.length > 0 && !cuerpo.includes("No se rellena.") ? "leído del repositorio" : "falta";
+      }
+      estados.push({ pieza, estado, fuentes });
+    }
+    const relPrincipal = "contextos/" + slug + "/" + capa.carpeta + "/00_PRINCIPAL.md";
+    escribirContexto(path.join(base, capa.carpeta, "00_PRINCIPAL.md"), principal(capa, estados), creados, relPrincipal);
+    resumen.push(capa.carpeta);
+  }
+  return { relDir: "documentacion_usuario", slug, resumen, creados };
+}
+
 function materializarContextos(root) {
   const creados = [];
   escribirSiFalta(path.join(root, "contextos", "00_ROL.md"), rol(), creados, "contextos/00_ROL.md");
-  escribirSiFalta(
-    path.join(root, "contextos", "_index.md"),
-    "# Contextos\n\nOntología, protegidos, perfil, evidencias y decaimiento empiezan vacíos. No hay capas de fábrica.\n",
-    creados,
-    "contextos/_index.md"
-  );
+  const packs = buscarInvestigaciones(root).map((dir) => materializarUna(root, dir));
+  const sueltos = documentosUsuario(root);
+  if (sueltos.length > 0) {
+    packs.push(materializarDesdeDocumentos(root, sueltos));
+  }
+  const destinoIndice = path.join(root, "contextos", "_index.md");
+  fs.mkdirSync(path.dirname(destinoIndice), { recursive: true });
+  const indiceNuevo = indice(packs);
+  if (!fs.existsSync(destinoIndice) || fs.readFileSync(destinoIndice, "utf8") !== indiceNuevo) {
+    fs.writeFileSync(destinoIndice, indiceNuevo, "utf8");
+    creados.push("contextos/_index.md");
+  }
+  creados.push(...packs.flatMap((pack) => pack.creados));
   return creados;
 }
 

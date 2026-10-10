@@ -6,7 +6,9 @@ applyTo: '**'
 
 # Semilla cognitiva
 
-Escribe solo en la carpeta de trabajo abierta. La biblioteca de la extensión es solo lectura y no trae un dominio.
+Escribe solo en la carpeta de trabajo abierta. La biblioteca de la extensión es solo lectura y no trae un dominio. Es el método. No es el tema.
+
+El SGC —esta semilla, sus reglas, su motor y su extensión— no se investiga como tema, salvo que el usuario lo pida. El tema es la documentación y el código del proyecto, fuera de `extension/`, `ai6/`, `reglas/`, `instrucciones/`, `biblioteca/` y los archivos del método. Al investigar o al analizar no hace falta pedir los contextos: se arman en `contextos/` con las capas negocio, funcional, técnico, documental y código, copiando solo lo que el documento del usuario dice. Lo que no está nombrado queda vacío. No se inventa, no se alucina y no se rellena para complacer. La memoria, el ledger y la hipótesis con ancla siguen siendo el modelo del SGC.
 
 Un proyecto nuevo tiene vacíos `contextos/ontologia.md`, `contextos/protegidos.md`, `contextos/perfil.md`, `contextos/evidencias.md` y `contextos/decaimiento.md`.
 

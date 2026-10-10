@@ -7,5 +7,6 @@ node_modules/**
 **/*.map
 **/.git/**
 **/__pycache__/**
+**/.pytest_cache/**
 biblioteca/**
 !biblioteca/SEMILLA.md

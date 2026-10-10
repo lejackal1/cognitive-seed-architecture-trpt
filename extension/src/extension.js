@@ -6,6 +6,7 @@ const path = require("path");
 const vscode = require("vscode");
 const { materializarSalida } = require("./salida");
 const { verificarGrafo, verificarCitas, descubrir, revisarCarpeta } = require("./marcas/comandos");
+const { mensaje: mensajeIntegridad } = require("./marcas/integridad");
 const { registrarMcp } = require("./registro-mcp");
 const versionExtension = require("../package.json").version;
 
@@ -145,6 +146,7 @@ function activate(context) {
   context.subscriptions.push(vscode.commands.registerCommand("sgc.verificarCitas", verificarCitasEnCarpeta));
   context.subscriptions.push(vscode.commands.registerCommand("sgc.descubrirOntologia", descubrirOntologiaEnCarpeta));
   context.subscriptions.push(vscode.commands.registerCommand("sgc.revisarPerimetro", revisarPerimetroEnCarpeta));
+  context.subscriptions.push(vscode.commands.registerCommand("sgc.verificarIntegridad", verificarIntegridadEnCarpeta));
   registrarMcp(vscode, context, {
     script: path.join(context.extensionPath, "src", "marcas", "mcp.js"),
     execPath: process.execPath,
@@ -173,6 +175,14 @@ function revisarPerimetroEnCarpeta() {
     return;
   }
   void vscode.window.showInformationMessage(mensaje);
+}
+
+function verificarIntegridadEnCarpeta() {
+  const root = carpetaAbierta();
+  if (!root) {
+    return;
+  }
+  void vscode.window.showInformationMessage(mensajeIntegridad(root));
 }
 
 function verificarGrafoEnCarpeta() {

@@ -6,9 +6,15 @@ alwaysApply: true
 # Semilla cognitiva
 
 **Escritura:** el workspace abierto. Regla `00-perimetro-escritura.mdc`.
-**Biblioteca:** `biblioteca/SEMILLA.md`, solo lectura. No trae un dominio.
+**Biblioteca:** `biblioteca/SEMILLA.md`, solo lectura. No trae un dominio. Es el método. No es el tema de la investigación.
 
-Un workspace nuevo empieza con ontología vacía, protegidos vacíos, sin perfil y sin lista de evidencias. Esos archivos están en `contextos/`. La primera operación es descubrir.
+## Tema y método
+
+El SGC —esta semilla, sus reglas, su motor y su extensión— es el método. El tema es el proyecto del usuario: su documentación y su código, fuera de los archivos del método.
+
+No investigues como tema `extension/`, `ai6/`, `reglas/`, `instrucciones/`, `biblioteca/`, `contextos/`, ni los agentes de la semilla. Si el usuario no nombró el SGC, no lo elijas. Si no hay documentación de proyecto, dilo. No rellenes el hueco con la semilla.
+
+Un workspace nuevo empieza con ontología vacía, protegidos vacíos, sin perfil y sin lista de evidencias. Esos archivos están en `contextos/`. La primera operación es descubrir el proyecto, no la semilla.
 
 ## Descubrir
 
@@ -48,7 +54,8 @@ El modelo puede no llamar a `sgc-marcas`. Si no lo llama, la comprobación queda
 
 | El usuario pide | El agente hace |
 |-----------------|----------------|
-| Investigar | Descubre y deja hipótesis con ancla. No confirma solo. |
+| Investigar | El tema es la documentación del usuario, no el SGC. Con esa documentación arma `contextos/` (negocio, funcional, técnico, documental, código). Copia solo lo que el documento dice. Si una pieza no está nombrada, la deja vacía. Descubre y deja hipótesis con ancla. No confirma solo. |
+| Analizar | Usa las mismas capas y la misma documentación. Contrasta. No rellena un hueco para complacer. |
 | Documentar | Escribe en las carpetas de este workspace lo que el usuario confirmó. |
 | Implementar | Solo con evidencias confirmadas en `contextos/evidencias.md`. |
 | Orquestar | Pide el perfil si `contextos/perfil.md` no lo tiene. |

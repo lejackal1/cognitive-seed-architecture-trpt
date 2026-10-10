@@ -1,6 +1,6 @@
 # Semilla
 
-Mecanismo. No trae un dominio.
+Mecanismo. No trae un dominio. El método es la semilla. El tema de una investigación es el proyecto del usuario, no la semilla.
 
 La escritura es la carpeta abierta. Un proyecto nuevo empieza con ontología vacía, protegidos vacíos, sin perfil y sin lista de evidencias.
 

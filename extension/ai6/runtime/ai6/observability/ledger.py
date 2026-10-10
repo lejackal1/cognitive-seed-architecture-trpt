@@ -6,6 +6,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from ai6.ast.nodes import CognitiveProgram
+from ai6.homologation.engine import LEGENDA_CONFIANZA
 
 
 class LedgerWriter:
@@ -33,6 +34,7 @@ class LedgerWriter:
             "execution_state": ast.execution_state.value,
             "pipeline": ast.pipeline,
             "detail": detail or {},
+            "leyenda_confidence": LEGENDA_CONFIANZA,
         }
         with self.jsonl.open("a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")

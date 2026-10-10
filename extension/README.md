@@ -1,112 +1,79 @@
-# SGC OSPOST
+# SGC OSPOST: Tu Semilla Cognitiva para Proyectos Complejos
 
-Una semilla de trabajo para investigar, documentar y construir con rastro. Escribe en la carpeta que tienes abierta. No trae los expedientes de un cliente.
+Tienes el código en una carpeta, las notas en otra y el chat del editor en una tercera. Cada respuesta suena bien hasta que alguien pregunta de dónde salió. SGC OSPOST convierte esa carpeta abierta en el conocimiento del proyecto. El agente lee lo que ya investigaste. El código explícito, con archivo y hash, queda en el bloque «Verificado en código». Lo inferido o declarado queda en el suyo. Si un bloque no tiene ítems, su etiqueta no se escribe.
 
-**Autor:** Daniel Alberto Reyes Ramirez — OSPOST S.A.S.  
-**Identificador:** `sgc-ospost.semilla`  
-**Versión:** 0.1.9
+El instalador trae el método. El conocimiento de cada proyecto se escribe en la carpeta abierta. Las pantallas, las tablas y las reglas siguen siendo las de ese proyecto.
 
-## Qué es
+## ¿Por qué SGC OSPOST?
 
-Sirve para que el agente del editor no invente el proyecto. Antes de programar tiene que leer lo que el propio proyecto ya investigó, y dejar escrito lo que falta.
+La IA del editor, sola, te suelta código. Olvida el módulo de ayer, mezcla reglas de otro sistema y al día siguiente el chat empieza de cero.
 
-El instalador trae el método. El conocimiento de cada proyecto se crea en esa carpeta, no dentro de la extensión.
+SGC OSPOST trabaja con la carpeta entera. Antes de programar, el agente lee lo que el proyecto ya dejó escrito. Negocio, funcionamiento, técnica, documentos y código se arman con lo que tus archivos dicen. Lo que el documento no nombra queda vacío.
 
-## Qué trae la 0.1.9
+Una relación de código entra con ancla y hash. El texto de esa relación se escribe junto a la cita, fuera del bloque verificado. Un sustento implícito se rechaza al crear la relación; si el archivo se edita, el mantenimiento reprime esa arista. Confirmar es acto tuyo: el programa comprueba el archivo y el hash, y tú pasas el dato a `confirmado`. En el grafo, un implícito se valida con el validador que el proyecto declaró.
 
-En Visual Studio Code el canal contesta en el formato que ese editor lee, una línea JSON. Antes la respuesta no llegaba y la semilla se quedaba esperando. En Cursor se mantiene el formato que ya funcionaba.
+Pedir que el vacío siga vacío es instrucción del método. Si alguien escribe una inferencia, puede guardarse. La etiqueta la deja fuera de lo verificado.
 
-En Visual Studio Code el proceso del canal es Node, si está en el PATH. Así no se abre otra ventana del editor.
+## Ejemplo de Uso Real: De la Idea a la Estructura en Minutos
 
-## Qué trae la 0.1.8
+Vas a armar un módulo. Hoy la carpeta es un cajón: scripts sueltos, dos notas y respuestas del chat que ya no cuadran con el código.
 
-Al activar la extensión, el canal `sgc-marcas` se registra solo. En Cursor usa su API. En Visual Studio Code, y en otro editor que instale este mismo paquete y ofrezca el registro de servidores MCP, usa esa API. No hay un paso aparte para instalar el canal.
+**Antes.** Pides “crea el módulo” y recibes archivos que no saben cómo se llama tu proyecto, qué está protegido ni qué evidencia exiges para programar. Mañana otro chat repite la pregunta y propone otra arquitectura.
 
-El agente llama `nuclear`, `verificar_ancla` y `camino` cuando va a afirmar una relación. Si no las llama, la comprobación sigue en **SGC: Verificar citas**.
+**Después, con SGC OSPOST.** Activas la semilla y aparecen las carpetas que faltan, sin pisar lo que ya existe. Pides investigar. El tema es tu documentación. Los contextos quedan escritos con lo que el documento dice. Las relaciones de código exigen ancla y hash, y un núcleo solo de código explícito lleva «Verificado en código». Lo que no nombraste queda vacío. Lo que tú confirmaste se puede seguir.
 
-Visual Studio clásico, JetBrains y los editores que no instalan un VSIX no ejecutan esta extensión, así que ahí el canal no arranca.
+## Lo que ganas desde el primer día
 
-## Qué trae la 0.1.7
+- **Lo verificado, separado de lo inferido.** El código con ancla va en su bloque. El enunciado inferido va en el otro. Al cerrar el chat siguen en la carpeta los contextos, la memoria y el ledger de activaciones.
+- **Decisiones con la evidencia del proyecto.** Antes de programar se leen las evidencias que tú confirmaste. La longitud del enunciado y el tope de implícitos salen de `memoria_ospost/parametros.json` cuando el proyecto los declaró.
+- **Índices de la propia carpeta.** Al activar se crean los índices que faltan. Cada proyecto lee solo su `parametros.json`. Las declaraciones quedan en `memoria_ospost/declaraciones.jsonl`.
+- **Control de lo confirmado.** Tú confirmas ontología, perfil y evidencias. La norma entra con tu expediente. El perímetro avisa si un diff de git toca un archivo con `estado: confirmado`, o si una ruta sale de la carpeta. Protege esa lista. Sin repositorio git, la revisión informa que no hay diff.
 
-La 0.1.6 creaba contextos a partir de un informe de investigación y pedía leerlos antes de programar. Esta versión cambia la forma de arrancar un proyecto nuevo.
+## Casos de Uso: SGC OSPOST en el Mundo Real
 
-- Un proyecto nuevo empieza vacío: ontología, protegidos, perfil, evidencias y plazo de archivo. No hay lista de fábrica, ni norma elegida de antemano, ni perfil de pipeline por defecto.
-- La primera operación es descubrir. Cada propuesta queda en hipótesis, con archivo, símbolo y hash. El programa comprueba el archivo y el hash. Confirmar es cosa de la persona.
-- Orquestar ya no usa un perfil fijo. Lee `contextos/perfil.md`. Si ahí no hay una línea `perfil:`, pregunta y, si nadie responde, no arranca.
-- La semilla de la orquestación es la carpeta abierta.
-- Cuatro comandos nuevos revisan el grafo de marcas, las citas del texto, una propuesta de ontología y el perímetro de escritura.
-- El instalador no mete la biblioteca antigua de agentes. Lleva `biblioteca/SEMILLA.md`, que describe el mecanismo sin un dominio de negocio.
+La misma semilla entra en industrias distintas. Toma el contexto que el proyecto ya tiene escrito, separa el código verificado de lo inferido y deja la definición en el archivo, no en el chat de ayer.
 
-## Cómo se instala
+### Desarrollo de Software y Arquitectura de Sistemas (Programación)
 
-En VS Code, Cursor u otro editor que acepte este VSIX, instala el archivo `semilla-0.1.9.vsix`.
+**Contexto:** Un equipo escala un backend en Python o Node.js. Varios microservicios conviven con documentación técnica por un lado, código por otro y el requerimiento del cliente en un chat que ya nadie abre.
 
-En Cursor, además, copia las reglas al proyecto:
+**El Impacto con SGC OSPOST:** La carpeta reúne la documentación técnica, el estado del código y el requerimiento que sí está escrito. Una relación de servicio entra con ancla y hash y aparece bajo «Verificado en código». El equipo busca la definición en ese archivo.
+
+### Automatización de Procesos Industriales (Manufactura)
+
+**Contexto:** Una planta reúne registros de producción, variables de control, diagramas de lógica y secuencias de operación. El ajuste de un parámetro vive en un correo; el diagrama, en otra carpeta.
+
+**El Impacto con SGC OSPOST:** Variables, diagramas y secuencias que ya son archivos del proyecto quedan anclados. Un ajuste queda en el rastro cuando se escribe en esa carpeta. Lo que el expediente no documenta queda fuera del bloque verificado. El autómata se ajusta con lo que ese expediente confirma.
+
+### Documentación y Auditoría de Procesos (Gestión de Calidad)
+
+**Contexto:** Se acerca una auditoría. Flujos, políticas y manuales están repartidos en decenas de archivos, y varios ya no describen el proceso que la operación ejecuta hoy.
+
+**El Impacto con SGC OSPOST:** Lo que la empresa tiene escrito queda ligado a su archivo. La siguiente lectura usa ese archivo. Lo obsoleto o sin nombrar queda vacío, a la vista. La norma entra con el expediente que ustedes confirman.
+
+### Ingeniería de Sistemas Fotovoltaicos y Energéticos (Energía Solar)
+
+**Contexto:** El diseño de una granja solar cruza especificaciones de inversores, planos, memorias de cálculo y la normativa eléctrica del proyecto. Un número de carga vive en una hoja; el plano, en otra.
+
+**El Impacto con SGC OSPOST:** Especificaciones, planos y memorias quedan en el mismo entorno, con cita al archivo. Un número de carga entra al bloque verificado cuando el archivo y el hash cierran. El dimensionamiento se apoya en esos archivos.
+
+### Gestión de Proyectos Mineros y Logística (ERP y Cadena de Suministro)
+
+**Contexto:** Hay que integrar un módulo de despachos y listas de empaque para operación minera. Las reglas de negocio están en el expediente del ERP; las restricciones de patio, flota y terreno, en otro.
+
+**El Impacto con SGC OSPOST:** En la carpeta del módulo quedan las reglas de negocio documentadas y las restricciones de patio, flota y terreno que ya están escritas. Documentación y lógica de desarrollo se leen juntas. Programar el despacho usa las evidencias que tú confirmaste.
+
+## Empieza en 3 Pasos
+
+1. **Instala la extensión.** En Cursor o Visual Studio Code, instala el paquete `semilla-0.1.10.vsix` desde *Install from VSIX*. También sirve en otro editor que acepte este paquete.
+2. **Abre tu proyecto.** En Cursor, copia las reglas a la carpeta abierta:
 
 ```text
 powershell -File scripts/cursor-install.ps1 -Workspace <carpeta del proyecto>
 ```
 
-Ese script no se instala encima de la carpeta donde se desarrolla la semilla. Copia las reglas a `.cursor/rules` y, si Node está en el PATH, crea las carpetas de salida. Si Node no está, copia las reglas y avisa que las carpetas no se crearon.
+Al arrancar en modo full se crean las carpetas que falten. Lo que ya existe no se toca.
 
-Para dejar de aplicar las instrucciones no basta con poner el modo en off. Hay que deshabilitar la extensión.
+3. **Dale una intención.** Si el proyecto es nuevo, abre `contextos/perfil.md` y escribe una línea `perfil:` con el nombre que quieras usar. Luego pide investigar, documentar o estructurar. El agente lee tu carpeta. El modo del editor crea las carpetas. El grafo de cada proyecto lee su `memoria_ospost/parametros.json`.
 
-## Cómo se usa
-
-1. Abre el proyecto.
-2. Con el modo full, al arrancar se crean las carpetas que falten. No se pisa un archivo que ya existe.
-3. Si el proyecto es nuevo, completa `contextos/perfil.md` con una línea `perfil:` y el nombre del perfil que quieras usar. Sin eso, la orquestación se detiene.
-4. Si ya hay una investigación con informe en `docion_nueva/`, se arman los cinco apartados de contexto. Léelos antes de pedir código.
-5. Para proponer conocimiento nuevo, usa **SGC: Descubrir ontología** con un JSON. Solo se guardan las propuestas cuyo archivo y hash se comprueban, y solo si tú confirmas. Quedan como hipótesis.
-6. Para programar, `contextos/evidencias.md` tiene que tener evidencias confirmadas por ti. No hay una lista fija de cinco puntos.
-7. **SGC: Orquestar M4** pide la intención, recorre el motor en seco y no escribe los artefactos de cada fase. Para que escriba, usa el script sin `-DryRun`.
-8. **SGC: Verificar citas** contrasta `archivo:línea` o `archivo#símbolo` con el disco. Lo que no abre queda como no confirmado.
-9. **SGC: Verificar grafo** cuenta marcas intactas, reprimidas y archivadas.
-10. **SGC: Revisar perímetro** avisa si un cambio de git toca un protegido confirmado, o si una ruta sale de la carpeta. Una hipótesis no protege nada.
-
-## Las carpetas del proyecto
-
-| Carpeta | Para qué sirve |
-|---------|----------------|
-| `contextos/` | Lo que hay que leer antes de programar: ontología, protegidos, perfil, evidencias, plazo, y los cinco apartados si hubo investigación |
-| `docion_nueva/` | Investigación y procedimientos de este proyecto |
-| `memoria_ospost/` | Módulos, procesos, patrones y casuística confirmados aquí |
-| `ledger_activacion/` | Una nota por activación. No se borra el historial |
-| `metricas/` | Mediciones de este proyecto |
-| `control_conocimiento/` | Evaluaciones y lo que no se consolidó |
-
-Los cinco apartados, cuando salen de un informe, son negocio, funcionamiento, técnica, documentos y código. El de código se arma abriendo los archivos del proyecto.
-
-## Comandos
-
-| En el editor | Qué hace |
-|--------------|----------|
-| SGC: Activate (Full) | Deja el modo full y crea las carpetas que falten |
-| SGC: Mostrar carpetas de conocimiento | Crea los índices que falten y abre el ledger |
-| SGC: Orquestar M4 | Recorre el motor en seco, con el perfil del proyecto |
-| SGC: Verificar grafo | Resume las marcas intactas, reprimidas y archivadas |
-| SGC: Verificar citas | Comprueba las citas del texto o de la selección |
-| SGC: Descubrir ontología | Lee un JSON y guarda solo hipótesis con ancla verificada, si tú aceptas |
-| SGC: Revisar perímetro | Avisa si el cambio toca un protegido confirmado o sale de la carpeta |
-
-Orquestación por script:
-
-```text
-powershell -File scripts/m4.ps1 -Workspace <carpeta> -Text "<intención>" -DryRun
-```
-
-Sin `-DryRun`, el script deja que los agentes escriban. La corrida queda en `.ai6_runs/` de la carpeta abierta. Hace falta Python y el motor, que viaja en `ai6/runtime`.
-
-## Qué no hace
-
-No trae pantallas, tablas ni reglas de un ERP. No elige una norma por ti. No afirma que el código cumple una norma cuyo texto no se leyó. No archiva registros si `contextos/decaimiento.md` no tiene `plazo_dias`. Los números internos de peso y de tokens son hipótesis de calibración, no mediciones cerradas. Una afirmación sin cita no se detecta sola.
-
-## Aporte
-
-La semilla se usa igual si no aportas. No hay plan de pago ni función bloqueada.
-
-Si te sirvió y quieres apoyar el trabajo de Daniel Alberto Reyes Ramirez, en Colombia puedes enviar un aporte por Bre-B a la llave `@reyes4977`. El mensaje puede ser simplemente «aporte a la semilla OSPOST».
-
-## Repositorio
-
-https://github.com/lejackal1/cognitive-seed-architecture-trpt
+SGC OSPOST es de Daniel Alberto Reyes Ramirez — OSPOST S.A.S. El paquete está en https://github.com/lejackal1/cognitive-seed-architecture-trpt. Se usa igual si no aportas. Si quieres apoyar el trabajo, en Colombia puedes enviar un aporte por Bre-B a la llave `@reyes4977`.

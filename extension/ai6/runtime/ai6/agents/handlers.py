@@ -75,10 +75,15 @@ class TemplateAgentHandler(AgentHandler):
             run_dir = artifacts.run_dir
             stub = {
                 "evidence": [
-                    {"layer": "view", "uri": "stub/no-llm", "symbol": "TBD", "status": "UNCONFIRMED"},
-                    {"layer": "api", "uri": "stub/no-llm", "symbol": "TBD", "status": "UNCONFIRMED"},
+                    {
+                        "layer": "document",
+                        "uri": "proyecto/sin-corpus",
+                        "symbol": "documentacion",
+                        "status": "UNCONFIRMED",
+                    }
                 ],
-                "processes": ["stub_sin_llm"],
+                "processes": ["documentacion_de_proyecto"],
+                "tema": "proyecto",
             }
             (run_dir / "research_evidence.json").write_text(
                 json.dumps(stub, indent=2), encoding="utf-8"
