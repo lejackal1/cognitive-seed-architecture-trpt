@@ -8,6 +8,7 @@ El instalador trae el método. El conocimiento de cada proyecto se escribe en la
 
 La IA del editor, sola, te suelta código. Olvida el módulo de ayer, mezcla reglas de otro sistema y al día siguiente el chat empieza de cero.
 
+
 SGC OSPOST trabaja con la carpeta entera. Antes de programar, el agente lee lo que el proyecto ya dejó escrito. Negocio, funcionamiento, técnica, documentos y código se arman con lo que tus archivos dicen. Lo que el documento no nombra queda vacío.
 
 Una relación de código entra con ancla y hash. El texto de esa relación se escribe junto a la cita, fuera del bloque verificado. Un sustento implícito se rechaza al crear la relación; si el archivo se edita, el mantenimiento reprime esa arista. Confirmar es acto tuyo: el programa comprueba el archivo y el hash, y tú pasas el dato a `confirmado`. En el grafo, un implícito se valida con el validador que el proyecto declaró.
@@ -76,4 +77,4 @@ Al arrancar en modo full se crean las carpetas que falten. Lo que ya existe no s
 
 3. **Dale una intención.** Si el proyecto es nuevo, abre `contextos/perfil.md` y escribe una línea `perfil:` con el nombre que quieras usar. Luego pide investigar, documentar o estructurar. El agente lee tu carpeta. El modo del editor crea las carpetas. El grafo de cada proyecto lee su `memoria_ospost/parametros.json`.
 
-SGC OSPOST es de Daniel Alberto Reyes Ramirez — OSPOST S.A.S. El paquete está en https://github.com/lejackal1/cognitive-seed-architecture-trpt. Se usa igual si no aportas. Si quieres apoyar el trabajo, en Colombia puedes enviar un aporte por Bre-B a la llave `@reyes4977`.
+SGC OSPOST es de Daniel Alberto Reyes Ramirez — OSPOST S.A.S., Bogotá, 2026. El paquete está en https://github.com/lejackal1/cognitive-seed-architecture-trpt. Se usa igual si no aportas. No hay plan de pago ni función bloqueada. Si quieres apoyar el trabajo, en Colombia puedes enviar un aporte por Bre-B a la llave `@reyes4977`, o por PayPal a danisebas101@hotmail.com.

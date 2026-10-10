@@ -76,4 +76,4 @@ Al arrancar en modo full se crean las carpetas que falten. Lo que ya existe no s
 
 3. **Dale una intención.** Si el proyecto es nuevo, abre `contextos/perfil.md` y escribe una línea `perfil:` con el nombre que quieras usar. Luego pide investigar, documentar o estructurar. El agente lee tu carpeta. El modo del editor crea las carpetas. El grafo de cada proyecto lee su `memoria_ospost/parametros.json`.
 
-SGC OSPOST es de Daniel Alberto Reyes Ramirez — OSPOST S.A.S. El paquete está en https://github.com/lejackal1/cognitive-seed-architecture-trpt. Se usa igual si no aportas. Si quieres apoyar el trabajo, en Colombia puedes enviar un aporte por Bre-B a la llave `@reyes4977`.
+SGC OSPOST es de Daniel Alberto Reyes Ramirez — OSPOST S.A.S., Bogotá, 2026. El paquete está en https://github.com/lejackal1/cognitive-seed-architecture-trpt. Se usa igual si no aportas. No hay plan de pago ni función bloqueada. Si quieres apoyar el trabajo, en Colombia puedes enviar un aporte por Bre-B a la llave `@reyes4977`, o por PayPal a danisebas101@hotmail.com.
