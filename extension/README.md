@@ -65,7 +65,7 @@ La misma semilla entra en industrias distintas. Toma el contexto que el proyecto
 
 ## Empieza en 3 Pasos
 
-1. **Instala la extensión.** En Cursor o Visual Studio Code, instala el paquete `semilla-0.1.10.vsix` desde *Install from VSIX*. También sirve en otro editor que acepte este paquete.
+1. **Instala la extensión.** En Cursor o Visual Studio Code, instala el paquete `semilla-0.1.9.vsix` desde *Install from VSIX*. También sirve en otro editor que acepte este paquete.
 2. **Abre tu proyecto.** En Cursor, copia las reglas a la carpeta abierta:
 
 ```text
